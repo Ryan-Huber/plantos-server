@@ -1,0 +1,29 @@
+{
+    "schema": {
+        "filters": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "title": "filter",
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "title": "Field",
+                        "required": true
+                    },
+                    "criteria": {
+                        "type": "string",
+                        "title": "Criteria",
+                        "required": true,
+                        "enum": ["before", "after"]
+                    },
+                    "date": {
+                        "type": "string",
+                        "fieldHTMLClass": "date-select",
+                        "required": true
+                    }
+                }
+            }
+        }
+    }
+}

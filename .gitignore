@@ -1,0 +1,4 @@
+*.pyc
+*.swp
+day_cache
+database_credentials.txt

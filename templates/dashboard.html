@@ -1,0 +1,135 @@
+{% import "macros.html" as macros %}
+<html>
+<head>
+    <title>Dashboard</title>
+    {{ macros.google_jsapi() }}
+    {{ macros.socket_io() }}
+    {{ macros.jQuery() }}
+    {{ macros.jQuery_ui() }}
+    <script>
+        google.load("visualization","1",{packages:["gauge"]});
+        google.setOnLoadCallback(setup);
+        var read_timeout;
+        var READ_TIMEOUT = 10000;
+        {% for sensor in info.keys() %}
+            var {{sensor}}_data, {{sensor}}_options, {{sensor}}_chart;
+        {% endfor %}
+        function setup() {
+            $(document).tooltip({track: true});
+            {% if not initial_data %}
+                onStopReading();
+            {% else %}
+                onStartReading();
+            {% endif %}
+            read_timeout = setTimeout(onStopReading, READ_TIMEOUT);
+            {% for sensor in info.keys() %}
+                {{sensor}}_data = new google.visualization.DataTable();
+                {{sensor}}_data.addColumn('string','Label');
+                {{sensor}}_data.addColumn('number','Value');
+                {% if initial_data %}
+                    {{sensor}}_data.addRow(["{{sensor}}",{{initial_data[sensor]}}]);
+                {% else %}
+                    {{sensor}}_data.addRow(["{{sensor}}",0]);
+                {% endif %}
+                var {{sensor}}_options = {
+                    width: 250, height: 250,
+                    min: {{info[sensor]["range"][0]}},
+                    max: {{info[sensor]["range"][1]}},
+                    greenFrom: {{info[sensor]["range"][0]}},
+                    greenTo: {{info[sensor]["range"][1]}},
+                    greenColor: '#DC3912',
+                    yellowFrom: {{info[sensor]["yellow"][0]}},
+                    yellowTo: {{info[sensor]["yellow"][1]}},
+                    redFrom: {{info[sensor]["green"][0]}},
+                    redTo: {{info[sensor]["green"][1]}},
+                    redColor: '#109618',
+                    majorTicks: {{info[sensor]["ticks"] | safe}}
+                }
+                var {{sensor}}_div = document.getElementById("{{sensor}}_chart");
+                {{sensor}}_chart = new google.visualization.Gauge({{sensor}}_div);
+                {{sensor}}_chart.draw({{sensor}}_data,{{sensor}}_options);
+            {% endfor %}
+            var sockAddr  = "http://"+document.domain+":"+location.port+
+                "/{{database}}/{{collection}}/data";
+            var socket = io.connect(sockAddr);
+            socket.on('data', function(data) {
+                data = JSON.parse(data);
+                {% for sensor in info.keys() %}
+                    {{sensor}}_data.setCell(0,1,data.{{sensor}});
+                    {{sensor}}_chart.draw({{sensor}}_data,{{sensor}}_options);
+                {% endfor %}
+                clearTimeout(read_timeout);
+                read_timeout = setTimeout(onStopReading, READ_TIMEOUT);
+            });
+        }
+        function onStopReading() {
+            $("#title").attr("title","Not currently reporting data");
+            $("#title").css("color","red");
+        }
+        function onStartReading() {
+            $("#title").removeAttr("title");
+            $("#title").css("color","black");
+        }
+        function goToDate() {
+            var requested_date = $("#datepicker").val();
+            $("#datepicker").datepicker("setDate",requested_date);
+            requested_date = $("#datepicker").val();
+            if (requested_date != "") {
+                window.location="http://"+document.domain+":"+location.port+
+                    "/{{database}}/{{collection}}/day_graphs.html?date="+
+                    requested_date;
+            }
+        }
+        function goToRange() {
+            var requested_start_date = $("#rangepickerfrom").val();
+            $("#rangepickerfrom").datepicker("setDate",requested_start_date);
+            requested_start_date = $("#rangepickerfrom").val();
+            var requested_end_date = $("#rangepickerto").val();
+            $("#rangepickerto").datepicker("setDate",requested_end_date);
+            requested_end_date = $("#rangepickerto").val();
+            if (requested_start_date != "" && requested_end_date != "") {
+                window.location="http://"+document.domain+":"+location.port+
+                "/{{database}}/{{collection}}/date_range_graphs.html?start_date="+
+                requested_start_date+"&end_date="+requested_end_date;
+            }
+        }
+        $(function() {
+            $("#datepicker").datepicker({
+                maxDate: 0,
+                defaultDate: 0,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+            });
+            $("#rangepickerfrom").datepicker({
+                maxDate: -1,
+                defaultDate: -1,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                onSelect: function(dateText, inst) {
+                    $("#rangepickerto").datepicker("option","minDate",dateText);
+                }
+            });
+            $("#rangepickerto").datepicker({
+                maxDate: -1,
+                defaultDate: -1,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+            });
+        });
+    </script>
+</head>
+<body>
+    {{ macros.back_button("/"+database) }}
+    {{ macros.title(title) }}
+    {% for sensor in info.keys() %}
+        <div id="{{sensor}}_chart" style="display:inline-block;"></div>
+    {% endfor %}
+    <h2>See sensor history for...</h2>
+    <ul>
+        <li><h3><a href="/{{database}}/{{collection}}/hour_graphs.html">The past hour</a></h3></li>
+        <li><h3><a href="/{{database}}/{{collection}}/day_graphs.html">Today</a></h3></li>
+        <li><h3>A specific date</h3><input type="text" id="datepicker"><button onClick="goToDate()">Go</button></li>
+        <li><h3>A range of dates</h3><input type="text" id="rangepickerfrom">-<input type="text" id="rangepickerto"><button onclick="goToRange()">Go</button></li>
+    </ul>
+</body>
+</html>

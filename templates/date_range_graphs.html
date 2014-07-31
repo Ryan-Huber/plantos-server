@@ -1,0 +1,141 @@
+{% extends "graphs.html" %}
+{% block short_title %}CityFarm Sensor Data{% endblock %}
+{% block constants %}
+    {{ super() }}
+    Date.prototype.toString = function() {
+        return (this.getMonth()+1)+"/"+this.getDate()+"/"+this.getFullYear();
+    }
+    {% block dates %}
+    var startDate = new Date("{{start_date}}");
+    var endDate = new Date("{{end_date}}");
+    {% endblock %}
+    {% for sensor in info.keys() %}
+        var {{sensor}}_dashboard, {{sensor}}_control, {{sensor}}_chart;
+    {% endfor %}
+{% endblock %}
+{% block google_packages %}["corechart","controls"]{% endblock %}
+{% block load_graphs %}
+    if (startDate == endDate) {
+        $("#title").html(startDate.toDateString());
+    }
+    else {
+        $("#title").html(startDate.toDateString()+" - "+endDate.toDateString());
+    }
+    {% for sensor in info.keys() %}
+        // Clear past visualizations for {{sensor}} if they exist
+        try {
+            {{sensor}}_chart_wrapper.visualization.clearChart();
+            {{sensor}}_control.visualization.dispose();
+            {{sensor}}_dashboard.dispose();
+            $("#{{sensor}}_red_overlay_top").css("height",0);
+            $("#{{sensor}}_yellow_overlay_top").css("height",0);
+            $("#{{sensor}}_green_overlay").css("height",0);
+            $("#{{sensor}}_yellow_overlay_bottom").css("height",0);
+            $("#{{sensor}}_red_overlay_bottom").css("height",0);
+            $("#{{sensor}}_chart").html("<img src=\"/static/loading.gif\">");
+        }
+        catch(err) {
+        }
+        // Initialize the visualization stuff for {{sensor}}
+        {{sensor}}_dashboard = new google.visualization.Dashboard(
+            document.getElementById('{{sensor}}_dashboard'));
+        var graphMax = new Date(endDate.valueOf());
+        graphMax.setDate(graphMax.getDate()+1);
+        {{sensor}}_control = new google.visualization.ControlWrapper({
+            'controlType': 'ChartRangeFilter',
+            'containerId': '{{sensor}}_control',
+            'options': {
+                'filterColumnIndex': 0,
+                'ui': {
+                    'chartType': 'LineChart',
+                    'chartOptions': {
+                        'chartArea': {'width': '90%'},
+                        'hAxis': {
+                            "minValue": startDate,
+                            "maxValue": graphMax,
+                            'baselineColor': 'none'
+                        },
+                        "vAxis": {
+                            "minValue": {{info[sensor]["range"][0]}},
+                            "maxValue": {{info[sensor]["range"][1]}},
+                            "viewWindowMode": "maximized",
+                        },
+                    },
+                    'chartView': {
+                        'columns': [0,1]
+                    },
+                    'minRangeSize': (graphMax.valueOf()-startDate.valueOf())/10
+                }
+            }
+        });
+        {{sensor}}_chart_wrapper = new google.visualization.ChartWrapper({
+            'chartType': 'LineChart',
+            'containerId': '{{sensor}}_chart',
+            'options': {
+                'chartArea': {'height': '80%', 'width': '90%'},
+                'hAxis': {
+                    'slantedText': false,
+                    'gridlines': {'color': '#999'}
+                },
+                'vAxis': {
+                    'minValue': {{info[sensor]['range'][0]}},
+                    'maxValue': {{info[sensor]['range'][1]}},
+                    'viewWindowMode': 'maximized',
+                    'ticks': {{info[sensor]['ticks'] | safe}},
+                    'gridlines': {'color': '#999'}
+                },
+                'legend': {'position': 'none'},
+                'backgroundColor': 'transparent'
+            },
+            'view': {
+                'columns': [0,1,]
+            }
+        });
+        {{sensor}}_dashboard.bind({{sensor}}_control,{{sensor}}_chart_wrapper);
+        // Set up data table for {{sensor}}
+        {{sensor}}_data = new google.visualization.DataTable();
+        {{sensor}}_data.addColumn('datetime','Date');
+        {{sensor}}_data.addColumn('number','Value');
+    {% endfor %}
+    {% block dataURL %}
+    var dataURL="date_range_data.json?start_date="+startDate.toString()+"&end_date="+
+        endDate.toString();
+    {% endblock %}
+    {{ super() }}
+{% endblock %}
+{% block draw_graphs %}
+    {% for sensor in info.keys() %}
+        window.setTimeout(function() {
+            {{sensor}}_dashboard.draw({{sensor}}_data);
+        }, 100*{{loop.index0}});
+        google.visualization.events.addListener({{sensor}}_chart_wrapper, "ready", function() {
+            var {{sensor}}_chart = {{sensor}}_chart_wrapper.getChart();
+            {{ draw_overlay(sensor) }}
+            {% if loop.last %}{% block on_draw_complete %}{% endblock %}{% endif %}
+        });
+        function update_{{sensor}}_ranges() {
+            var range = {{sensor}}_control.getState().range;
+            {{sensor}}_chart_wrapper.setOption("hAxis.maxValue",range.end);
+            {{sensor}}_chart_wrapper.setOption("hAxis.minValue",range.start);
+        }
+        google.visualization.events.addListener({{sensor}}_control, "ready", update_{{sensor}}_ranges);
+        google.visualization.events.addListener({{sensor}}_control, "statechange", update_{{sensor}}_ranges);
+    {% endfor %}
+{% endblock %}
+{% macro show_content(sensor) %}
+    <h2>{{sensor}} Data</h2>
+    <div id="{{sensor}}_dashboard">
+        <div>
+            <div id="{{sensor}}_chart" style="height: 250px; text-align: center"><img src="/static/loading.gif"></div>
+            {{ overlay_divs(sensor) }}
+        </div>
+        <div id="{{sensor}}_control" style="height: 100px"></div>
+    </div>
+    {{ caller(sensor) }}
+{% endmacro %}
+{% block content %}
+    {% for sensor in info.keys() %}
+        {% call(sensor) show_content(sensor) %}{% endcall %}
+        {% if not loop.last %}<br/><br/>{% endif %}
+    {% endfor %}
+{% endblock %}
