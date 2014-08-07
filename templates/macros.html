@@ -1,6 +1,6 @@
 {# Includes #}
 {% macro socket_io() %}
-    <script src="/static/socket.io.js"></script>
+    <script src="/static/lib/socket.io.js"></script>
 {% endmacro %}
 {% macro google_jsapi() %}
     <script src="https://www.google.com/jsapi"></script>
@@ -11,6 +11,15 @@
 {% macro jQuery_ui() %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+{% endmacro %}
+{% macro bootstrap_css() %}
+    <link rel="stylesheet" href="/static/style/bootstrap.min.css">
+{% endmacro %}
+{% macro jsonform() %}
+    <script src="/static/lib/underscore-min.js"></script>
+    <script src="/static/lib/jsv.js"></script>
+    <script src="/static/lib/jsonform.js"></script>
+    <link rel="stylesheet" href="/static/style/jsonform.css">
 {% endmacro %}
 
 {# Common UI Elements #}

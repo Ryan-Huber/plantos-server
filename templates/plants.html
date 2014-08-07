@@ -4,16 +4,75 @@
         <title>Browse Plants</title>
         {{ macros.jQuery() }}
         {{ macros.jQuery_ui() }}
+        <link rel="stylesheet" href="/static/style/info_cells.css">
+        <style>
+            .show_hide_container {
+                display: table;
+                height: 50px;
+                width: 100%;
+                background-color: #CCC;
+            }
+            .show_hide_container h2 {
+                float: left;
+                margin-left: 25px;
+            }
+            .show_hide_container a {
+                float: right;
+                margin-right: 25px;
+            }
+            .show_hide_container div {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        </style>
+        <script src="/static/js/plants.js"></script>
         <script type="text/javascript">
+            $(function() {
+                render_plants($("#plants"));
+                render_plant_types($("#plant_types"));
+                $("#show_hide_plants").html("(Hide)");
+                $("#show_hide_plants").click(hide_plants);
+                $("#show_hide_types").html("(Hide)");
+                $("#show_hide_types").click(hide_types);
+            });
+            function hide_plants() {
+                $("#plants").hide();
+                $("#show_hide_plants").html("(Show)");
+                $("#show_hide_plants").click(show_plants);
+            }
+            function show_plants() {
+                $("#plants").show();
+                $("#show_hide_plants").html("(Hide)");
+                $("#show_hide_plants").click(hide_plants);
+            }
+            function hide_types() {
+                $("#plant_types").hide();
+                $("#show_hide_types").html("(Show)");
+                $("#show_hide_types").click(show_types);
+            }
+            function show_types() {
+                $("#plant_types").show();
+                $("#show_hide_types").html("(Hide)");
+                $("#show_hide_types").click(hide_types);
+            }
         </script>
     </head>
     <body>
         {{ macros.back_button("/") }}
         {{ macros.title("Browse Plants") }}
-        <div id="filters">
-            <h2>Filter By: </h2>
-            <ul id="filters">
-            </ul>
+        <div class="show_hide_container">
+            <div> <h2>Plants</h2> </div>
+            <div> <a id="show_hide_plants"></a> </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div id="plants">
+        </div>
+        <div class="show_hide_container">
+            <div> <h2>Plant Types</h2> </div>
+            <div> <a id="show_hide_types"></a> </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div id="plant_types">
         </div>
     </body>
-</html
+</html>

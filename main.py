@@ -14,6 +14,7 @@ from flask import Flask
 from flask import abort
 from flask import url_for
 from flask import request
+from flask import redirect
 from flask import render_template
 from flask import after_this_request
 from flask.ext.socketio import SocketIO
@@ -23,7 +24,7 @@ socketio = SocketIO(flask_app)
 # PyMongo setup
 from pymongo import MongoClient
 client = MongoClient()
-with open("../database_credentials.txt","r") as f:
+with open("./database_credentials.txt","r") as f:
     (username,password) = f.readline()[:-1].split(",")
 client.admin.authenticate(username,password)
 # Our site-specific constants
@@ -37,18 +38,200 @@ def select_database():
 def browse_plants():
     return render_template("plants.html")
 
+@flask_app.route("/plants.json")
+def show_plants():
+    plants = []
+    for plant in client.plants.plants.find(sort=[("id",1)]):
+        plant.pop("_id")
+        plant_type = client.plants.plant_types.find_one({"_id":plant["type"]})
+        plant_type.pop("_id")
+        plant["type"] = plant_type
+        plants.append(plant)
+    if "type" in request.args:
+        _type = request.args["type"]
+        plants = [p for p in plants if p["type"]["common_name"] == _type]
+    return json.dumps(plants)
+
+@flask_app.route("/plants/by-id/new.html", methods=['GET','POST'])
+def new_plant():
+    if request.method == 'GET':
+        return render_template("new_plant.html")
+    else:
+        plant = parse_form(request.form)
+        _type = client.plants.plant_types.find_one({"common_name":plant["type"]})
+        if _type is None:
+            abort(500)
+        plant["type"] = _type["_id"]
+        client.plants.plants.insert(plant)
+        return redirect("/plants")
+
+@flask_app.route("/plants/by-id/<_id>")
+def show_plant(_id):
+    plant = client.plants.plants.find_one({"id":_id})
+    if plant is None:
+        abort(404)
+    plant.pop("_id")
+    plant_type = client.plants.plant_types.find_one({"_id":plant["type"]})
+    plant_type.pop("_id")
+    plant["type"] = plant_type
+    return render_template("view_plant.html", plant=plant)
+
+@flask_app.route("/plants/by-id/<_id>/edit.html", methods=['GET','POST'])
+def edit_plant(_id):
+    if request.method == 'GET':
+        plant = client.plants.plants.find_one({"id":_id})
+        if plant is None:
+            abort(404)
+        plant.pop("_id")
+        plant_type = client.plants.plant_types.find_one({"_id":plant["type"]})
+        plant["type"] = plant_type["common_name"]
+        plant = to_ascii(plant)
+        return render_template("edit_plant.html", plant=plant)
+    else:
+        old_plant = client.plants.plants.find_one({"id":_id})
+        if old_plant is None:
+            abort(404)
+        new_plant = parse_form(request.form)
+        new_plant["_id"] = old_plant["_id"]
+        _type = client.plants.plant_types.find_one({"common_name":new_plant["type"]})
+        if _type is None:
+            abort(500)
+        new_plant["type"] = _type["_id"]
+        client.plants.plants.save(new_plant)
+        return redirect("/plants")
+
+@flask_app.route("/plants/by-id/<_id>/delete.html")
+def delete_plant(_id):
+    client.plants.plants.remove({"id":_id})
+    return redirect("/plants")
+
+@flask_app.route("/plant_types.json")
+def show_plant_types():
+    types = []
+    for _type in client.plants.plant_types.find(sort=[("common_name",1)]):
+        _type.pop("_id")
+        types.append(_type)
+    return json.dumps(types)
+
+@flask_app.route("/plants/types/new.html", methods=['GET','POST'])
+def new_plant_type():
+    if request.method == 'GET':
+        return render_template("new_plant_type.html")
+    else:
+        _type = parse_form(request.form)
+        old_type = client.plants.plant_types.find_one({"common_name":_type["common_name"]})
+        if old_type is not None:
+            abort(500)
+        client.plants.plant_types.insert(_type)
+        return redirect("/plants")
+
+@flask_app.route("/plants/types/<common_name>")
+def show_plant_type(common_name):
+    plant_type = client.plants.plant_types.find_one({"common_name":common_name})
+    if plant_type is None:
+        abort(404)
+    plant_type.pop("_id")
+    return render_template("view_plant_type.html", plant_type=plant_type)
+
+@flask_app.route("/plants/types/<common_name>/edit.html", methods=['GET','POST'])
+def edit_plant_type(common_name):
+    if request.method == 'GET':
+        plant_type = client.plants.plant_types.find_one({"common_name":common_name})
+        if plant_type is None:
+            abort(404)
+        plant_type.pop("_id")
+        plant_type = to_ascii(plant_type)
+        return render_template("edit_plant_type.html", plant_type=plant_type)
+    else:
+        old_type = client.plants.plant_types.find_one({"common_name":common_name})
+        if old_type is None:
+            abort(404)
+        new_type = parse_form(request.form)
+        new_type["_id"] = old_type["_id"]
+        client.plants.plant_types.save(new_type)
+        return redirect("/plants")
+
+@flask_app.route("/plants/types/<common_name>/delete.html", methods=['GET'])
+def delete_plant_type(common_name):
+    client.plants.plant_types.remove({"common_name": common_name})
+    return redirect("/plants")
+
+# Plant types helper functions
+def to_ascii(thing):
+    # Converts a unicode thing returned by mongo to ascii
+    if isinstance(thing, dict):
+        res = {}
+        for key, val in thing.iteritems():
+            res[str(key)] = str(val) if type(val) in [unicode,str] else to_ascii(val)
+        return res
+    elif isinstance(thing, list):
+        res = []
+        for val in thing:
+            res.append(str(val) if type(val) in [unicode,str] else to_ascii(val))
+        return res
+    else:
+        return str(thing)
+def parse_form(form):
+    res = {}
+    for key, val in form.iteritems():
+        if "." in key:
+            keys = key.split(".")
+            _update(res,_to_dict(keys,val))
+        else:
+            res[key] = val
+    for key, val in res.iteritems():
+        if key[-1] == "]" and key[-3] == "[":
+            new_key = key[:-3]
+            new_i = int(key[-2])
+            new_val = res.get(new_key,[])
+            while len(new_val) <= new_i:
+                new_val.append({})
+            new_val[new_i] = val
+            res[new_key] = new_val
+            res.pop(key)
+    print res
+    return res
+def _to_dict(keys,val):
+    if len(keys) == 1:
+        return {keys[0]: val}
+    else:
+        return {keys[0]: _to_dict(keys[1:],val)}
+def _update(base, update):
+    for key, val in update.iteritems():
+        if isinstance(val, dict):
+            base[key] = _update(base.get(key,{}), val)
+            return base
+        else:
+            base[key] = val
+            return base
+
+@flask_app.template_filter("render_range")
+def render_range(_range):
+    if _range["min"] == _range["max"]:
+        return _range["min"]
+    else:
+        return _range["min"] + " - " + _range["max"]
+
 # Temporary
 @flask_app.route("/plant_info")
 def lookup_plant_info():
     KEY = "rfid"
     if not KEY in request.args:
         return "Error: no rfid code supplied"
-    res = client.plants.plant_info.find_one({KEY: int(request.args[KEY])})
-    if not res:
-        return "Error: no plant with that rfid tag found"
-    else:
-        res.pop("_id")
-        return json.dumps(res)
+    rfid = int(request.args[KEY])
+    res = client.plants.plant_info.find_one({KEY: rfid})
+    if res is None:
+        i = 1
+        while True:
+            plant = client.plants.plant_info.find_one({"number": i})
+            if not plant:
+                client.plants.plant_info.insert({"rfid": rfid, "number": i})
+                res = client.plants.plant_info.find_one({KEY: rfid})
+                break
+            else:
+                i += 1
+    res.pop("_id")
+    return json.dumps(res)
 
 @flask_app.route("/<database>")
 def select_collection(database):
