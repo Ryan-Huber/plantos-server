@@ -1,0 +1,59 @@
+{% import "macros.html" as macros %}
+<html>
+    <head>
+        <title>{{ plant_type.common_name }}</title>
+        {{ macros.jQuery() }}
+        <link rel="stylesheet" href="/static/style/info_cells.css">
+        <style>
+            #content {
+                margin: 50px;
+                padding: 25px;
+                border: 2px solid black;
+                border-radius: 5px;
+            }
+            #content label {
+                font-size: 20px;
+            }
+            #content span {
+                font-size: 20px;
+            }
+        </style>
+        <script src="/static/js/plants.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                render_plants($("#plants"),{
+                    hide_create_button: true,
+                    data: {type: "{{plant_type.common_name}}"}
+                });
+            });
+        </script>
+    </head>
+    <body>
+        {{ macros.back_button("/plants") }}
+        {{ macros.title(plant_type.common_name) }}
+        <div id="content">
+            <label for="latin_name">Latin Name: </label>
+            <span id="latin_name">{{plant_type.latin_name}}</span>
+            <br />
+            <label for="cultivar">Cultivar: </label>
+            <span id="cultivar">{{plant_type.cultivar}}</span>
+            <br />
+            <label for="conv_dtg">Conventional Days to Germination: </label>
+            <span id="conv_dtg">{{plant_type.conv_dtg | render_range}}</span>
+            <br />
+            <label for="conv_dtm">Conventional Days to Maturity: </label>
+            <span id="conv_dtm">{{plant_type.conv_dtm | render_range}}</span>
+            <br />
+            <label for="native_to">Indigenous To: </label>
+            <span id="native_to">{{plant_type.native_to}}</span>
+            <br />
+            <br />
+            <a href="/plants/types/{{plant_type.common_name}}/edit.html">Edit</a>
+            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+            <a href="/plants/types/{{plant_type.common_name}}/delete.html">Delete</a>
+        </div>
+        <div id="plants">
+            <h2>Plants of this type</h2>
+        </div>
+    </body>
+</html>

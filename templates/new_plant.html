@@ -1,0 +1,42 @@
+{% import "macros.html" as macros %}
+<html>
+    <head>
+        <title>New Plant</title>
+        {{ macros.jQuery() }}
+        {{ macros.jsonform() }}
+        <style>
+            .icon-plus-sign {
+                border: 10px solid black;
+            }
+            .icon-minus-sign {
+                border: 10px solid red;
+            }
+        </style>
+        <script src="/static/js/plants.js"></script>
+        <script type="text/javascript">
+            var plant_types = [];
+            $(function() {
+                $.get("/plant_types.json", function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        plant_types[i] = data[i].common_name;
+                    }
+                    setup_form();
+                }, "json");
+            });
+            function setup_form() {
+                $.get("/static/schema/plant.json", function(data) {
+                    data.properties.type.enum = plant_types;
+                    $('form').jsonForm({
+                        schema: data,
+                        displayErrors: _jsonform_display_errors
+                    });
+                }, "json");
+            }
+        </script>
+    </head>
+    <body>
+        {{ macros.back_button("/plants") }}
+        {{ macros.title("Create a New Plant") }}
+        <form method="post"></form>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+{% import "macros.html" as macros %}
+<html>
+    <head>
+        <title>New Plant Type</title>
+        {{ macros.jQuery() }}
+        {{ macros.jsonform() }}
+        <script src="/static/js/plants.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $.get("/static/schema/plant_type.json", function(data) {
+                    var defaults = {{plant_type | safe}};
+                    $('form').jsonForm({
+                        schema: data,
+                        value: defaults,
+                        displayErrors: _jsonform_display_errors
+                    });
+                    $('[name="common_name"]').prop('readonly',true);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        {{ macros.back_button("/plants/types/" + plant_type.common_name) }}
+        {{ macros.title("Editing a Plant Type") }}
+        <form method="post"></form>
+    </body>
+</html>

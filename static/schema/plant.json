@@ -1,0 +1,79 @@
+{
+    "title": "Plant",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "title": "ID Number",
+            "required": true
+        },
+        "id_color": {
+            "type": "string",
+            "title": "ID Color",
+            "required": true,
+            "enum": ["red","yellow","green"]
+        },
+        "rfid": {
+            "type": "integer",
+            "title": "RFID tag"
+        },
+        "type": {
+            "type": "string",
+            "title": "Plant Type",
+            "required": true
+        },
+        "events": {
+            "type": "array",
+            "title": "Events",
+            "items": [{
+                "type": "object",
+                "title": "Event",
+                "properties": {
+                    "event_type": {
+                        "type": "string",
+                        "title": "Event Type",
+                        "required": true,
+                        "enum": ["Initial Planting", "Transfer To", "Death", "Harvest"]
+                    },
+                    "location": {
+                        "type": "object",
+                        "title": "Location",
+                        "properties": {
+                            "system": {
+                                "type": "string",
+                                "title": "System",
+                                "required": true,
+                                "enum": ["Germinator", "Hydroponics", "Aeroponics"]
+                            },
+                            "tray": {
+                                "type": "string",
+                                "title": "Tray (A, B, C, ...)",
+                                "required": true
+                            },
+                            "site": {
+                                "type": "object",
+                                "title": "Cup Site",
+                                "properties": {
+                                    "x": {
+                                        "type": "integer",
+                                        "title": "X position"
+                                    },
+                                    "y": {
+                                        "type": "integer",
+                                        "title": "Y position"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "timestamp": {
+                        "type": "integer",
+                        "title": "Timestamp",
+                        "required": true
+                    }
+                }
+            }],
+            "additionalItems": true
+        }
+    }
+}
