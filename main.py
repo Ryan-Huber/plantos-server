@@ -11,16 +11,18 @@ from threading import Thread
 # Flask Setup
 from flask import Flask
 from flask import render_template
-flask_app = Flask(__name__)
+flask_app = Flask(__name__, instance_path="/var/lib/plantos-server")
 flask_app.config['DEBUG'] = True
 # SocketIO Setup
 from flask.ext.socketio import SocketIO
 socketio = SocketIO(flask_app)
 # Pymongo Setup
+with flask_app.open_instance_resource("database_credentials.txt") as f:
+    (username, password) = f.readline()[:-1].split(",")
+    flask_app.config["MONGO_USERNAME"] = username
+    flask_app.config["MONGO_PASSWORD"] = password
 from pymongo import MongoClient
 client = MongoClient()
-with open("./database_credentials.txt","r") as f:
-    (username, password) = f.readline()[:-1].split(",")
 client.admin.authenticate(username,password)
 
 # Register Blueprints

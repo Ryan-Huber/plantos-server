@@ -19,7 +19,7 @@ sensors = Blueprint('sensors', __name__, static_folder="static",
 # PyMongo setup
 from pymongo import MongoClient
 client = MongoClient()
-with open("./database_credentials.txt","r") as f:
+with open("/var/lib/plantos-server/database_credentials.txt","r") as f:
     (username, password) = f.readline()[:-1].split(",")
 client.admin.authenticate(username, password)
 
