@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% set short_title = title + " Dashboard" %}
+{% set long_title = title + " Dashboard" %}
+{% set back_link = ".." %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ macros.jquery_ui() }}
+    {{ macros.socket_io() }}
+    {{ macros.google_jsapi() }}
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["gauge"]});
+        google.setOnLoadCallback(setup_gauges);
+
+        // Constants and globals
+        var read_timeout;
+        var READ_TIMEOUT = 60000;
+        {% for sensor in info.keys() %}
+            var {{sensor}}_data, {{sensor}}_gague;
+            var {{sensor}}_options = {
+                width: 235, height: 235,
+                min: {{info[sensor]["range"][0]}},
+                max: {{info[sensor]["range"][1]}},
+                greenFrom: {{info[sensor]["range"][0]}},
+                greenTo: {{info[sensor]["range"][1]}},
+                greenColor: '#DC3912',
+                yellowFrom: {{info[sensor]["yellow"][0]}},
+                yellowTo: {{info[sensor]["yellow"][1]}},
+                redFrom: {{info[sensor]["green"][0]}},
+                redTo: {{info[sensor]["green"][1]}},
+                redColor: '#109618',
+                majorTicks: {{info[sensor]["ticks"] | safe}}
+            }
+        {% endfor %}
+
+        function setup_gauges() {
+            read_timeout = setTimeout(onStopReading, READ_TIMEOUT);
+            {% for sensor in info.keys() %}
+                {{sensor}}_data = new google.visualization.DataTable();
+                {{sensor}}_data.addColumn('string','Label');
+                {{sensor}}_data.addColumn('number','Value');
+                {{sensor}}_data.addRow(["{{sensor}}",
+                    {% if initial_data %}{{initial_data[sensor]}}{% else %}0{% endif %}
+                ]);
+                var {{sensor}}_div = $("#{{sensor}}_gauge")[0];
+                {{sensor}}_gauge = new google.visualization.Gauge({{sensor}}_div);
+                {{sensor}}_gauge.draw({{sensor}}_data, {{sensor}}_options);
+            {% endfor %}
+        }
+
+        $(function() {
+            {% if not initial_data %}
+                onStopReading();
+            {% else %}
+                onStartReading();
+            {% endif %}
+            var sockAddr = "http://"+document.domain+":"+location.port+
+                           "/{{database}}/{{collection}}/data";
+            var socket = io.connect(sockAddr);
+            socket.on('data', function(data) {
+                data = JSON.parse(data);
+                {% for sensor in info.keys() %}
+                    {{sensor}}_data.setCell(0,1,data.{{sensor}});
+                    {{sensor}}_gauge.draw({{sensor}}_data,{{sensor}}_options);
+                {% endfor %}
+                clearTimeout(read_timeout);
+                read_timeout = setTimeout(onStopReading, READ_TIMEOUT);
+            });
+        });
+
+        function onStopReading() {
+            $("#not-reading-alert").show();
+        }
+
+        function onStartReading() {
+            $("#not-reading-alert").hide();
+        }
+    </script>
+    <style>
+        #gauge-row {
+            margin: 0;
+        }
+        #gauge-row div {
+            padding: 0;
+        }
+        #gauge-row div table {
+            margin: 0 auto !important;
+        }
+        .hasDatepicker {
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="not-reading-alert" class="alert alert-warning" role="alert" hidden>
+        These sensors are not currently reporting data.
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-md-12">
+            <div id="gauge-row" class="row">
+                {% for sensor in info.keys() %}
+                <div id="{{sensor}}_gauge" class="col-md-3 col-sm-4 col-xs-12"></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">View Sensor History For...</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills">
+                        <li><a href="hour_graphs.html">The Past Hour</a></li>
+                        <li><a href="day_graphs.html">Today</a></li>
+                        <li><a data-toggle="modal" data-target="#date_modal">
+                            A Specific Date
+                        </a></li>
+                        <li><a data-toggle="modal" data-target="#date_range_modal">
+                            A Range of Dates
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="date_range_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Select a Range of Dates</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="rangepickerfrom"></div>
+                    <div id="rangepickerto"></div>
+                    <script type="text/javascript">
+                        $(function() {
+                            $("#rangepickerfrom").datepicker({
+                                maxDate: -1,
+                                defaultDate: -1,
+                                showOtherMonths: true,
+                                selectOtherMonths: true,
+                                onSelect: function(dateText, inst) {
+                                    $("#rangepickerto").datepicker("option",
+                                        "minDate", dateText);
+                                }
+                            });
+                            $("#rangepickerto").datepicker({
+                                maxDate: -1,
+                                defaultDate: -1,
+                                showOtherMonths: true,
+                                selectOtherMonths: true
+                            });
+                        });
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <script type="text/javascript">
+                        function goToRange() {
+                            var start_date = $("#rangepickerfrom").val();
+                            var end_date = $("#rangepickerto").val();
+                            window.location.href = "date_range_graphs.html?start_"+
+                                "date="+start_date+"&end_date="+end_date;
+                        }
+                    </script>
+                    <button class="btn btn-default" onclick="goToRange()">
+                        Go
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="date_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Select a Date</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="datepicker"></div>
+                    <script type="text/javascript">
+                        $(function() {
+                            $("#datepicker").datepicker({
+                                maxDate: 0,
+                                defaultDate: 0,
+                                dhowOtherMonths: true,
+                                selectOtherMonths: true
+                            });
+                        });
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <script type="text/javascript">
+                        function goToDate() {
+                            var _date = $("#datepicker").val();
+                            window.location.href = "day_graphs.html?date=" + _date;
+                        }
+                    </script>
+                    <button class="btn btn-default" onclick="goToDate()">
+                        Go
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

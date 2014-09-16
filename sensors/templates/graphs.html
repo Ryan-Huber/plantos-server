@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% set back_link = "." %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ macros.google_jsapi() }}
+    <script type="text/javascript">
+        google.load("visualization", "1", {
+            packages: [{% block google_packages %}'corechart'{% endblock %}]
+        });
+        google.setOnLoadCallback(load_graphs);
+
+        // Global variables
+        {% block constants %}
+            {% for sensor in info.keys() %}
+                var {{sensor}}_data, {{sensor}}_chart;
+            {% endfor %}
+        {% endblock %}
+
+        function load_graphs() {
+            {% for sensor in info.keys() %}
+                {{sensor}}_data = new google.visualization.DataTable();
+                {{sensor}}_data.addColumn('datetime', 'Date');
+                {{sensor}}_data.addColumn('number', 'Value');
+            {% endfor %}
+            {% block on_load %}
+            $.get(dataURL, function(res) {
+                var data = res.data;
+                for (var i = 0; i < data.length; i++) {
+                    var point = data[i];
+                    process_point(point);
+                }
+                {% block handle_stats %}
+                {% endblock %}
+                draw_graphs();
+            }, "json");
+            {% endblock %}
+        }
+
+        function process_point(point) {
+            var timestamp = new Date(point.date*1000);
+            {% for sensor in info.keys() %}
+                try {
+                    var {{sensor}}_value = point.{{sensor}};
+                    if ({{sensor}}_value == 0) {
+                        {{sensor}}_value = null;
+                    }
+                    {{sensor}}_data.addRow([timestamp, {{sensor}}_value]);
+                }
+                catch (err) {}
+            {% endfor %}
+        }
+
+        function draw_graphs() {
+            {% block draw_graphs %}
+            {% endblock %}
+        }
+
+        // Redraw graphs on window resize
+        var resizeTimer;
+        $(window).resize(function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(draw_graphs, 100);
+        });
+    </script>
+    <style>
+        .green_overlay {
+            position: absolute;
+            background: rgba(16,150,24,0.3);
+            z-index: 1;
+        }
+        .yellow_overlay {
+            position: absolute;
+            background: rgba(255,153,0,0.3);
+            z-index: 1;
+        }
+        .red_overlay {
+            position: absolute;
+            background: rgba(220,57,18,0.3);
+            z-index: 1;
+        }
+        .chart {
+            height: 200px;
+            text-align: center;
+            z-index: 2;
+        }
+    </style>
+{% endblock %}
+
+{% macro draw_overlay(sensor) %}
+    var cli = {{sensor}}_chart.getChartLayoutInterface();
+    var divArea = $("#{{sensor}}_chart").position();
+    var chartArea = cli.getChartAreaBoundingBox();
+    var greenRange = {{info[sensor]["green"] | safe}};
+    var yellowRange = {{info[sensor]["yellow"] | safe}};
+    var redRange = {{info[sensor]["range"] | safe}};
+
+    var currTop = chartArea.top;
+    var currBottom = cli.getYLocation(yellowRange[1]);
+    var currHeight = currBottom-currTop;
+    var currTag = $("#{{sensor}}_red_overlay_top");
+    currTag.css("height",currHeight);
+    currTag.css("width",chartArea.width);
+    currTag.css("top",divArea.top+currTop);
+    currTag.css("left",divArea.left+chartArea.left);
+
+    currTop = currBottom;
+    currBottom = cli.getYLocation(greenRange[1]);
+    var currHeight = currBottom-currTop;
+    var currTag = $("#{{sensor}}_yellow_overlay_top");
+    currTag.css("height",currHeight);
+    currTag.css("width",chartArea.width);
+    currTag.css("top",divArea.top+currTop);
+    currTag.css("left",divArea.left+chartArea.left);
+
+    currTop = currBottom;
+    currBottom = cli.getYLocation(greenRange[0]);
+    var currHeight = currBottom-currTop;
+    var currTag = $("#{{sensor}}_green_overlay");
+    currTag.css("height",currHeight);
+    currTag.css("width",chartArea.width);
+    currTag.css("top",divArea.top+currTop);
+    currTag.css("left",divArea.left+chartArea.left);
+
+    currTop = currBottom;
+    currBottom = cli.getYLocation(yellowRange[0]);
+    var currHeight = currBottom-currTop;
+    var currTag = $("#{{sensor}}_yellow_overlay_bottom");
+    currTag.css("height",currHeight);
+    currTag.css("width",chartArea.width);
+    currTag.css("top",divArea.top+currTop);
+    currTag.css("left",divArea.left+chartArea.left);
+
+    currTop = currBottom;
+    currBottom = chartArea.top+chartArea.height;
+    var currHeight = currBottom-currTop;
+    var currTag = $("#{{sensor}}_red_overlay_bottom");
+    currTag.css("height",currHeight);
+    currTag.css("width",chartArea.width);
+    currTag.css("top",divArea.top+currTop);
+    currTag.css("left",divArea.left+chartArea.left);
+{% endmacro %}
+{% macro overlay_divs(sensor) %}
+    <div id="{{sensor}}_red_overlay_top" class="red_overlay"></div>
+    <div id="{{sensor}}_yellow_overlay_top" class="yellow_overlay"></div>
+    <div id="{{sensor}}_green_overlay" class="green_overlay"></div>
+    <div id="{{sensor}}_yellow_overlay_bottom" class="yellow_overlay"></div>
+    <div id="{{sensor}}_red_overlay_bottom" class="red_overlay"></div>
+{% endmacro %}

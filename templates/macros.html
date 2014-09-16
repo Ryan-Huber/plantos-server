@@ -1,31 +1,25 @@
 {# Includes #}
-{% macro socket_io() %}
-    <script src="/static/lib/socket.io.js"></script>
+{% macro bootstrap() %}
+    <script type="text/javascript" src="/static/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/static/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/bootstrap/dist/css/bootstrap-theme.min.css">
+{% endmacro %}
+{% macro jquery_ui() %}
+    <script type="text/javascript" src="/static/lib/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/static/lib/jquery-ui/themes/smoothness/jquery-ui.css">
+{% endmacro %}
+{% macro jsonform() %}
+    <script type="text/javascript" src="/static/lib/underscore/underscore.js"></script>
+    <script type="text/javascript" src="/static/lib/jsonform/lib/jsonform.js"></script>
+    {# JSV should always be loaded last because it modifies the global "exports"
+       variable, which can cause some other modules to load incorrectly #}
+    <script type="text/javascript" src="/static/lib/JSV/lib/jsv.js"></script>
+    <link rel="stylesheet" href="/static/style/jsonform.css">
 {% endmacro %}
 {% macro google_jsapi() %}
     <script src="https://www.google.com/jsapi"></script>
 {% endmacro %}
-{% macro jQuery() %}
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-{% endmacro %}
-{% macro jQuery_ui() %}
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-{% endmacro %}
-{% macro bootstrap_css() %}
-    <link rel="stylesheet" href="/static/style/bootstrap.min.css">
-{% endmacro %}
-{% macro jsonform() %}
-    <script src="/static/lib/underscore-min.js"></script>
-    <script src="/static/lib/jsv.js"></script>
-    <script src="/static/lib/jsonform.js"></script>
-    <link rel="stylesheet" href="/static/style/jsonform.css">
-{% endmacro %}
-
-{# Common UI Elements #}
-{% macro back_button(link) %}
-    <div style="float: left; margin-left: 25px"><a href="{{link}}"><h3>Back</h3></a></div>
-{% endmacro %}
-{% macro title(title_string) %}
-    <div style="clear: both; text-align: center;"><h1 id="title">{{ title_string }}</h1></div>
+{% macro socket_io() %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 {% endmacro %}

@@ -1,0 +1,26 @@
+{
+    "title": "Plant",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "title": "ID Number",
+            "required": true
+        },
+        "id_color": {
+            "type": "string",
+            "title": "ID Color",
+            "required": true,
+            "enum": ["red","yellow","green"]
+        },
+        "rfid": {
+            "type": "integer",
+            "title": "RFID tag"
+        },
+        "type": {
+            "type": "string",
+            "title": "Plant Type",
+            "required": true
+        }
+    }
+}

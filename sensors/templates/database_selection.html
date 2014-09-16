@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% set short_title = "Select a System" %}
+{% set long_title = "Select a System to Monitor" %}
+{% set back_link = "/" %}
+
+{% block content %}
+    <ul class="nav nav-pills nav-justified">
+        <li class="divider-horizontal"></li>
+        {% for link, title in databases.iteritems() %}
+        <li><a href="{{link}}"><h2>{{title}}</h2></a></li>
+        <li class="divider-horizontal"></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

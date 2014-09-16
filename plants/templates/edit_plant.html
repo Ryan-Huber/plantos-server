@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% if plant %}
+    {% set short_title = "Editing a Plant" %}
+    {% set long_title = "Editing Plant " + plant.id %}
+    {% set back_link = "/plants/by-id/" + plant.id %}
+{% else %}
+    {% set short_title = "New Plant" %}
+    {% set long_title = "Creating a New Plant" %}
+    {% set back_link = "/plants" %}
+{% endif %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ macros.jsonform() }}
+    <script type="text/javascript" src="/plants/static/js/plants.js"></script>
+    <script type="text/javascript">
+        var plant_types = [];
+        $(function() {
+            $.get("/plants/plant_types.json", function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    plant_types[i] = data[i].common_name;
+                }
+                setup_form();
+            }, "json");
+        });
+        function setup_form() {
+            $.get("/plants/static/schema/plant.json", function(data) {
+                data.properties.type.enum = plant_types;
+                $('form').jsonForm({
+                    schema: data,
+                    {% if plant %}value: {{plant | safe}},{% endif %}
+                    displayErrors: _jsonform_display_errors
+                });
+                _jsonform_fix_array_buttons();
+                {% if plant %}$('[name="id"]').prop('readonly',true);{% endif %}
+            }, "json").error(function(){console.log("Error");});
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <form method="post"></form>
+{% endblock %}

@@ -1,0 +1,24 @@
+.info_cell {
+    padding: 0 15px;
+    margin-bottom: 15px;
+    height: 125px;
+    border: 2px solid black;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.info_cell * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info_cell p {
+    text-indent: 25px;
+}
+
+.info_cell span {
+    line-height: 125px;
+    font-size: 20px;
+    vertical-align: bottom;
+}

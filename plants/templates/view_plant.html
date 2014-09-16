@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% set short_title = "Plant " + plant.id %}
+{% set long_title = "Plant " + plant.id %}
+{% set back_link = "/plants" %}
+
+{% block scripts %}
+    {{ super() }}
+    <style>
+        h1 {
+            background-color: {{plant.id_color}};
+            color: black;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">Plant Type</h3></div>
+        <div class="panel-body">
+            {% macro show_prop(prop, title, link) %}
+                <label for="{{prop}}">{{title}}: </label>
+                {% if link %}
+                    <a href="{{link}}">
+                {% endif %}
+                    <span id="{{prop}}">
+                    {{ plant.type[prop] }}
+                    </span>
+                {% if link %}
+                </a>
+                {% endif %}
+                <br />
+            {% endmacro %}
+            {{ show_prop("common_name", "Common Name",
+                         "/plants/types/" + plant.type.common_name) }}
+            {{ show_prop("latin_name", "Latin Name") }}
+            {{ show_prop("cultivar", "Cultivar") }}
+            {{ show_prop("conv_dtg", "Conventional Days To Germination") }}
+            {{ show_prop("conv_dtm", "Conventional Days To Maturity") }}
+            {{ show_prop("native_to", "Native To") }}
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h3 class="panel-title">Plant History</h3></div>
+        <div class="panel-body">
+            {% for event in plant.events %}
+            <div class="well">
+                {% macro show_prop(keys, title) %}
+                    <label for="{{keys[-1]}}">{{title}}: </label>
+                    {% set val = event %}
+                    {% for key in keys %}
+                        {% set val = val[key] %}
+                        {% if loop.last %}
+                            <span id="{{keys[-1]}}">{{val}}</span>
+                        {% endif %}
+                    {% endfor %}
+                    <br />
+                {% endmacro %}
+                {{ show_prop(["event_type"], "Type") }}
+                <label>Location: </label>
+                <br />
+                <div style="padding: 0 20px">
+                    {{ show_prop(["location","system"], "System") }}
+                    {{ show_prop(["location","tray"], "Tray") }}
+                    {{ show_prop(["location","site"], "Site") }}
+                </div>
+                {{ show_prop(["timestamp"], "Timestamp") }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <a class="btn btn-default" href="./{{plant.id}}/edit.html">Edit</a>
+    <button class="btn btn-default" data-toggle="modal" data-target="#delete">
+        Delete
+    </button>
+    <div class="modal fade" id="delete" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this plant?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button class="btn btn-default" onclick="delete_plant()">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function delete_plant() {
+            $.post("./{{plant.id}}/delete.html", function(res) {
+                window.location.href = "{{back_link}}";
+            });
+        }
+    </script>
+{% endblock %}

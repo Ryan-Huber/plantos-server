@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% set short_title = "Select a Sensor Suite" %}
+{% set long_title = "Select a Sensor Suite to Monitor" %}
+{% set back_link = ".." %}
+
+{% block content %}
+    {% if collections %}
+        <ul class="nav nav-pills nav-justified">
+            <li class="divider-horizontal"></li>
+            {% for link, title in collections.iteritems() %}
+            <li><a href="{{link}}"><h2>{{title}}</h2></a></li>
+            <li class="divider-horizontal"></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h2 class="text-center">No sensors have been installed in this system yet.</h2>
+    {% endif %}
+{% endblock %}

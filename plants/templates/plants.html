@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set short_title = "Browse Plants" %}
+{% set long_title = "Browse Plants" %}
+{% set back_link = "/" %}
+
+{% block scripts %}
+    {{ super() }}
+    <link rel="stylesheet" href="/plants/static/style/info_cells.css">
+    <script type="text/javascript" src="/plants/static/js/plants.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" href="#plants">
+                    <h2>Plants</h2>
+                </a>
+            </div>
+            <div id="plants" class="panel-collapse collapse in">
+                <div class="panel-body"> </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#plant_types">
+                    <h2>Plant Types</h2>
+                </a>
+            </div>
+            <div id="plant_types" class="panel-collapse collapse">
+                <div class="panel-body"> </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            render_plants($("#plants .panel-body"));
+            render_plant_types($("#plant_types .panel-body"));
+        </script>
+    </div>
+{% endblock %}

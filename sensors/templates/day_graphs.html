@@ -1,0 +1,62 @@
+{% extends "date_range_graphs.html" %}
+{% block dates %}
+    var startDate = new Date("{{date}}");
+    var endDate = startDate;
+{% endblock %}
+{% block dataURL %}
+    var dataURL= "day_data.json?date="+startDate.toString();
+{% endblock %}
+{% block on_load %}
+    {% for sensor in info.keys() %}
+        $("#{{sensor}}_average").text("");
+        $("#{{sensor}}_max").text("");
+        $("#{{sensor}}_min").text("");
+    {% endfor %}
+    {{ super() }}
+{% endblock %}
+{% block handle_stats %}
+    var stats = res.stats;
+    {% for sensor in info.keys() %}
+        $("#{{sensor}}_average").text(stats.averages.{{sensor}});
+        $("#{{sensor}}_max").text(stats.maxima.{{sensor}});
+        $("#{{sensor}}_min").text(stats.minima.{{sensor}});
+    {% endfor %}
+{% endblock %}
+{% block on_draw_complete %}
+    $("#prev").removeAttr("disabled");
+    $("#next").removeAttr("disabled");
+{% endblock %}
+{% block content %}
+    <div style="float: left"><button class="btn btn-default" id="prev" disabled>
+        Previous Day
+    </button></div>
+    <div style="float: right"><button class="btn btn-default" id="next" disabled>
+        Next Day
+    </button></div>
+    <div style="clear: both"></div>
+    <br />
+    <script>
+        $("#prev").click(function() {
+            $("#prev").attr("disabled", "disabled");
+            $("#next").attr("disabled", "disabled");
+            startDate.setDate(startDate.getDate()-1);
+            endDate = startDate;
+            load_graphs();
+        });
+        $("#next").click(function() {
+            $("#prev").attr("disabled", "disabled");
+            $("#next").attr("disabled", "disabled");
+            startDate.setDate(startDate.getDate()+1);
+            endDate = startDate;
+            load_graphs();
+        });
+    </script>
+    {% for sensor in info.keys() %}
+        {% call(sensor) show_content(sensor) %}
+            <p>Average Value: <span id="{{sensor}}_average"></span></p>
+            <p>Maximum Value: <span id="{{sensor}}_max"></span></p>
+            <p>Minimum Value: <span id="{{sensor}}_min"></span></p>
+        {% endcall %}
+        {% if not loop.last %}<br/><br/>{% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "graphs.html" %}
+{% set short_title = "Hour Graphs" %}
+{% set long_title = "The Past Hour of Sensor History" %}
+
+{% block scripts %}
+    {{ macros.socket_io() }}
+    {{ super() }}
+{% endblock %}
+
+{% block constants %}
+    {{ super() }}
+    var dataURL = "hour_data.json";
+    var xMin = new Date();
+    xMin.setHours(xMin.getHours()-1);
+    {% for sensor in info.keys() %}
+    var {{sensor}}_chart_options = {
+        'hAxis': {
+            'gridlines': {'color': '#999'},
+            'minValue': xMin,
+            'maxValue': new Date()
+        },
+        'vAxis': {
+            'minValue': {{info[sensor]["range"][0]}},
+            'maxValue': {{info[sensor]["range"][1]}},
+            'viewWindowMode': 'maximized',
+            'ticks': {{info[sensor]["ticks"] | safe}},
+            'gridlines': {'color': '#999'}
+        },
+        'legend': 'none',
+        'backgroundColor': 'transparent'
+    };
+    {% endfor %}
+{% endblock %}
+
+{% block on_load %}
+    {% for sensor in info.keys() %}
+        var {{sensor}}_div = $('#{{sensor}}_chart')[0];
+        {{sensor}}_chart = new google.visualization.LineChart({{sensor}}_div);
+    {% endfor %}
+    {{ super() }}
+    var sockAddr="http://"+document.domain+":"+location.port+
+        "/{{database}}/{{collection}}/data";
+    var socket = io.connect(sockAddr);
+    socket.on('data', function(point) {
+        point = JSON.parse(point);
+        process_point(point);
+        {% for sensor in info.keys() %}
+            var cutoff = new Date((point.date-60*60)*1000);
+            while ({{sensor}}_data.getValue(0,0) < cutoff) {
+                {{sensor}}_data.removeRow(0);
+            }
+        {% endfor %}
+        xMin = new Date();
+        xMin.setHours(xMin.getHours()-1);
+        {% for sensor in info.keys() %}
+            {{sensor}}_chart_options.hAxis.minValue = xMin;
+            {{sensor}}_chart_options.hAxis.maxValue = new Date();
+        {% endfor %}
+        draw_graphs();
+    });
+{% endblock %}
+
+{% block draw_graphs %}
+    {% for sensor in info.keys() %}
+        window.setTimeout(function() {
+            {{sensor}}_chart.draw({{sensor}}_data, {{sensor}}_chart_options);
+        }, 100*{{loop.index0}});
+        google.visualization.events.addListener({{sensor}}_chart, "ready",
+            function() { {{ draw_overlay(sensor) }} });
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    {% for sensor in info.keys() %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{sensor}} Data</h3>
+            </div>
+            <div class="panel-body">
+                <div id="{{sensor}}_chart" class="chart">
+                    <img src="/sensors/static/images/loading.gif"
+                         alt="Loading...">
+                </div>
+                {{ overlay_divs(sensor) }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

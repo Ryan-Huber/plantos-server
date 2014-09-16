@@ -1,0 +1,18 @@
+{
+  "name": "plantos-server",
+  "version": "0.0.0",
+  "authors": [
+    "plantos <plantos@cityfarm.media.mit.edu>"
+  ],
+  "main": "main.py",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "/static/lib"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "jquery-ui": "~1.11.0",
+    "jquery": "~2.1.1"
+  }
+}
