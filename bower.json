@@ -11,8 +11,12 @@
     "/static/lib"
   ],
   "dependencies": {
-    "bootstrap": "~3.2.0",
-    "jquery-ui": "~1.11.0",
-    "jquery": "~2.1.1"
-  }
+    "JSV": "~4.0.2",
+    "jsonform": "*",
+    "underscore": "~1.6.0"
+  },
+  "homepage": "https://github.com/MIT-CityFARM/plantos-server",
+  "moduleType": [
+    "globals"
+  ]
 }
