@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Our custom utilites functions
+from util import *
 # General imports
 import json
 import HTMLParser
@@ -8,16 +10,17 @@ from flask import abort
 from flask import request
 from flask import redirect
 from flask import Blueprint
+from flask import current_app
 from flask import render_template
 plants = Blueprint('plants', __name__, static_folder="static",
                     template_folder="templates", url_prefix="/plants")
-# PyMongo setup
-from pymongo import MongoClient
-client = MongoClient()
-with open("/var/lib/plantos-server/database_credentials.txt","r") as f:
-    (username,password) = f.readline()[:-1].split(",")
-client.admin.authenticate(username,password)
-db = client.plants
+# Global variables
+_mongo_client = None # We will assign a value to this later
+def db():
+    global _mongo_client
+    if _mongo_client is None:
+        _mongo_client = build_mongo_client(current_app)
+    return _mongo_client.plants
 
 # Root page
 @plants.route("/")
@@ -30,7 +33,7 @@ def browse_plants():
 @plants.route("/plants.json")
 def show_plants():
     plants = []
-    for plant in db.plants.find(sort=[("id",1)]):
+    for plant in db().plants.find(sort=[("id",1)]):
         plant.pop("_id")
         if not _dereference_type(plant):
             abort(500)
@@ -43,7 +46,7 @@ def show_plants():
 # This page displays information about a plant with the given id
 @plants.route("/by-id/<_id>")
 def show_plant(_id):
-    plant = db.plants.find_one({"id":_id})
+    plant = db().plants.find_one({"id":_id})
     if plant is None:
         abort(404)
     if not _dereference_type(plant):
@@ -67,31 +70,31 @@ def new_plant():
             plant["events"] = []
         if not _reference_type(plant):
             abort(500)
-        old_plant = db.plants.find_one({"id": plant["id"]})
+        old_plant = db().plants.find_one({"id": plant["id"]})
         if old_plant is not None:
             abort(500)
-        db.plants.insert(plant)
+        db().plants.insert(plant)
         return redirect("/plants")
 
 # This page displays a form to edit an existing plant entry in the database
 @plants.route("/by-id/<_id>/edit.html", methods=['GET','POST'])
 def edit_plant(_id):
     if request.method == 'GET':
-        plant = db.plants.find_one({"id":_id})
+        plant = db().plants.find_one({"id":_id})
         if plant is None:
             abort(404)
         if not _dereference_type(plant):
             abort(500)
         return render_template("edit_plant.html", plant=to_ascii(plant))
     else:
-        old_plant = db.plants.find_one({"id":_id})
+        old_plant = db().plants.find_one({"id":_id})
         if old_plant is None:
             abort(404)
         new_plant = parse_form(request.form)
         if not _reference_type(new_plant):
             abort(500)
         new_plant["_id"] = old_plant["_id"]
-        db.plants.save(new_plant)
+        db().plants.save(new_plant)
         return redirect("/plants")
 
 # This page displays a simple confirmation form which when submitted, deletes
@@ -99,27 +102,27 @@ def edit_plant(_id):
 @plants.route("/by-id/<_id>/delete.html", methods=['GET','POST'])
 def delete_plant(_id):
     if request.method == 'GET':
-        plant = db.plants.find_one({"id":_id})
+        plant = db().plants.find_one({"id":_id})
         if plant is None:
             abort(404)
         if not _dereference_type(plant):
             abort(500)
         return render_template("delete_plant.html", plant=plant)
     else:
-        db.plants.remove({"id":_id})
+        db().plants.remove({"id":_id})
         return redirect("/plants")
 
 @plants.route("/plant_types.json")
 def show_plant_types():
     types = []
-    for _type in db.plant_types.find(sort=[("common_name",1)]):
+    for _type in db().plant_types.find(sort=[("common_name",1)]):
         _type.pop("_id")
         types.append(_type)
     return json.dumps(types)
 
 @plants.route("/types/<common_name>")
 def show_plant_type(common_name):
-    plant_type = db.plant_types.find_one({"common_name":common_name})
+    plant_type = db().plant_types.find_one({"common_name":common_name})
     if plant_type is None:
         abort(404)
     plant_type.pop("_id")
@@ -133,41 +136,41 @@ def new_plant_type():
         return render_template("edit_plant_type.html", plant_type=None)
     else:
         _type = parse_form(request.form)
-        old_type = db.plant_types.find_one({"common_name":_type["common_name"]})
+        old_type = db().plant_types.find_one({"common_name":_type["common_name"]})
         if old_type is not None:
             abort(500)
-        db.plant_types.insert(_type)
+        db().plant_types.insert(_type)
         return redirect("/plants")
 
 @plants.route("/types/<common_name>/edit.html", methods=['GET','POST'])
 def edit_plant_type(common_name):
     if request.method == 'GET':
-        plant_type = db.plant_types.find_one({"common_name":common_name})
+        plant_type = db().plant_types.find_one({"common_name":common_name})
         if plant_type is None:
             abort(404)
         plant_type.pop("_id")
         plant_type = to_ascii(plant_type)
         return render_template("edit_plant_type.html", plant_type=plant_type)
     else:
-        old_type = db.plant_types.find_one({"common_name":common_name})
+        old_type = db().plant_types.find_one({"common_name":common_name})
         if old_type is None:
             abort(404)
         new_type = parse_form(request.form)
         new_type["_id"] = old_type["_id"]
-        db.plant_types.save(new_type)
+        db().plant_types.save(new_type)
         return redirect("/plants")
 
 @plants.route("/types/<common_name>/delete.html", methods=['GET','POST'])
 def delete_plant_type(common_name):
     if request.method == 'GET':
-        plant_type = db.plant_types.find_one({"common_name": common_name})
+        plant_type = db().plant_types.find_one({"common_name": common_name})
         if plant_type is None:
             abort(404)
         return render_template("delete_plant_type.html", plant_type=plant_type)
     else:
-        plant_type = db.plant_types.find_one({"common_name": common_name})
-        db.plants.remove({"type": plant_type["_id"]})
-        db.plant_types.remove({"common_name": common_name})
+        plant_type = db().plant_types.find_one({"common_name": common_name})
+        db().plants.remove({"type": plant_type["_id"]})
+        db().plant_types.remove({"common_name": common_name})
         return redirect("/plants")
 
 
@@ -178,14 +181,14 @@ def lookup_plant_info():
     if not KEY in request.args:
         return "Error: no rfid code supplied"
     rfid = int(request.args[KEY])
-    res = db.plant_info.find_one({KEY: rfid})
+    res = db().plant_info.find_one({KEY: rfid})
     if res is None:
         i = 1
         while True:
-            plant = db.plant_info.find_one({"number": i})
+            plant = db().plant_info.find_one({"number": i})
             if not plant:
-                db.plant_info.insert({"rfid": rfid, "number": i})
-                res = db.plant_info.find_one({KEY: rfid})
+                db().plant_info.insert({"rfid": rfid, "number": i})
+                res = db().plant_info.find_one({KEY: rfid})
                 break
             else:
                 i += 1
@@ -202,7 +205,7 @@ def lookup_plant_info():
 # the plant type itself
 # Returns a boolean indicating success
 def _dereference_type(plant):
-    plant_type = db.plant_types.find_one({"_id":plant["type"]})
+    plant_type = db().plant_types.find_one({"_id":plant["type"]})
     if plant_type is None:
         return False
     else:
@@ -213,7 +216,7 @@ def _dereference_type(plant):
 # it's "type" attribute with the id of the plant type
 # Returns a boolean indicating success
 def _reference_type(plant):
-    plant_type = db.plant_types.find_one({"common_name":plant["type"]})
+    plant_type = db().plant_types.find_one({"common_name":plant["type"]})
     if plant_type is None:
         return False
     else:

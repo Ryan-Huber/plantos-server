@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Our custom utilities functions
+from util import *
 # Constants file
 from sensors.constants import *
 # General imports
@@ -12,12 +14,14 @@ from threading import Thread
 # Flask Setup
 from flask import Flask
 from flask import render_template
-flask_app = Flask(__name__, instance_path="/var/lib/plantos-server")
+flask_app = Flask(__name__, instance_path="/var/lib/plantos-server",
+        instance_relative_config = True)
+flask_app.config.from_pyfile("application.cfg")
 # SocketIO Setup
 from flask.ext.socketio import SocketIO
 socketio = SocketIO(flask_app)
-# Pymongo Setup
-from pymongo import MongoClient
+# Global variables
+mongo_client = None # We will assign a value to this later
 
 @flask_app.route("/")
 def main_page():
@@ -26,7 +30,7 @@ def main_page():
 # A background thread that emits new data points to clients from the specified
 # collection as they arrive
 def background_thread(system, board):
-    values = client[system][board]
+    values = mongo_client[system][board]
     namespace = "/{}/{}/data".format(system,board)
     sensors = COLLECTION_INFO[system][board]
     count = values.count()
@@ -48,20 +52,8 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--debug", action="store_true", help="enable flask\
             debug mode")
     args = parser.parse_args()
-    flask_app.config["DEBUG"] = args.debug
-    # PyMongo Setup
-    if args.debug:
-        # We might not be running on the server, so explicitly supply ip address
-        client = MongoClient("18.85.58.66")
-    else:
-        # We are running on the server, connect via localhost
-        client = MongoClient()
-    # Authenticate to the server
-    with flask_app.open_instance_resource("database_credentials.txt") as f:
-        (username, password) = f.readline()[:-1].split(",")
-        flask_app.config["MONGO_USERNAME"] = username
-        flask_app.config["MONGO_PASSWORD"] = password
-    client.admin.authenticate(username,password)
+    flask_app.debug = args.debug
+    mongo_client = build_mongo_client(flask_app)
     # Register Blueprints
     from plants.main import plants
     flask_app.register_blueprint(plants)
