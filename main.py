@@ -68,4 +68,7 @@ if __name__ == "__main__":
             # Make a socketio connect callback for the data namespace
             namespace = "/{}/{}/data".format(system, collection)
             socketio.on('connect', namespace=namespace)(lambda:None)
-    socketio.run(flask_app, host='0.0.0.0')
+    if args.debug:
+        socketio.run(flask_app, host='0.0.0.0')
+    else:
+        socketio.run(flask_app, host='0.0.0.0', port=80)
