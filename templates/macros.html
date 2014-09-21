@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="/static/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/lib/bootstrap/dist/css/bootstrap-theme.min.css">
 {% endmacro %}
+{% macro date_picker() %}
+    <script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+{% endmacro %}
 {% macro jquery_ui() %}
     <script type="text/javascript" src="/static/lib/jquery-ui/jquery-ui.js"></script>
     <link rel="stylesheet" href="/static/lib/jquery-ui/themes/smoothness/jquery-ui.css">
