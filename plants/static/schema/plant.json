@@ -21,6 +21,11 @@
             "type": "string",
             "title": "Plant Type",
             "required": true
+        },
+        "plant_date": {
+            "type": "datetime",
+            "title": "Plant Date",
+            "required": false
         }
     }
 }

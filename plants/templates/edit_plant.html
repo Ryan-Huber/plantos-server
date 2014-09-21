@@ -28,7 +28,31 @@
                 data.properties.type.enum = plant_types;
                 $('form').jsonForm({
                     schema: data,
-                    {% if plant %}value: {{plant | safe}},{% endif %}
+                    {% if plant %}
+                        value: {{plant | safe}},
+                    {% endif %}
+                    form: [
+                        "id",
+                        "id_color",
+                        "rfid",
+                        "type",
+                        {% if not plant %}
+                        {
+                            "key": "plant_date",
+                            "title": "Plant Date",
+                            "type": "text",
+                        },
+                        {% endif %}
+                        {
+                            "type": "actions",
+                            "items": [
+                                {
+                                    "type": "submit",
+                                    "title": "Submit"
+                                }
+                            ]
+                        }
+                    ],
                     displayErrors: _jsonform_display_errors
                 });
                 _jsonform_fix_array_buttons();
