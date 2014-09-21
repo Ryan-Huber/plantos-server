@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Our custom utilities functinos
+from util import build_mongo_client
 # Constants file
 from .constants import *
 # General imports
@@ -12,16 +14,13 @@ import datetime
 from flask import abort
 from flask import request
 from flask import Blueprint
+from flask import current_app
 from flask import render_template
 from flask import after_this_request
 sensors = Blueprint('sensors', __name__, static_folder="static",
                     template_folder="templates", url_prefix="/sensors")
-# PyMongo setup
-from pymongo import MongoClient
-client = MongoClient()
-with open("/var/lib/plantos-server/database_credentials.txt","r") as f:
-    (username, password) = f.readline()[:-1].split(",")
-client.admin.authenticate(username, password)
+# Global variables
+_mongo_client = None # We will assign a value to this later
 
 @sensors.route("/")
 def select_database():
@@ -171,6 +170,13 @@ def show_range_data(database, collection):
 #                      #
 ########################
 now = time.time
+# Returns an mongo client instance. This instance is stored in the _mongo_client
+# global variable so that we only have to create it once
+def mongo_client():
+    global _mongo_client
+    if _mongo_client is None:
+        _mongo_client = build_mongo_client(current_app)
+    return _mongo_client
 # Validates the database and collection values received and returns the relevant
 # mongo collection of sensor values. If the input is invalid (the database or
 # collection doesn't exist, this returns None
@@ -179,7 +185,7 @@ def values_collection(database, collection):
         return None
     if not collection in COLLECTION_NAMES[database]:
         return None
-    return client[database][collection]
+    return mongo_client()[database][collection]
 
 # Returns a dictionary with all of the data between <ti> and <tf> in the given
 # <collection> for the given <sensors>
@@ -249,7 +255,6 @@ def _graphing_data(values_coll, sensors, ti, tf, num_points):
     return data
 def _day_stats(values_coll,  sensors, ti, tf):
     if now() < tf: # The day has not ended
-        nulls = {sensor: None for sensor in sensors}
         avg = {sensor: None for sensor in sensors}
         _max = {sensor: None for sensor in sensors}
         _min = {sensor: None for sensor in sensors}
