@@ -98,7 +98,7 @@ def edit_plant(_id):
         return redirect("/plants")
 
 # This page displays a simple confirmation form which when submitted, deletes
-# the relevant plant from the databse
+# the relevant plant from the database
 @plants.route("/by-id/<_id>/delete.html", methods=['GET','POST'])
 def delete_plant(_id):
     if request.method == 'GET':
