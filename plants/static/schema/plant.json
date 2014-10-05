@@ -25,7 +25,7 @@
          "farm_location": {
             "type": "string",
             "title": "Farm Location",
-            "required": true
+            "required": false
         },
         "plant_date": {
             "type": "datetime",
