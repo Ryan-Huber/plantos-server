@@ -22,10 +22,16 @@
             "title": "Plant Type",
             "required": true
         },
+         "farm_location": {
+            "type": "string",
+            "title": "Farm Location",
+            "required": true
+        },
         "plant_date": {
             "type": "datetime",
             "title": "Plant Date",
             "required": false
         }
+       
     }
 }
