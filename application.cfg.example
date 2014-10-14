@@ -1,0 +1,5 @@
+# Credentials for logging into the mongo database
+MONGO_USERNAME = "admin"
+MONGO_PASSWORD = "password"
+# IP Address of the machine that is hosting the database
+HOST_IP = "127.0.0.1"

@@ -1,4 +1,7 @@
 *.pyc
 *.swp
+.env
+venv
 day_cache
+instance
 database_credentials.txt

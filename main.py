@@ -5,8 +5,10 @@ from util import *
 # Constants file
 from sensors.constants import *
 # General imports
+import os
 import time
 import json
+import shutil
 import argparse
 import gevent.monkey
 gevent.monkey.patch_thread()
@@ -14,8 +16,19 @@ from threading import Thread
 # Flask Setup
 from flask import Flask
 from flask import render_template
-flask_app = Flask(__name__, instance_path="/var/lib/plantos-server",
-        instance_relative_config = True)
+flask_app = Flask(__name__, instance_relative_config = True)
+config_file_path = os.path.join(flask_app.instance_path, "application.cfg")
+if not os.path.isfile(config_file_path):
+    print "Copying example configuration file. These settings will probably not\
+            work. Please edit the configuration file in instance/application.cfg\
+            and provide actual values"
+    example_cfg_file = os.path.join(flask_app.root_path, "application.cfg.example")
+    if not os.path.isfile(example_cfg_file):
+        raise Exception("Example configuration file not found")
+    if not os.path.isdir(flask_app.instance_path):
+        os.makedirs(flask_app.instance_path)
+    shutil.copyfile(example_cfg_file, config_file_path)
+
 flask_app.config.from_pyfile("application.cfg")
 # SocketIO Setup
 from flask.ext.socketio import SocketIO
