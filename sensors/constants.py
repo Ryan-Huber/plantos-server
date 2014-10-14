@@ -7,7 +7,10 @@ DATABASE_NAMES = OrderedDict([("main_system", "Main System"),
                             ("aero_1", "Mini-Aero System")])
 COLLECTION_NAMES = {
     "main_system": OrderedDict([("water_sensors", "Water Sensors"),
-        ("air_sensors", "Air Sensors")]),
+        ("water_sensors_2", "Water Sensors 2"),
+        ("water_sensors_3", "Water Sensors 3"),
+        ("air_sensors", "Air Sensors"),
+        ("air_sensors_3", "Air Sensors 3")]),
     "germinator": OrderedDict([("water_sensors", "Water Sensors"),
         ("air_sensors", "Air Sensors")]),
     "aero_1": OrderedDict([("water_sensors", "Water Sensors"),
@@ -83,6 +86,12 @@ __CO2_info = ("CO2", {
     "green": [400, 600],
     "yellow": [300, 700]
 })
+__CO_info = ("CO", {
+    "range": [0, 1000],
+    "ticks": ["0", 250, 500, 750, 1000],
+    "green": [400, 600],
+    "yellow": [300, 700]
+})
 _air_sensors_info = OrderedDict([
     __temperature_info,
     __humidity_info,
@@ -92,7 +101,10 @@ _air_sensors_info = OrderedDict([
 COLLECTION_INFO = {
     "main_system": {
         "water_sensors": _water_sensors_info,
-        "air_sensors": _air_sensors_info
+        "water_sensors_2": _water_sensors_info,
+        "water_sensors_3": _water_sensors_info,
+        "air_sensors": _air_sensors_info,
+        "air_sensors_3": _air_sensors_info
     },
     "germinator": {
 	"water_sensors": _water_sensors_info,
