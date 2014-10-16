@@ -19,9 +19,9 @@ from flask import render_template
 flask_app = Flask(__name__, instance_relative_config = True)
 config_file_path = os.path.join(flask_app.instance_path, "application.cfg")
 if not os.path.isfile(config_file_path):
-    print "Copying example configuration file. These settings will probably not\
-            work. Please edit the configuration file in instance/application.cfg\
-            and provide actual values"
+    print """Copying example configuration file. These settings will probably not
+work. Please edit the configuration file in instance/application.cfg
+and provide actual values"""
     example_cfg_file = os.path.join(flask_app.root_path, "application.cfg.example")
     if not os.path.isfile(example_cfg_file):
         raise Exception("Example configuration file not found")
