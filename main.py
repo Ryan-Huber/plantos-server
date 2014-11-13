@@ -39,7 +39,7 @@ flask_app.register_blueprint(sensors)
 from flask.ext.socketio import SocketIO
 socketio = SocketIO(flask_app)
 # Global variables
-mongo_client = None # We will assign a value to this later
+mongo_client = build_mongo_client(flask_app)
 
 @flask_app.route("/")
 def main_page():
@@ -65,13 +65,7 @@ def background_thread(system, board):
                 print "Invalid point received in {}, {}".format(system, board)
         time.sleep(1)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run the CityFARM web server")
-    parser.add_argument("-d", "--debug", action="store_true", help="enable\
-            flask debug mode")
-    args = parser.parse_args()
-    flask_app.debug = args.debug
-    mongo_client = build_mongo_client(flask_app)
+def run_server(*args):
     for system in DATABASE_NAMES.keys():
         for collection in COLLECTION_NAMES[system].keys():
             # Start a thread to monitor the collection
@@ -81,7 +75,15 @@ if __name__ == "__main__":
             # Make a socketio connect callback for the data namespace
             namespace = "/{}/{}/data".format(system, collection)
             socketio.on('connect', namespace=namespace)(lambda:None)
-    if args.debug:
+    if flask_app.debug:
         socketio.run(flask_app, host='0.0.0.0')
     else:
         socketio.run(flask_app, host='0.0.0.0', port=80)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run the CityFARM web server")
+    parser.add_argument("-d", "--debug", action="store_true", help="enable\
+            flask debug mode")
+    args = parser.parse_args()
+    flask_app.debug = args.debug
+    run_server()
