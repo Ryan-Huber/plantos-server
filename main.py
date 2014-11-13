@@ -19,17 +19,22 @@ from flask import render_template
 flask_app = Flask(__name__, instance_relative_config = True)
 config_file_path = os.path.join(flask_app.instance_path, "application.cfg")
 if not os.path.isfile(config_file_path):
-    print """Copying example configuration file. These settings will probably not
-work. Please edit the configuration file in instance/application.cfg
-and provide actual values"""
-    example_cfg_file = os.path.join(flask_app.root_path, "application.cfg.example")
-    if not os.path.isfile(example_cfg_file):
+    print """Copying example configuration file. These settings will probably
+    not work. Please edit the configuration file in instance/application.cfg
+    and provide actual values"""
+    example_cfg = os.path.join(flask_app.root_path, "application.cfg.example")
+    if not os.path.isfile(example_cfg):
         raise Exception("Example configuration file not found")
     if not os.path.isdir(flask_app.instance_path):
         os.makedirs(flask_app.instance_path)
-    shutil.copyfile(example_cfg_file, config_file_path)
+    shutil.copyfile(example_cfg, config_file_path)
 
 flask_app.config.from_pyfile("application.cfg")
+# Register Blueprints
+from plants.main import plants
+flask_app.register_blueprint(plants)
+from sensors.main import sensors
+flask_app.register_blueprint(sensors)
 # SocketIO Setup
 from flask.ext.socketio import SocketIO
 socketio = SocketIO(flask_app)
@@ -53,7 +58,7 @@ def background_thread(system, board):
             try:
                 count = new_count
                 raw_point = values.find_one(sort=[("date",-1)])
-                point = {sensor:raw_point[sensor]["value"] for sensor in sensors}
+                point={sensor:raw_point[sensor]["value"] for sensor in sensors}
                 point["date"] = raw_point["date"]
                 socketio.emit('data', json.dumps(point), namespace=namespace)
             except KeyError:
@@ -62,16 +67,11 @@ def background_thread(system, board):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the CityFARM web server")
-    parser.add_argument("-d", "--debug", action="store_true", help="enable flask\
-            debug mode")
+    parser.add_argument("-d", "--debug", action="store_true", help="enable\
+            flask debug mode")
     args = parser.parse_args()
     flask_app.debug = args.debug
     mongo_client = build_mongo_client(flask_app)
-    # Register Blueprints
-    from plants.main import plants
-    flask_app.register_blueprint(plants)
-    from sensors.main import sensors
-    flask_app.register_blueprint(sensors)
     for system in DATABASE_NAMES.keys():
         for collection in COLLECTION_NAMES[system].keys():
             # Start a thread to monitor the collection
