@@ -41,6 +41,12 @@ socketio = SocketIO(flask_app)
 # Global variables
 mongo_client = build_mongo_client(flask_app)
 
+# Register sensor board web management blueprint
+import sys
+sys.path.append("./sensor-board")
+from web_management.server import bp as board_management_blueprint
+flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
+
 @flask_app.route("/")
 def main_page():
     return render_template("index.html")
