@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# Our custom utilites functions
-from util import *
 # General imports
 import json
 import HTMLParser
@@ -14,13 +12,8 @@ from flask import current_app
 from flask import render_template
 plants = Blueprint('plants', __name__, static_folder="static",
                     template_folder="templates", url_prefix="/plants")
-# Global variables
-_mongo_client = None # We will assign a value to this later
 def db():
-    global _mongo_client
-    if _mongo_client is None:
-        _mongo_client = build_mongo_client(current_app)
-    return _mongo_client.plants
+    return current_app.mongo_client.plants
 
 # Root page
 @plants.route("/")

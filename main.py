@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# Our custom utilities functions
-from util import *
 # Constants file
-from sensors.constants import *
+from sensors.constants import DATABASE_NAMES
+from sensors.constants import COLLECTION_NAMES
+from sensors.constants import COLLECTION_INFO
 # General imports
 import os
 import time
@@ -28,8 +28,18 @@ if not os.path.isfile(config_file_path):
     if not os.path.isdir(flask_app.instance_path):
         os.makedirs(flask_app.instance_path)
     shutil.copyfile(example_cfg, config_file_path)
-
 flask_app.config.from_pyfile("application.cfg")
+# PyMongo setup
+from pymongo import MongoClient
+flask_app.mongo_client = MongoClient(flask_app.config["HOST_IP"])
+username = flask_app.config["MONGO_USERNAME"]
+password = flask_app.config["MONGO_PASSWORD"]
+try:
+    flask_app.mongo_client.admin.authenticate(username, password)
+except:
+    print """Failed to authenticate to database. Either the database does not
+    require authentication or the login information in instance application.cfg
+    is incorrect"""
 # Register Blueprints
 from plants.main import plants
 flask_app.register_blueprint(plants)
@@ -38,8 +48,6 @@ flask_app.register_blueprint(sensors)
 # SocketIO Setup
 from flask.ext.socketio import SocketIO
 socketio = SocketIO(flask_app)
-# Global variables
-mongo_client = None # We will assign a value to this later
 # Authentication
 from flask.ext.basicauth import BasicAuth
 basic_auth = BasicAuth(flask_app)
@@ -57,7 +65,7 @@ def main_page():
 # A background thread that emits new data points to clients from the specified
 # collection as they arrive
 def background_thread(system, board):
-    values = mongo_client[system][board]
+    values = flask_app.mongo_client[system][board]
     namespace = "/{}/{}/data".format(system,board)
     sensors = COLLECTION_INFO[system][board]
     count = values.count()
