@@ -1,13 +1,34 @@
 {% extends "base.html" %}
 {% set short_title = "Home" %}
-{% set long_title = "What do you want to do?" %}
+{% set long_title = "What Do You Want To Do?" %}
 
 {% block content %}
-<ul class="nav nav-pills nav-justified">
-    <li class="divider-horizontal"></li>
-    <li><a href="sensors"><h2>Monitor The System</h2></a></li>
-    <li class="divider-horizontal"></li>
-    <li><a href="plants"><h2>Browse Plants</h2></a></li>
-    <li class="divider-horizontal"></li>
-</ul>
+    <ul class="nav nav-pills nav-justified">
+        <li><a href="sensors"><h2>Monitor The System</h2></a></li>
+        <li><a href="plants"><h2>Browse Plants</h2></a></li>
+        <li><a href="manage"><h2>Manage Boards</h2></a></li>
+    </ul>
+    <hr />
+    <div class="panel panel-primary"  background-color:#32CD32>
+        <div class="panel-heading" ><h3 class="panel-title">Plant Flow</h3></div>
+        <div class="panel-body">
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Update!</strong>		Plant Growth To be Completed in 32 hours. Projected Yield of 96%		<strong>10 min. ago</strong>
+            </div>
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>pH Alert!</strong>		My pH is bordering on 7.5 I'm becoming BASIC!		<strong>20 min. ago</strong>
+            </div>
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Harvest!</strong>		Tray 2 in Harvest Bay 1.001.2002. is Ready For Undocking.		<strong>20 min. ago</strong>
+            </div>
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>LED Notification!</strong>		Light Efficiency At 87 Percent. 60% Power Savings.		<strong>40 min. ago</strong>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

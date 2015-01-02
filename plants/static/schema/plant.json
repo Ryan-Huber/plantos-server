@@ -7,31 +7,37 @@
             "title": "ID Number",
             "required": true
         },
-        "id_color": {
-            "type": "string",
-            "title": "ID Color",
-            "required": true,
-            "enum": ["red","yellow","green"]
-        },
-        "rfid": {
-            "type": "integer",
-            "title": "RFID tag"
-        },
         "type": {
             "type": "string",
             "title": "Plant Type",
             "required": true
         },
-         "farm_location": {
-            "type": "string",
+        "farm_location": {
+            "type": "object",
             "title": "Farm Location",
-            "required": false
-        },
-        "plant_date": {
-            "type": "datetime",
-            "title": "Plant Date",
-            "required": false
+            "required": true,
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "enum": ["main_system", "germinator"]
+                },
+                "bay": {
+                    "title": "Bay",
+                    "type": "integer"
+                },
+                "tray": {
+                    "title": "Tray",
+                    "type": "integer"
+                },
+                "x": {
+                    "title": "X",
+                    "type": "integer"
+                },
+                "y": {
+                    "title": "Y",
+                    "type": "integer"
+                }
+            }
         }
-       
     }
 }

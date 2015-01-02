@@ -30,18 +30,51 @@
                 {% endif %}
                 <br />
             {% endmacro %}
-            {{ show_prop("common_name", "Common Name",
-                         "/plants/types/" + plant.type.common_name) }}
-            {{ show_prop("latin_name", "Latin Name") }}
-            {{ show_prop("cultivar", "Cultivar") }}
-            {{ show_prop("conv_dtg", "Conventional Days To Germination") }}
-            {{ show_prop("conv_dtm", "Conventional Days To Maturity") }}
-            {{ show_prop("native_to", "Native To") }}
+            <label>Plant Type:</label> <a href="/plants/types/{{plant.type}}">{{plant.type}}</a>
+            <br />
+            <br />
+            <div class="progress">
+              <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+                <span>Nutrient Addition 90% Complete (success)</span>
+              </div>
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+                <span>90% Humidity Level</span>
+              </div>
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                <span>Daily Feeding Cycle 60% Complete </span>
+              </div>
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                <span> Growing Cycle 80% Complete</span>
+              </div>
+            </div>
         </div>
     </div>
-    <div class="panel panel-primary">
-        <div class="panel-heading"><h3 class="panel-title">Plant History</h3></div>
-        <div class="panel-body">
+
+    <div class="panel panel-primary"  background-color:#32CD32>
+        <div class="panel-heading"><h3 class="panel-title">Notification History</h3></div>
+        <div class="panel-body"  background-color:#32CD32>
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Reminder!</strong> I need to be Watered in 10 Minutes.
+            </div>
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>pH Alert!</strong> My pH is bordering on 7.5 I'm becoming BASIC!
+            </div>
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Harvest!</strong> I'm a Big Kid now. Take me out of the farm.
+            </div>
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>LED Notification!</strong> I'm gettting Sunburned. Turn down the light!!!
+            </div>
             {% for event in plant.events %}
             <div class="well">
                 {% macro show_prop(keys, title) %}

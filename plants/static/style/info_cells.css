@@ -7,7 +7,7 @@
     overflow: hidden;
 }
 
-.info_cell * {
+#plants .info_cell * {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

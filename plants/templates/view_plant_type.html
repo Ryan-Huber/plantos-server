@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% set short_title = plant_type.common_name %}
-{% set long_title = plant_type.common_name %}
+{% set short_title = plant_type["common_name"] %}
+{% set long_title = plant_type["common_name"] %}
 {% set back_link = "/plants" %}
 
 {% block scripts %}
@@ -11,7 +11,7 @@
         $(function() {
             render_plants($('#plants'), {
                 hide_create_button: true,
-                data: {type: "{{plant_type.common_name}}"}
+                data: {type: "{{plant_type["common_name"]}}"}
             });
         });
     </script>

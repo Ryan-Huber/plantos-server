@@ -39,7 +39,10 @@ flask_app.register_blueprint(sensors)
 from flask.ext.socketio import SocketIO
 socketio = SocketIO(flask_app)
 # Global variables
-mongo_client = build_mongo_client(flask_app)
+mongo_client = None # We will assign a value to this later
+# Authentication
+from flask.ext.basicauth import BasicAuth
+basic_auth = BasicAuth(flask_app)
 
 # Register sensor board web management blueprint
 import sys

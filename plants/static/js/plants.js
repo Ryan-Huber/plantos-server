@@ -24,6 +24,66 @@ function render_plants(container, options) {
         }
     },"json");
 }
+function clear_search() {
+    $("#id_search").val("");
+    plant_id_search();
+    $("#location_search").val("");
+    plant_location_search();
+    $("#type_search").val("");
+    plant_type_search();
+}
+function plant_id_filter() {
+    $("#location_filter").hide();
+    $("#type_filter").hide();
+    $("#id_filter").show();
+    clear_search();
+}
+function plant_id_search() {
+    id = $("#id_search").val();
+    $.each($("#plants .info_cell"), function(i, cell) {
+        if (id == "" || cell.getAttribute("data-id").indexOf(id) > -1) {
+            $(cell.parentNode).show();
+        }
+        else {
+            $(cell.parentNode).hide();
+        }
+    });
+}
+function plant_location_filter() {
+    $("#id_filter").hide();
+    $("#type_filter").hide();
+    $("#location_filter").show();
+    clear_search();
+}
+function plant_location_search() {
+    _location = $("#location_search").val();
+    console.log(_location);
+    $.each($("#plants .info_cell"), function(i, cell) {
+        if (_location == "" || cell.getAttribute("data-location").indexOf(_location) > -1) {
+            $(cell.parentNode).show();
+        }
+        else {
+            $(cell.parentNode).hide();
+        }
+    });
+}
+function plant_type_filter() {
+    $("#id_filter").hide();
+    $("#location_filter").hide();
+    $("#type_filter").show();
+    clear_search();
+}
+function plant_type_search() {
+    type = $("#type_search").val();
+    $.each($("#plants .info_cell"), function(i, cell) {
+        if (type == "" || cell.getAttribute("data-type").indexOf(type) > -1) {
+            $(cell.parentNode).show();
+        }
+        else {
+            $(cell.parentNode).hide();
+        }
+    });
+}
 function render_plant_types(container, options) {
     if (typeof options === "undefinded") {
         options = {};
@@ -50,8 +110,12 @@ function render_plant_types(container, options) {
 }
 
 // Creates an info_cell DOM element with the given link and content
-function _info_cell(link, content) {
+function _info_cell(link, content, data) {
     var cell = $("<div>").addClass("info_cell");
+    for (var key in data) {
+        attr = "data-" + key;
+        cell.attr(attr, data[key]);
+    }
     for (var i = 0; i < content.length; i++) {
         cell.append(content[i]);
     }

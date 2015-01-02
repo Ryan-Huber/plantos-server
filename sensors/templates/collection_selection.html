@@ -6,12 +6,50 @@
 {% block content %}
     {% if collections %}
         <ul class="nav nav-pills nav-justified">
-            <li class="divider-horizontal"></li>
-            {% for link, title in collections.iteritems() %}
-            <li><a href="{{link}}"><h2>{{title}}</h2></a></li>
-            <li class="divider-horizontal"></li>
-            {% endfor %}
+            <li class="text-center">
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+                        Water Sensors <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                    {% for link, title in collections.iteritems() %}
+                        {% if "Water" in title %}
+                            <li><a href="{{link}}">{{title}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            <li class="text-center">
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+                        Atmospheric Sensors <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                    {% for link, title in collections.iteritems() %}
+                        {% if "Atmospheric" in title %}
+                            <li><a href="{{link}}">{{title}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </li>
         </ul>
+
+        <hr />
+
+        <div class="panel panel-primary"  background-color:#32CD32>
+        <div class="panel-heading"><h3 class="panel-title">Current Data Trends</h3></div>
+        <div class="panel-body"  background-color:#32CD32>
+            {% for link, title in collections.iteritems() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>{{title}}</strong> Is Now Live .
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+        </div>
     {% else %}
         <h2 class="text-center">No sensors have been installed in this system yet.</h2>
     {% endif %}
