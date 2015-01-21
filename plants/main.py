@@ -1,19 +1,94 @@
 #!/usr/bin/env python
 
 # General imports
-import json
 import HTMLParser
 # Flask setup
 from flask import abort
 from flask import request
 from flask import redirect
 from flask import Blueprint
-from flask import current_app
 from flask import render_template
 plants = Blueprint('plants', __name__, static_folder="static",
                     template_folder="templates", url_prefix="/plants")
-def db():
-    return current_app.mongo_client.plants
+# Mongoengine imports
+from mongoengine import fields as mefields
+from mongoengine import Document, EmbeddedDocument
+# JSON Setup
+from json import JSONEncoder
+from bson.objectid import ObjectId
+class MyEncoder(JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return JSONEncoder.default(o)
+json = MyEncoder()
+# WTForms setup
+from wtforms import Form
+from wtforms import fields as wtfields
+from wtforms import validators
+class MultiDict(object):
+    def getlist(self, key):
+        value = self[key]
+        if not isinstance(value, list):
+            value = [value]
+        return value
+
+
+###################
+# Database models #
+###################
+
+class PlantType(Document, MultiDict):
+    common_name = mefields.StringField(required=True)
+    latin_name = mefields.StringField(required=True)
+    min_conv_dtg = mefields.IntField(required=True)
+    max_conv_dtg = mefields.IntField(required=True)
+    min_conv_dtm = mefields.IntField(required=True)
+    max_conv_dtm = mefields.IntField(required=True)
+    cultivar = mefields.StringField(required=True)
+    native_to = mefields.StringField(required=True)
+
+class Note(EmbeddedDocument):
+    date = mefields.DateTimeField(required=True)
+    content = mefields.DateTimeField(required=True)
+
+class Plant(Document):
+    type = mefields.ReferenceField(PlantType, required=True)
+    number = mefields.IntField(required=True)
+    date_planted = mefields.DateTimeField()
+    radicle_emergence = mefields.DateTimeField()
+    hypocotyl_emergence = mefields.DateTimeField()
+    foliage_emergence = mefields.DateTimeField()
+    date_of_transfer = mefields.DateTimeField()
+    date_of_harvest = mefields.DateTimeField()
+    notes = mefields.ListField(mefields.EmbeddedDocumentField(Note))
+
+#########
+# Forms #
+#########
+
+class PlantTypeForm(Form):
+    common_name = wtfields.StringField("Common Name", [validators.required()])
+    latin_name = wtfields.StringField("Latin Name", [validators.required()])
+    min_conv_dtg = wtfields.IntegerField("Minimum Days to Germination",
+            [validators.required()])
+    max_conv_dtg = wtfields.IntegerField("Maximum Days to Germination",
+            [validators.required()])
+    min_conv_dtm = wtfields.IntegerField("Minimum Days to Maturity",
+            [validators.required()])
+    max_conv_dtm = wtfields.IntegerField("Maximum Days to Maturity",
+            [validators.required()])
+    cultivar = wtfields.StringField("Cultivar", [validators.required()])
+    native_to = wtfields.StringField("Native To", [validators.required()])
+    def create_type(self):
+        new_type = PlantType(**{k:v.data for k,v in self._fields.iteritems()})
+        new_type.save()
+        return new_type
+    def update_type(self, plant_type):
+        for k,v in self._fields.iteritems():
+            plant_type[k] = v.data
+            plant_type.save()
+
 
 # Root page
 @plants.route("/")
@@ -22,38 +97,25 @@ def browse_plants():
 
 # This page dumps a JSON array of all of the plants in the database
 # Arguments:
-#   type (optional): filters the results to only show plants of the given type
+#   type_id (optional): filters the results to only show plants of the type with
+#     the given id
 @plants.route("/plants.json")
 def show_plants():
-    plants = []
-    for plant in db().plants.find(sort=[("id",1)]):
-        plant.pop("_id")
-        if not _dereference_type(plant):
-            abort(500)
-        plants.append(plant)
-    if "type" in request.args:
-        _type = unescape_html(request.args["type"])
-        plants = [p for p in plants if p["type"]["common_name"] == _type]
-    return json.dumps(plants)
+    params = {}
+    if "type_id" in request.args:
+        type_id = unescape_html(request.args["type_id"])
+        params["plant_type"] = PlantType.objects.get_or_404(id=type_id)
+    plants = [plant.to_mongo() for plant in Plant.objects(**params)]
+    return json.encode(plants)
 
 # This page displays information about a plant with the given id
-@plants.route("/by-id/<_id>")
+@plants.route("/plants/<_id>")
 def show_plant(_id):
-    plant = db().plants.find_one({"id":_id})
-    if plant is None:
-        abort(404)
-    if not _dereference_type(plant):
-        abort(500)
-    plant.pop("_id")
-    plant["type"]["conv_dtg"] = render_range(plant["type"]["conv_dtg"])
-    plant["type"]["conv_dtm"] = render_range(plant["type"]["conv_dtm"])
-    for i in range(len(plant["events"])):
-        plant["events"][i]["location"]["site"] = \
-            render_coordinates(plant["events"][i]["location"]["site"])
-    return render_template("view_plant.html", plant=plant)
+    plant = PlantType.objects.get_or_404(id=_id)
+    return render_template("view_plant.html", plant=json.encode(plant))
 
 # This page displays a form to create a new plant entry in the database
-@plants.route("/by-id/new.html", methods=['GET','POST'])
+@plants.route("/plants/new.html", methods=['GET','POST'])
 def new_plant():
     if request.method == 'GET':
         return render_template("edit_plant.html", plant=None)
@@ -70,7 +132,7 @@ def new_plant():
         return redirect("/plants")
 
 # This page displays a form to edit an existing plant entry in the database
-@plants.route("/by-id/<_id>/edit.html", methods=['GET','POST'])
+@plants.route("/plants/<_id>/edit.html", methods=['GET','POST'])
 def edit_plant(_id):
     if request.method == 'GET':
         plant = db().plants.find_one({"id":_id})
@@ -92,7 +154,7 @@ def edit_plant(_id):
 
 # This page displays a simple confirmation form which when submitted, deletes
 # the relevant plant from the database
-@plants.route("/by-id/<_id>/delete.html", methods=['GET','POST'])
+@plants.route("/plants/<_id>/delete.html", methods=['GET','POST'])
 def delete_plant(_id):
     if request.method == 'GET':
         plant = db().plants.find_one({"id":_id})
@@ -107,64 +169,49 @@ def delete_plant(_id):
 
 @plants.route("/plant_types.json")
 def show_plant_types():
-    types = []
-    for _type in db().plant_types.find(sort=[("common_name",1)]):
-        _type.pop("_id")
-        types.append(_type)
-    return json.dumps(types)
+    plant_types = [pt.to_mongo() for pt in PlantType.objects()]
+    return json.encode(plant_types)
 
-@plants.route("/types/<common_name>")
-def show_plant_type(common_name):
-    plant_type = db().plant_types.find_one({"common_name":common_name})
+@plants.route("/types/<id>")
+def show_plant_type(id):
+    plant_type = PlantType.objects(id=id)[0]
     if plant_type is None:
         abort(404)
-    plant_type.pop("_id")
-    plant_type["conv_dtg"] = render_range(plant_type["conv_dtg"])
-    plant_type["conv_dtm"] = render_range(plant_type["conv_dtm"])
     return render_template("view_plant_type.html", plant_type=plant_type)
 
 @plants.route("/types/new.html", methods=['GET','POST'])
 def new_plant_type():
-    if request.method == 'GET':
-        return render_template("edit_plant_type.html", plant_type=None)
-    else:
-        _type = parse_form(request.form)
-        old_type = db().plant_types.find_one({"common_name":_type["common_name"]})
-        if old_type is not None:
-            abort(500)
-        db().plant_types.insert(_type)
+    form = PlantTypeForm(request.form)
+    if request.method == 'POST' and form.validate():
+        form.create_type()
         return redirect("/plants")
+    return render_template("edit_plant_type.html", form=form, plant_type=None)
 
-@plants.route("/types/<common_name>/edit.html", methods=['GET','POST'])
-def edit_plant_type(common_name):
+@plants.route("/types/<id>/edit.html", methods=['GET','POST'])
+def edit_plant_type(id):
+    plant_type = PlantType.objects(id=id)[0]
+    if plant_type is None:
+        abort(404)
     if request.method == 'GET':
-        plant_type = db().plant_types.find_one({"common_name":common_name})
-        if plant_type is None:
-            abort(404)
-        plant_type.pop("_id")
-        plant_type = to_ascii(plant_type)
-        return render_template("edit_plant_type.html", plant_type=plant_type)
+        form = PlantTypeForm(plant_type)
+        return render_template("edit_plant_type.html", form=form,
+                plant_type=plant_type)
     else:
-        old_type = db().plant_types.find_one({"common_name":common_name})
-        if old_type is None:
-            abort(404)
-        new_type = parse_form(request.form)
-        new_type["_id"] = old_type["_id"]
-        db().plant_types.save(new_type)
-        return redirect("/plants")
+        form = PlantTypeForm(request.form)
+        if form.validate():
+            form.update_type(plant_type)
+            return redirect("/plants")
+        else:
+            return render_template("edit_plant_type.html", form=form,
+                    plant_type=plant_type)
 
-@plants.route("/types/<common_name>/delete.html", methods=['GET','POST'])
-def delete_plant_type(common_name):
-    if request.method == 'GET':
-        plant_type = db().plant_types.find_one({"common_name": common_name})
-        if plant_type is None:
-            abort(404)
-        return render_template("delete_plant_type.html", plant_type=plant_type)
-    else:
-        plant_type = db().plant_types.find_one({"common_name": common_name})
-        db().plants.remove({"type": plant_type["_id"]})
-        db().plant_types.remove({"common_name": common_name})
-        return redirect("/plants")
+@plants.route("/types/<id>/delete.html", methods=['POST'])
+def delete_plant_type(id):
+    plant_type = PlantType.objects(id=id)[0]
+    if plant_type is None:
+        abort(404)
+    plant_type.delete()
+    return redirect("/plants")
 
 
 # Temporary
@@ -276,6 +323,9 @@ def render_range(_range):
 def render_coordinates(coord):
     return "({}, {})".format(coord["x"],coord["y"])
 # Parses out weird html encoded strings like &#39 for '
+html_parser = None
 def unescape_html(string):
-    parser = HTMLParser.HTMLParser()
-    return parser.unescape(string)
+    global html_parser
+    if html_parser is None:
+        html_parser = HTMLParser.HTMLParser()
+    return html_parser.unescape(string)

@@ -5,89 +5,89 @@
 
 {% import "macros.html" as macros %}
 {% block scripts %}
-    {{ super() }}
-    {{ macros.jquery_ui() }}
-    <link rel="stylesheet" href="/plants/static/style/info_cells.css">
-    <script type="text/javascript" src="/plants/static/js/plants.js"></script>
+  {{ super() }}
+  {{ macros.jquery_ui() }}
+  <link rel="stylesheet" href="/plants/static/style/info_cells.css">
+  <script type="text/javascript" src="/plants/static/js/plants.js"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="panel-group" id="accordion"  background-color:#32CD32>
-        <div class="panel panel-default"  background-color:#32CD32>
-            <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion"
-                   href="#plant_types">
-                    <h2>Plant Types</h2>
-                </a>
-            </div>
-            <div id="plant_types" class="panel-collapse collapse"  background-color:#32CD32>
-                <div class="panel-body"> </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" href="#plants">
-                    <h2>Plant Library</h2>
-                </a>
-            </div>
-            <div id="plants" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="well">
-                        <div class="btn-group" style="display: inline">
-                            <button type="button" class="btn btn-primary">Filter By</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a onclick="plant_id_filter()">ID number</a></li>
-                                <li><a onclick="plant_location_filter()">Location</a></li>
-                                <li><a onclick="plant_type_filter()">Type</a></li>
-                            </ul>
-                        </div>
-                        <div id="id_filter" class="input-group" style="display: none">
-                            <span class="input-group-addon">ID:</span>
-                            <input id="id_search" type="text" class="form-control">
-                        </div>
-                        <script type="text/javascript">
-                            $("#id_search").autocomplete({
-                                source: [],
-                                search: plant_id_search,
-                                minLength: 0
-                            });
-                        </script>
-                        <div id="location_filter" class="input-group" style="display: none">
-                            <span class="input-group-addon">Location:</span>
-                            <input id="location_search" type="text" class="form-control">
-                        </div>
-                        <script type="text/javascript">
-                            $("#location_search").autocomplete({
-                                source: [],
-                                search: plant_location_search,
-                                minLength: 0
-                            });
-                        </script>
-                        <div id="type_filter" class="input-group" style="display: none">
-                            <span class="input-group-addon">Type:</span>
-                            <input id="type_search" type="text" class="form-control">
-                        </div>
-                        <script type="text/javascript">
-                            $("#type_search").autocomplete({
-                                source: [],
-                                search: plant_type_search,
-                                minLength: 0
-                            });
-                        </script>
-                        <div style="clear: both;"></div>
-                        <br />
-                        <a class="btn btn-primary" href="/plants/by-id/new.html">Register a new plant</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            render_plants($("#plants .panel-body"));
-            render_plant_types($("#plant_types .panel-body"));
-        </script>
+  <div class="panel-group" id="accordion"  background-color:#32CD32>
+    <div class="panel panel-default"  background-color:#32CD32>
+      <div class="panel-heading">
+        <a data-toggle="collapse" data-parent="#accordion"
+           href="#plant_types">
+          <h2>Plant Types</h2>
+        </a>
+      </div>
+      <div id="plant_types" class="panel-collapse collapse"  background-color:#32CD32>
+        <div class="panel-body"> </div>
+      </div>
     </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <a data-toggle="collapse" data-parent="#accordion" href="#plants">
+          <h2>Plant Library</h2>
+        </a>
+      </div>
+      <div id="plants" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <div class="well">
+            <div class="btn-group" style="display: inline">
+              <button type="button" class="btn btn-primary">Filter By</button>
+              <button type="button" class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a onclick="plant_id_filter()">ID number</a></li>
+                <li><a onclick="plant_location_filter()">Location</a></li>
+                <li><a onclick="plant_type_filter()">Type</a></li>
+              </ul>
+            </div>
+            <div id="id_filter" class="input-group" style="display: none">
+              <span class="input-group-addon">ID:</span>
+              <input id="id_search" type="text" class="form-control">
+            </div>
+            <script type="text/javascript">
+              $("#id_search").autocomplete({
+                source: [],
+                search: plant_id_search,
+                minLength: 0
+              });
+            </script>
+            <div id="location_filter" class="input-group" style="display: none">
+              <span class="input-group-addon">Location:</span>
+              <input id="location_search" type="text" class="form-control">
+            </div>
+            <script type="text/javascript">
+              $("#location_search").autocomplete({
+                source: [],
+                search: plant_location_search,
+                minLength: 0
+              });
+            </script>
+            <div id="type_filter" class="input-group" style="display: none">
+              <span class="input-group-addon">Type:</span>
+              <input id="type_search" type="text" class="form-control">
+            </div>
+            <script type="text/javascript">
+              $("#type_search").autocomplete({
+                source: [],
+                search: plant_type_search,
+                minLength: 0
+              });
+            </script>
+            <div style="clear: both;"></div>
+            <br />
+            <a class="btn btn-primary" href="/plants/by-id/new.html">Register a new plant</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      render_plants($("#plants .panel-body"));
+      render_plant_types($("#plant_types .panel-body"));
+    </script>
+  </div>
 {% endblock %}

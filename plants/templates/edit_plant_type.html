@@ -1,34 +1,14 @@
 {% extends "base.html" %}
 {% if plant_type %}
-    {% set short_title = "Editing a Plant Type" %}
-    {% set long_title = "Editing " + plant_type.common_name %}
-    {% set back_link = "/plants/types/" + plant_type.common_name %}
+  {% set short_title = "Editing a Plant Type" %}
+  {% set long_title = "Editing " + plant_type.common_name %}
+  {% set back_link = "/plants/types/" + plant_type.id|e %}
 {% else %}
-    {% set short_title = "New Plant Type" %}
-    {% set long_title = "Creating a Plant Type" %}
-    {% set back_link = "/plants" %}
+  {% set short_title = "New Plant Type" %}
+  {% set long_title = "Creating a Plant Type" %}
+  {% set back_link = "/plants" %}
 {% endif %}
 
-{% block scripts %}
-    {{ super() }}
-    {{ macros.jsonform() }}
-    <script type="text/javascript" src="/plants/static/js/plants.js"></script>
-    <script type="text/javascript">
-        $.get("/plants/static/schema/plant_type.json", function(data) {
-            $('form').jsonForm({
-                schema: data,
-                {% if plant_type %}
-                value: {{plant_type | safe }},
-                {% endif %}
-                displayErrors: _jsonform_display_errors
-            });
-            {% if plant_type %}
-            $('[name="common_name"]').prop('readonly',true);
-            {% endif %}
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
-    <form method="post"></form>
+  {{ macros.render_form(form) }}
 {% endblock %}

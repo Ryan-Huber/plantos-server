@@ -11,7 +11,7 @@ function render_plants(container, options) {
             row.append(_info_cell(link, [
                 $("<h3>").html(plant.id).css("color","black")
                          .css("background-color",plant.id_color),
-                $("<p>").html(plant.type.common_name)
+                $("<p>").html(plant.type)
             ]));
         }
         if (options.hide_create_button != true) {
@@ -93,7 +93,7 @@ function render_plant_types(container, options) {
         container.append(row);
         for (var i = 0; i < res.length; i++) {
             var type = res[i];
-            var link = "/plants/types/"+type.common_name;
+            var link = "/plants/types/"+type._id;
             row.append(_info_cell(link, [
                 $("<h3>").html(type.common_name).css("color","black"),
                 $("<p>").html(type.latin_name),

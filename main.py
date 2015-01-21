@@ -40,6 +40,9 @@ except:
     print """Failed to authenticate to database. Either the database does not
     require authentication or the login information in instance application.cfg
     is incorrect"""
+# Mongoengine setup
+from flask.ext.mongoengine import MongoEngine
+flask_app.mongoengine = MongoEngine(flask_app)
 # Register Blueprints
 from plants.main import plants
 flask_app.register_blueprint(plants)
