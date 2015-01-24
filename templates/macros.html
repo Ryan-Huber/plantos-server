@@ -8,37 +8,81 @@ filename='lib/bootstrap/dist/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static',
 filename='lib/bootstrap/dist/css/bootstrap-theme.min.css') }}">
 {% endmacro %}
+
+{% macro datetimepicker() %}
+<script type="text/javascript" src="{{ url_for('static',
+  filename='lib/moment/min/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',
+  filename='lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
+  }}"></script>
+<link rel="stylesheet" href="{{ url_for('static',
+filename='lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')
+}}">
+{% endmacro %}
+
 {% macro jquery_ui() %}
 <script type="text/javascript" src="{{ url_for('static',
   filename='lib/jquery-ui/jquery-ui.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static',
 filename='lib/jquery-ui/themes/smoothness/jquery-ui.css') }}">
 {% endmacro %}
+
 {% macro google_jsapi() %}
 <script src="https://www.google.com/jsapi"></script>
 {% endmacro %}
+
 {% macro socket_io() %}
 <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 {% endmacro %}
+
 {% macro render_form(form, is_child) %}
-<form method="POST" action="">
+<form method="POST" class="form-horizontal">
   {{ render_fields(form) }}
-  <input type="submit" />
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </div>
 </form>
 {% endmacro %}
+
 {% macro render_fields(form) %}
-{% for field in form %}
-<div>
-  {{ field.label }}
-  {% if field.type == "FormField" %}
-  {{ render_fields(field) }}
-  {% else %}
-  {{ field }}
-  {{ ". ".join(field.errors) }}
+  {% for field in form %}
+  <div class="form-group{% if field.errors %} has-error{% endif %}">
+    {{ field.label(class="col-sm-2 control-label") }}
+    <div class="col-sm-10">
+      {% if field.type == "FormField" %}
+        {{ render_fields(field) }}
+      {% else %}
+        {% if field.type == "DateTimeField" %}
+          <div class="input-group">
+            {{ field(class="form-control") }}
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+        {% else %}
+          {{ field(class="form-control") }}
+        {% endif %}
+        {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  {% if field.type == "DateTimeField" %}
+  <script type="text/javascript">
+    $(function() {
+      $("#{{ field.id }}").parent().datetimepicker({
+        showClear: true,
+        showTodayButton: true,
+      }).data("DateTimePicker").date(new Date("{{ field.data }}"));
+    });
+  </script>
   {% endif %}
-</div>
-{% endfor %}
+  {% endfor %}
 {% endmacro %}
+
 {% macro jsonform() %}
 <script type="text/javascript" src="/static/lib/underscore/underscore.js"></script>
 <script type="text/javascript" src="/static/lib/jsonform/lib/jsonform.js"></script>
@@ -46,9 +90,4 @@ filename='lib/jquery-ui/themes/smoothness/jquery-ui.css') }}">
    variable, which can cause some other modules to load incorrectly #}
 <script type="text/javascript" src="/static/lib/JSV/lib/jsv.js"></script>
 <link rel="stylesheet" href="/static/style/jsonform.css">
-{% endmacro %}
-{% macro date_picker() %}
-<script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script>
-<script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 {% endmacro %}

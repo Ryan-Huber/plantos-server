@@ -9,6 +9,12 @@
   {% set back_link = url_for("plants.index") %}
 {% endif %}
 
+{% import "macros.html" as macros %}
+{% block scripts %}
+{{ super() }}
+{{ macros.datetimepicker() }}
+{% endblock %}
+
 {% block content %}
   {{ macros.render_form(form) }}
 {% endblock %}
