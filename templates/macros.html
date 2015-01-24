@@ -73,10 +73,17 @@ filename='lib/jquery-ui/themes/smoothness/jquery-ui.css') }}">
   {% if field.type == "DateTimeField" %}
   <script type="text/javascript">
     $(function() {
-      $("#{{ field.id }}").parent().datetimepicker({
+      var picker = $("#{{ field.id }}").parent().datetimepicker({
         showClear: true,
         showTodayButton: true,
-      }).data("DateTimePicker").date(new Date("{{ field.data }}"));
+        useCurrent: false,
+        defaultDate: moment().startOf('day')
+      }).data("DateTimePicker");
+      {% if field.data %}
+        picker.date(new Date("{{ field.data }}"));
+      {% else %}
+        picker.date(null);
+      {% endif %}
     });
   </script>
   {% endif %}
