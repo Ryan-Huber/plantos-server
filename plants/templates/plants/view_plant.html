@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% set short_title = "Plant " + plant.id|e %}
+{% set long_title = "Plant " + plant.id|e %}
+{% set back_link = url_for("plants.index") %}
+
+{% block content %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h3 class="panel-title">Plant Info</h3></div>
+  <div class="panel-body">
+    {% macro show_type_prop(prop, title) %}
+      <label for="{{ prop }}">{{ title }}: </label>
+      <span id="{{ prop }}">{{ plant.type[prop] }}</span>
+      <br />
+    {% endmacro %}
+    {% macro show_type_range_prop(prop, title) %}
+      <label for="{{ prop }}">{{ title }}: </label>
+      <span id="{{ prop }}">{{ plant.type[prop].to_string() }}</span>
+      <br />
+    {% endmacro %}
+    <div class="well">
+      {{ show_type_prop("common_name", "Common Name") }}
+      {{ show_type_prop("latin_name", "Latin Name") }}
+      {{ show_type_range_prop("conv_dtg", "Conventional Days to Germination") }}
+      {{ show_type_range_prop("conv_dtm", "Conventional Days to Maturity") }}
+      {{ show_type_prop("cultivar", "Cultivar") }}
+      {{ show_type_prop("native_to", "Native To") }}
+    </div>
+    {% macro show_plant_prop(prop, title) %}
+      <label for="{{ prop }}">{{ title }}: </label>
+      <span id="{{ prop }}">{{ plant[prop] }}</span>
+      <br />
+    {% endmacro %}
+    {{ show_plant_prop("number", "Number") }}
+    {{ show_plant_prop("date_planted", "Date Planted") }}
+    {{ show_plant_prop("radicle_emergence", "Radicle Emergence") }}
+    {{ show_plant_prop("hypocotyl_emergence", "Hypocotyl Emergence") }}
+    {{ show_plant_prop("foliage_emergence", "Foliage Emergence") }}
+    {{ show_plant_prop("date_of_transfer", "Date of Transfer") }}
+    {{ show_plant_prop("date_of_harvest", "Date of Harvest") }}
+    <br />
+    {#<!--<hr />
+    <br />
+    {% macro progress_bar(title, type, value) %}
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-{{ type }}
+        active" role="progressbar" style="width: {{ value }}">
+        <span>{{ title % value }}</span>
+      </div>
+    </div>
+    {% endmacro %}
+    {{ progress_bar("Nutrient Addition %s complete", "danger", "90%") }}
+    {{ progress_bar("%s Humidity Level", "info", "90%") }}
+    {{ progress_bar("Daily Feeding Cycle %s Complete", "success", "60%") }}
+    {{ progress_bar("Growing Cycle %s Complete", "warning", "80%") }}
+    -->#}
+  </div>
+</div>
+{#<!--
+<div class="panel panel-primary"  background-color:#32CD32>
+  <div class="panel-heading"><h3 class="panel-title">Notification History</h3></div>
+  <div class="panel-body"  background-color:#32CD32>
+    <div class="alert alert-info">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Reminder!</strong> I need to be Watered in 10 Minutes.
+    </div>
+    <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>pH Alert!</strong> My pH is bordering on 7.5 I'm becoming BASIC!
+    </div>
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Harvest!</strong> I'm a Big Kid now. Take me out of the farm.
+    </div>
+    <div class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>LED Notification!</strong> I'm gettting Sunburned. Turn down the light!!!
+    </div>
+  </div>
+</div>
+-->#}
+<a class="btn btn-default" href="{{ url_for('plants.edit_plant', id=plant.id)
+  }}">Edit</a>
+<button class="btn btn-default" data-toggle="modal" data-target="#delete">
+  Delete
+</button>
+<div class="modal fade" id="delete" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this plant?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">
+          Cancel
+        </button>
+        <button class="btn btn-default" onclick="delete_plant()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function delete_plant() {
+    $.post("{{ url_for('plants.delete_plant', id=plant.id) }}", function(res) {
+      window.location.href = "{{ back_link }}";
+    });
+  }
+</script>
+{% endblock %}

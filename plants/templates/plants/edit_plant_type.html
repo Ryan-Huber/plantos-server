@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% if plant_type %}
+{% if plant_type_id %}
   {% set short_title = "Editing a Plant Type" %}
-  {% set long_title = "Editing " + plant_type.common_name %}
-  {% set back_link = "/plants/types/" + plant_type.id|e %}
+  {% set long_title = "Editing Plant Type " + plant_type_id|e %}
+  {% set back_link = url_for("plants.view_plant_type", id=plant_type_id) %}
 {% else %}
   {% set short_title = "New Plant Type" %}
   {% set long_title = "Creating a Plant Type" %}
-  {% set back_link = "/plants" %}
+  {% set back_link = url_for("plants.index") %}
 {% endif %}
 
 {% block content %}

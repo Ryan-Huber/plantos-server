@@ -44,7 +44,7 @@ except:
 from flask.ext.mongoengine import MongoEngine
 flask_app.mongoengine = MongoEngine(flask_app)
 # Register Blueprints
-from plants.main import plants
+from plants import plants
 flask_app.register_blueprint(plants)
 from sensors.main import sensors
 flask_app.register_blueprint(sensors)
@@ -62,7 +62,7 @@ from web_management.server import bp as board_management_blueprint
 flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 
 @flask_app.route("/")
-def main_page():
+def index():
     return render_template("index.html")
 
 # A background thread that emits new data points to clients from the specified

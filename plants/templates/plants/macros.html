@@ -1,0 +1,16 @@
+{% macro url_constants() %}
+<script type="text/javascript">
+  list_plants_url = "{{ url_for('plants.list_plants') }}";
+  view_plant_url = "{{ url_for('plants.view_plant', id='') }}";
+  list_plant_types_url = "{{ url_for('plants.list_plant_types') }}";
+  view_plant_type_url = "{{ url_for('plants.view_plant_type', id='') }}";
+</script>
+{% endmacro %}
+{% macro plants_js() %}
+<script type="text/javascript" src="{{ url_for('plants.static',
+  filename='js/plants.js') }}"></script>
+{% endmacro %}
+{% macro info_cells_css() %}
+<link rel="stylesheet" href="{{ url_for('plants.static',
+  filename='style/info_cells.css') }}"></script>
+{% endmacro %}

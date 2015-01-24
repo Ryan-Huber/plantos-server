@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        {% import "macros.html" as macros %}
-        {% block scripts %}
-            {{ macros.bootstrap() }}
-        {% endblock %}
-        <title>{{short_title}} - MIT CityFARM</title>
-    </head>
-    <body>
-        {% if back_link %}
-        <div style="float: left; margin-left: 25px">
-            <a href="{{back_link}}"><h3>Back</h3></a>
-        </div>
-        <div style="clear: both"></div>
-        {% endif %}
-        <div class="container">
-            <h1 id="title" class="text-center">{{long_title}}</h1>
-            <br />
-            {% block content %}
-            {% endblock %}
-        </div>
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+      user-scalable=no">
+    {% import "macros.html" as macros %}
+    {% block scripts %}
+      {{ macros.bootstrap() }}
+    {% endblock %}
+    <title>{{ short_title }} - MIT CityFARM</title>
+  </head>
+  <body>
+    {% if back_link %}
+    <div style="float: left; margin-left: 25px">
+      <a href="{{ back_link }}"><h3>Back</h3></a>
+    </div>
+    <div style="clear: both"></div>
+    {% endif %}
+    <div class="container">
+      <h1 id="title" class="text-center">{{ long_title }}</h1>
+      <br />
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
 </html>

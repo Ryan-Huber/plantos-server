@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% set short_title = plant_type["common_name"] %}
 {% set long_title = plant_type["common_name"] %}
-{% set back_link = "/plants" %}
+{% set back_link = url_for("plants.index") %}
 
+{% import "plants/macros.html" as plant_macros %}
 {% block scripts %}
   {{ super() }}
-  <link rel="stylesheet" href="/plants/static/style/info_cells.css">
-  <script type="text/javascript" src="/plants/static/js/plants.js"></script>
+  {{ plant_macros.plants_js() }}
+  {{ plant_macros.info_cells_css() }}
+  {{ plant_macros.url_constants() }}
   <script type="text/javascript">
     $(function() {
-      render_plants($('#plants'), {
-        hide_create_button: true,
-        data: {type: "{{ plant_type.id }}"}
-      });
+      render_plants($('#plants'), {type_id: "{{ plant_type.id }}"});
     });
   </script>
 {% endblock %}
@@ -28,8 +27,7 @@
       {% endmacro %}
       {% macro show_range_prop(prop, title) %}
         <label for="{{ prop }}">{{ title }}: </label>
-        <span id="{{ prop }}">{{ plant_type["min_" + prop] }} -
-          {{ plant_type["max_" + prop] }}</span>
+        <span id="{{ prop }}">{{ plant_type[prop].to_string() }}</span>
         <br />
       {% endmacro %}
       {{ show_prop("latin_name", "Latin Name") }}
@@ -46,7 +44,8 @@
     <div id="plants" class="panel-body">
     </div>
   </div>
-  <a class="btn btn-default" href="./{{ plant_type.id }}/edit.html">Edit</a>
+  <a class="btn btn-default" href="{{ url_for('plants.edit_plant_type',
+    id=plant_type.id) }}">Edit</a>
   <button class="btn btn-default" data-toggle="modal" data-target="#delete">
     Delete
   </button>
@@ -73,8 +72,9 @@
   </div>
   <script type="text/javascript">
     function delete_plant_type() {
-      $.post("./{{ plant_type.id }}/delete.html", function(res) {
-        window.location.href = "{{back_link}}";
+      $.post("{{ url_for('plants.delete_plant_type', id=plant_type.id) }}",
+          function(res) {
+        window.location.href = "{{ back_link }}";
       });
     }
   </script>

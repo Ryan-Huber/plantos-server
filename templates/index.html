@@ -5,10 +5,10 @@
 {% block content %}
     <ul class="nav nav-pills nav-justified">
         <li><a href="sensors"><h2>Monitor The System</h2></a></li>
-        <li><a href="plants"><h2>Browse Plants</h2></a></li>
+        <li><a href="{{ url_for("plants.index") }}"><h2>Browse Plants</h2></a></li>
         <li><a href="manage"><h2>Manage Boards</h2></a></li>
     </ul>
-    <hr />
+    {#<!--<hr />
     <div class="panel panel-primary"  background-color:#32CD32>
         <div class="panel-heading" ><h3 class="panel-title">Plant Flow</h3></div>
         <div class="panel-body">
@@ -29,6 +29,5 @@
                 <strong>LED Notification!</strong>		Light Efficiency At 87 Percent. 60% Power Savings.		<strong>40 min. ago</strong>
             </div>
         </div>
-    </div>
-
+      </div>-->#}
 {% endblock %}

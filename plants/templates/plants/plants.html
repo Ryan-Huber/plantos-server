@@ -1,27 +1,41 @@
 {% extends "base.html" %}
 {% set short_title = "Browse Plants" %}
 {% set long_title = "Browse Plants" %}
-{% set back_link = "/" %}
+{% set back_link = url_for("index") %}
 
 {% import "macros.html" as macros %}
+{% import "plants/macros.html" as plant_macros %}
 {% block scripts %}
   {{ super() }}
   {{ macros.jquery_ui() }}
-  <link rel="stylesheet" href="/plants/static/style/info_cells.css">
-  <script type="text/javascript" src="/plants/static/js/plants.js"></script>
+  {{ plant_macros.plants_js() }}
+  {{ plant_macros.info_cells_css() }}
+  {{ plant_macros.url_constants() }}
+  <script type="text/javascript">
+    $(function() {
+      render_plants($("#plants .panel-body"));
+      render_plant_types($("#plant_types .panel-body"));
+    });
+  </script>
 {% endblock %}
 
 {% block content %}
-  <div class="panel-group" id="accordion"  background-color:#32CD32>
-    <div class="panel panel-default"  background-color:#32CD32>
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
       <div class="panel-heading">
-        <a data-toggle="collapse" data-parent="#accordion"
-           href="#plant_types">
+        <a data-toggle="collapse" data-parent="#accordion" href="#plant_types">
           <h2>Plant Types</h2>
         </a>
       </div>
-      <div id="plant_types" class="panel-collapse collapse"  background-color:#32CD32>
-        <div class="panel-body"> </div>
+      <div id="plant_types" class="panel-collapse collapse">
+        <div class="panel-body">
+          <div class="well">
+            <a class="btn btn-primary" href="{{ url_for("plants.new_plant_type")
+              }}">
+              Register a new plant type
+            </a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="panel panel-default">
@@ -33,7 +47,7 @@
       <div id="plants" class="panel-collapse collapse in">
         <div class="panel-body">
           <div class="well">
-            <div class="btn-group" style="display: inline">
+            <!--<div class="btn-group" style="display: inline">
               <button type="button" class="btn btn-primary">Filter By</button>
               <button type="button" class="btn btn-primary dropdown-toggle"
                 data-toggle="dropdown">
@@ -79,15 +93,13 @@
               });
             </script>
             <div style="clear: both;"></div>
-            <br />
-            <a class="btn btn-primary" href="/plants/by-id/new.html">Register a new plant</a>
+            <br />-->
+            <a class="btn btn-primary" href="{{ url_for("plants.new_plant") }}">
+              Register a new plant
+            </a>
           </div>
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      render_plants($("#plants .panel-body"));
-      render_plant_types($("#plant_types .panel-body"));
-    </script>
   </div>
 {% endblock %}

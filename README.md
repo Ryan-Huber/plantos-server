@@ -37,8 +37,8 @@ To start the server, just run
 
     python main.py -d
 
-This will start it in debug mode. To navigate to the site, visit http://<your-ip
--address>:5000 in your favorite web browser. You can also start the server in
+This will start it in debug mode. To navigate to the site, visit http://\<your-ip
+-address\>:5000 in your favorite web browser. You can also start the server in
 release mode by running
 
     python main.py

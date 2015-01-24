@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% if plant_id %}
+  {% set short_title = "Editing a Plant" %}
+  {% set long_title = "Editing Plant " + plant_id|e %}
+  {% set back_link = url_for("plants.view_plant", id=plant_id) %}
+{% else %}
+  {% set short_title = "New Plant" %}
+  {% set long_title = "Creating a New Plant" %}
+  {% set back_link = url_for("plants.index") %}
+{% endif %}
+
+{% block content %}
+  {{ macros.render_form(form) }}
+{% endblock %}
