@@ -20,12 +20,16 @@ class MyEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
             return str(o)
-        return JSONEncoder.default(o)
+        if isinstance(o, datetime):
+            return str(o)
+        return JSONEncoder.default(self, o)
 json = MyEncoder()
 # WTForms setup
 from wtforms import Form
 from wtforms import fields as wtfields
 from wtforms import validators
+from datetime import datetime
+from wtforms.ext.dateutil import fields as datewtfields
 class MultiDict(dict):
     def getlist(self, key):
         value = self[key]
@@ -125,20 +129,23 @@ class Note(Form):
 class PlantForm(Form):
     type = wtfields.SelectField("Type", [validators.required()], coerce=ObjectId)
     number = wtfields.IntegerField("Number", [validators.required()])
-    date_planted = wtfields.DateTimeField("Date Planted",
+    date_planted = datewtfields.DateTimeField("Date Planted",
             [validators.optional()])
-    radicle_emergence = wtfields.DateTimeField("Radicle Emergence",
+    radicle_emergence = datewtfields.DateTimeField("Radicle Emergence",
             [validators.optional()])
-    hypocotyl_emergence = wtfields.DateTimeField("Hypocotyl Emergence",
+    hypocotyl_emergence = datewtfields.DateTimeField("Hypocotyl Emergence",
             [validators.optional()])
-    foliage_emergence = wtfields.DateTimeField("Foliage Emergence",
+    foliage_emergence = datewtfields.DateTimeField("Foliage Emergence",
             [validators.optional()])
-    date_of_transfer = wtfields.DateTimeField("Date of Transfer",
+    date_of_transfer = datewtfields.DateTimeField("Date of Transfer",
             [validators.optional()])
-    date_of_harvest = wtfields.DateTimeField("Date of Harvest",
+    date_of_harvest = datewtfields.DateTimeField("Date of Harvest",
             [validators.optional()])
-    def __init__(self, *args):
-        super(PlantForm, self).__init__(*args)
+    def __init__(self, values):
+        for key,value in values.iteritems():
+            if isinstance(value, datetime):
+                values[key] = str(value)
+        super(PlantForm, self).__init__(values)
         self.type.choices = [(type.id, type.common_name) for type in
                 PlantType.objects]
     def create_plant(self):
