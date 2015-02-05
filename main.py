@@ -44,8 +44,8 @@ except:
 from flask.ext.mongoengine import MongoEngine
 flask_app.mongoengine = MongoEngine(flask_app)
 # Register Blueprints
-from plants import plants
-flask_app.register_blueprint(plants)
+from plants import bp as plants_bp
+flask_app.register_blueprint(plants_bp)
 from sensors.main import sensors
 flask_app.register_blueprint(sensors)
 # SocketIO Setup
@@ -78,11 +78,13 @@ def background_thread(system, board):
             try:
                 count = new_count
                 raw_point = values.find_one(sort=[("date",-1)])
-                point={sensor:raw_point[sensor]["value"] for sensor in sensors}
+                point = {sensor:raw_point[sensor]["value"] for sensor in sensors}
                 point["date"] = raw_point["date"]
                 socketio.emit('data', json.dumps(point), namespace=namespace)
             except KeyError:
                 print "Invalid point received in {}, {}".format(system, board)
+                if point or raw_point:
+                    print point or raw_point
         time.sleep(1)
 
 def run_server(*args):
@@ -91,12 +93,14 @@ def run_server(*args):
             # Start a thread to monitor the collection
             thread = Thread(target=background_thread, args=(system, collection))
             thread.daemon = True
+            print "Starting thread {} : {}".format(system, collection)
             thread.start()
+            print "Started thread {} : {}".format(system, collection)
             # Make a socketio connect callback for the data namespace
             namespace = "/{}/{}/data".format(system, collection)
             socketio.on('connect', namespace=namespace)(lambda:None)
     if flask_app.debug:
-        socketio.run(flask_app, host='0.0.0.0')
+        socketio.run(flask_app, host='0.0.0.0', port=8080)
     else:
         socketio.run(flask_app, host='0.0.0.0', port=80)
 
