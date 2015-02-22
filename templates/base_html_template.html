@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+      user-scalable=no">
+    {% import "macros.html" as macros %}
+    {% block scripts %}
+      {{ macros.bootstrap() }}
+    {% endblock %}
+    <title>{{ short_title }}MIT CityFARM</title>
+  </head>
+  <body class="body-color-home">
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="collapse-navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/{{ current_database }}">
+            <img alt="CityFARM" src="/static/img/cityfarm-logo2.gif" style="height:100%">
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="collapse-navbar">
+
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Farms <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                {% for link, name in databases.iteritems() %}
+                  <li><a href="/{{ link }}">{{name}}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li><a href={{sensor_url}} class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sensors<span class="caret"></span></a>
+              <ul class="dropdown-menu multi-level" role="menu">
+                <li class="dropdown-submenu">
+                  <a href={{waterSensorURL}}>Water Sensors</a>
+                </li>
+                <li class="dropdown-submenu">
+                  <a href={{airSensorURL}}>Air Sensors</a>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#">Plant Library</a></li>
+            <li><a href="/manage/">Settings</a></li>
+          </ul>
+        </div>
+
+
+      </div>
+    </nav>
+
+    <div>
+      <div class="page-header">
+        <h1>{{ long_title }}<h1>
+      </div>
+      {% block page %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

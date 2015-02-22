@@ -2,9 +2,9 @@
 
 from collections import OrderedDict
 
-DATABASE_NAMES = OrderedDict([("main_system", "Main System")])
-                            # ("germinator", "Germinator"),
-                            # ("aero_1", "Mini-Aero System")])
+DATABASE_NAMES = OrderedDict([("main_system", "MIT CityFARM"),
+                             ("germinator", "Germinator"),
+                             ("aero_1", "Mini-Aero System")])
 COLLECTION_NAMES = {
     "main_system": OrderedDict([("water_sensors_1", "Water Sensors 1"),
         ("water_sensors_2", "Water Sensors 2"),
@@ -12,12 +12,12 @@ COLLECTION_NAMES = {
         ("water_sensors_4", "Water Sensors 4"),
         ("water_sensors_5", "Water Sensors 5"),
         ("water_sensors_6", "Water Sensors 6"),
-        ("air_sensors_2_2", "Atmospheric Sensors 2 2"),
-        ("air_sensors_3", "Atmospheric Sensors 3")])
-    # "germinator": OrderedDict([("water_sensors",
-    #     ("air_sensors", "Air Sensors")]),
-    # "aero_1": OrderedDict([("water_sensors", "Water Sensors"),
-    #     ("air_sensors", "Air Sensors")])
+        ("air_sensors_2_2", "Atmospheric Sensors 2-2"),
+        ("air_sensors_3", "Atmospheric Sensors 3")]),
+     "germinator": OrderedDict([("water_sensors", "Germinator Water Sensors"),
+         ("air_sensors", "Germinator Air Sensors")]),
+     "aero_1": OrderedDict([("water_sensors", "Aero Water Sensors"),
+         ("air_sensors", "Aero Air Sensors")])
 }
 __temperature_info = ("Temperature", {
     "range": [15, 30],
@@ -193,13 +193,13 @@ COLLECTION_INFO = {
         "water_sensors_6": _water_sensors_info,
         "air_sensors_2_2": _air_sensors_2_info,
         "air_sensors_3": _air_sensors_info,
+    },
+    "germinator": {
+	"water_sensors": _water_sensors_info,
+        "air_sensors": _air_sensors_info
+    },
+    "aero_1": {
+	"water_sensors": _water_sensors_info,
+        "air_sensors": _air_sensors_info
     }
- #    "germinator": {
-	# "water_sensors": _water_sensors_info,
- #        "air_sensors": _air_sensors_info
- #    },
- #    "aero_1": {
-	# "water_sensors": _water_sensors_info,
- #        "air_sensors": _air_sensors_info
- #    }
 }

@@ -1,15 +1,22 @@
-{% extends "base.html" %}
-{% set short_title = "Home" %}
-{% set long_title = "What Do You Want To Do?" %}
+{% extends "base_html_template.html" %}
 
-{% block content %}
-    <ul class="nav nav-pills nav-justified">
-        <li><a href="sensors"><h2>Monitor The System</h2></a></li>
-        <li><a href="{{ url_for("plants.index") }}"><h2>Browse Plants</h2></a></li>
-        <li><a href="manage"><h2>Manage Boards</h2></a></li>
+
+{% set short_title = "" %}
+{% set long_title = databases[current_database] %}
+{% set waterSensorURL = "/sensors/" + current_database +"/Water" %}
+{% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
+
+{% block page %}
+<!-- OLD HOME PAGE
+    <ul class="nav nav-pills nav-justified ">
+        <li><a href="sensors" class="bg-info"><h3>Monitor The System</h3></a></li>
+        <li></li>
+        <li><a href="{{ url_for("plants.index") }}" class="bg-info"><h3>Browse Plants</h3></a></li>
+        <li></li>
+        <li><a href="manage" class="bg-info"><h3>Manage Boards</h3></a></li>
     </ul>
-    {#<!--<hr />
-    <div class="panel panel-primary"  background-color:#32CD32>
+    <hr />
+    <div class="panel panel-primary"  background-color:#32cd32>
         <div class="panel-heading" ><h3 class="panel-title">Plant Flow</h3></div>
         <div class="panel-body">
             <div class="alert alert-info">
@@ -29,5 +36,28 @@
                 <strong>LED Notification!</strong>		Light Efficiency At 87 Percent. 60% Power Savings.		<strong>40 min. ago</strong>
             </div>
         </div>
-      </div>-->#}
+      </div>
+-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="callout callout-green">
+                        <h3><a href="#">{{ long_title }} Plant 1</a></h3>
+                        <div class="alert alert-info" role="alert">Growth to be completed in 4 days</div>
+                        <div class="alert alert-danger" role="alert">pH has dropped to 6.2!</div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="callout callout-yellow">
+                    <h1>Updates</h1>
+                    
+                    <div class="alert alert-info" role="alert">Growth to be completed in 4 days</div>
+                    <div class="alert alert-danger" role="alert">pH has dropped to 6.2!</div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

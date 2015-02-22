@@ -23,18 +23,25 @@ sensors = Blueprint('sensors', __name__, static_folder="static",
 
 @sensors.route("/")
 def select_database():
-    return render_template("database_selection.html", databases=DATABASE_NAMES)
+    #return render_template("database_selection.html", databases=DATABASE_NAMES)
+    return render_template("sensor_base_page.html", databases=DATABASE_NAMES)
+#Previously was database_selection.html
 
-@sensors.route("/<database>/")
-def select_collection(database):
+@sensors.route("/<database>/<sensetype>")
+def select_collection(database, sensetype):
     if not database in DATABASE_NAMES:
         abort(404)
     colls = COLLECTION_NAMES[database]
-    return render_template("collection_selection.html", collections=colls)
+    #cinfo = COLLECTION_INFO[database]
+    sensortype = sensetype
+    current_database=database
+    #return render_template("collection_selection.html", collections=colls, col_info=cinfo)
+    return render_template("sensor_base_page.html", current_database=current_database, databases=DATABASE_NAMES, collections=colls, sensor_type=sensortype)
 
-@sensors.route("/<database>/<collection>/")
-def show_dashboard(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/")
+def show_dashboard(database, sensetype, collection):
     values = values_collection(database, collection)
+    databases = DATABASE_NAMES
     if not values:
         abort(404)
     info = COLLECTION_INFO[database][collection]
@@ -51,10 +58,10 @@ def show_dashboard(database, collection):
                 initial_data[sensor] = 0
     return render_template("dashboard.html", info=info, title=title,
                             initial_data=initial_data, database=database,
-                            collection=collection)
+                            collection=collection, databases=databases)
 
-@sensors.route("/<database>/<collection>/hour_graphs.html")
-def show_hour_graphs(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/hour_graphs.html")
+def show_hour_graphs(database, sensetype, collection):
     values = values_collection(database, collection)
     if not values:
         abort(404)
@@ -62,8 +69,8 @@ def show_hour_graphs(database, collection):
     return render_template("hour_graphs.html", info=info, database=database,
                             collection=collection)
 
-@sensors.route("/<database>/<collection>/hour_data.json")
-def show_hour_data(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/hour_data.json")
+def show_hour_data(database, sensetype, collection):
     after_this_request(add_cache_header)
     values = values_collection(database, collection)
     if not values:
@@ -71,8 +78,8 @@ def show_hour_data(database, collection):
     sensors = COLLECTION_INFO[database][collection]
     return json.dumps(raw_graphing_data(values,sensors,now()-60*60,now()))
 
-@sensors.route("/<database>/<collection>/day_graphs.html")
-def show_day_graphs(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/day_graphs.html")
+def show_day_graphs(database, sensetype, collection):
     values = values_collection(database, collection)
     if not values:
         abort(404)
@@ -85,8 +92,8 @@ def show_day_graphs(database, collection):
     return render_template("day_graphs.html", info=info, database=database,
                             collection=collection, date=date)
 
-@sensors.route("/<database>/<collection>/day_data.json")
-def show_day_data(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/day_data.json")
+def show_day_data(database, sensetype, collection):
     values = values_collection(database, collection)
     if not values:
         abort(404)
@@ -105,8 +112,8 @@ def show_day_data(database, collection):
                                         date_string)
         return open(cache_file,'r').read()
 
-@sensors.route("/<database>/<collection>/date_range_graphs.html")
-def show_range_graphs(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/date_range_graphs.html")
+def show_range_graphs(database, sensetype, collection):
     values = values_collection(database, collection)
     if not values:
         abort(404)
@@ -121,8 +128,8 @@ def show_range_graphs(database, collection):
                             collection=collection, start_date=start_date,
                             end_date=end_date, info=info)
 
-@sensors.route("/<database>/<collection>/date_range_data.json")
-def show_range_data(database, collection):
+@sensors.route("/<database>/<sensetype>/<collection>/date_range_data.json")
+def show_range_data(database, sensetype, collection):
     values = values_collection(database, collection)
     if not values:
         abort(404)

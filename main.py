@@ -61,9 +61,13 @@ sys.path.append("./sensor-board")
 from web_management.server import bp as board_management_blueprint
 flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 
-@flask_app.route("/")
-def index():
-    return render_template("index.html")
+@flask_app.route("/", defaults={"system": "main_system"})
+@flask_app.route("/<system>/")
+def index(system):
+    return render_template("index.html", databases=DATABASE_NAMES, current_database=system)
+
+#@flask_app.route("/<system>/")
+#def
 
 # A background thread that emits new data points to clients from the specified
 # collection as they arrive

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_html_template.html" %}
 {% set short_title = title + " Dashboard" %}
 {% set long_title = title + " Dashboard" %}
 {% set back_link = ".." %}
@@ -92,7 +92,7 @@
     </style>
 {% endblock %}
 
-{% block content %}
+{% block page %}
     <div id="not-reading-alert" class="alert alert-warning" role="alert" hidden>
         These sensors are not currently reporting data.
     </div>
