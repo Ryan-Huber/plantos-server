@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_html_template.html" %}
 {% set short_title = "Browse Plants" %}
 {% set long_title = "Browse Plants" %}
 {% set back_link = url_for("index") %}
@@ -19,7 +19,7 @@
   </script>
 {% endblock %}
 
-{% block content %}
+{% block page %}
   <div class="panel-group" id="accordion">
     <div class="panel panel-default">
       <div class="panel-heading">

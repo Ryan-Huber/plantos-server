@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# Database info from sensors/constants.py
+from sensors.constants import DATABASE_NAMES
+from sensors.constants import COLLECTION_NAMES
+from sensors.constants import COLLECTION_INFO
+
 # Flask setup
 from flask import abort
 from flask import url_for
@@ -165,7 +170,8 @@ class PlantForm(Form):
 
 @bp.route("/")
 def index():
-    return render_template("plants/plants.html")
+    databases = DATABASE_NAMES
+    return render_template("plants/plants.html", databases=DATABASE_NAMES)
 
 @bp.route("/plants.json")
 def list_plants():
