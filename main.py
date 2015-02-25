@@ -66,6 +66,10 @@ flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 def index(system):
     return render_template("index.html", databases=DATABASE_NAMES, current_database=system)
 
+
+@flask_app.route("/Testing")
+def testing():
+    return render_template("Testing.html", databases=DATABASE_NAMES)
 #@flask_app.route("/<system>/")
 #def
 
