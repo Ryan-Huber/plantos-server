@@ -7,8 +7,43 @@
 {% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
 
 {% block page %}
+<div class="row">
+    <div class="col-xs-5" id="groBot">
+    </div>
+    <div class="col-xs-5 plantInfoBox">
+       <div role="tabpanel">
 
-    <div class="container-fluid">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist" id="groBotTabs">
+            <li role="presentation" class="active"><a href="#plants" aria-controls="plants" role="tab" data-toggle="tab">Plants</a></li>
+            <li role="presentation"><a href="#controls" aria-controls="controls" role="tab" data-toggle="tab">Controls</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="plants">
+                <h5>Click a plant!</h5>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="controls">
+                <h4>LEDs</h4>
+                <b>Color</b>
+                <select id="ledColorSelector" onChange="changeLEDColor(this);">
+                    <option>Red</option>
+                    <option>Green</option>
+                    <option>Blue</option>
+                    <option>Purple</option>
+                    <option>Yellow</option>
+                    <option>White</option>
+                </select>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">...</div>
+          </div>
+          
+
+        </div>
+    </div>
+</div>
         <div class="row">
             <div class="col-md-6">
                 <div class="callout callout-green">
@@ -28,7 +63,108 @@
                 </div>
             </div>
         </div>
-    </div>
 
+
+    
+<script>
+    var svgWidth = 975;
+    var svgHeight = 430;
+    var boxdim = 430;
+    var padding = 5;
+    var lightPadding = 15;
+    var plantSize = 30;
+    var xplantPadding = (boxdim-2*lightPadding)/4 - plantSize/2;
+    var yplantPadding = (boxdim-2*lightPadding)/5 - plantSize/2;
+    var lightColor = "purple";
+    var plantLocations = [[0,0],[0,0],
+                          [1,1],[3,1],[5,1],
+                             [2,2],[4,2],
+                          [1,3],[3,3],[5,3],
+                             [2,4],[4,4]];
+    var plantIDs = [0,0,10,7,6,13,9,1,2,3,4,5]
+    
+    var groBot = d3.select("body").select("#groBot")
+                    .append("svg")
+                    .attr({
+                        "preserveAspectRatio": "xMinYMin meet",
+                        "viewBox": "0 0 430 430"
+                    });
+
+    var outterBox = groBot.append("rect")
+                          .attr({
+                            "x": 0,
+                            "y": 0,
+                            "width": boxdim,
+                            "height": boxdim,
+                            "fill": lightColor,
+                            "opacity": .5
+                          });
+
+    var innerBox = groBot.append("rect")
+                         .attr({
+                            "x": lightPadding,
+                            "y": lightPadding,
+                            "width": boxdim-2*lightPadding,
+                            "height": boxdim-2*lightPadding,
+                            "fill": "white"
+
+                         });
+    
+
+    var xScalePlant = d3.scale.linear()
+                .domain([0,5])
+                .range([0, boxdim-lightPadding-xplantPadding]);
+    var yScalePlant = d3.scale.linear()
+                .domain([1,4])
+                .range([yplantPadding, boxdim-lightPadding-yplantPadding]);
+
+    var plantsInBot = groBot.selectAll("rect").data(plantLocations)
+                    .enter().append("rect")
+                    .attr({
+                        "x": function(d){return xScalePlant(d[0])},
+                        "y": function(d){return yScalePlant(d[1])},
+                        "rx": 3,
+                        "ry": 3,
+                        "width": plantSize,
+                        "height": plantSize, 
+                        "fill": "green",
+                        "id": function(d,i){
+                            return plantIDs[i];
+                        },
+                        "onclick":function(d, i){
+                            return "plantClick(" + plantIDs[i] + ")";
+                        }
+                    });
+    
+    var infoBoxBG = groBot.append("rect")
+                          .attr({
+                            "x": boxdim+1,
+                            "y": 0,
+                            "width": 545,
+                            "height": svgHeight,
+                            "fill": lightColor,
+                            "fill-opacity":0.25
+                          });
+
+    //Other Functions
+    $('#groBotTabs a:first').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
+
+    function changeLEDColor(color){
+        lightColor = $('#ledColorSelector').children("option:selected").text();
+        console.log ("lightColor is " + lightColor);
+        outterBox.attr({"fill":lightColor});
+        infoBoxBG.attr({"fill":lightColor});
+    }
+
+    function plantClick(plantID){
+        $('#groBotTabs a:first').tab('show')
+        var newTabContent = plantID;
+        $('#plants').text(newTabContent);
+    }
+    
+</script>
 
 {% endblock %}
