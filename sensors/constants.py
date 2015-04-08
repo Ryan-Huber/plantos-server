@@ -3,8 +3,8 @@
 from collections import OrderedDict
 
 DATABASE_NAMES = OrderedDict([("main_system", "MIT CityFARM"),
-                             ("germinator", "Germinator"),
-                             ("aero_1", "Mini-Aero System")])
+                             #("germinator", "Germinator"),
+                             ("groBot", "groBot")])
 COLLECTION_NAMES = {
     "main_system": OrderedDict([("water_sensors_1", "Water Sensors 1"),
         ("water_sensors_2", "Water Sensors 2"),
@@ -14,11 +14,25 @@ COLLECTION_NAMES = {
         ("water_sensors_6", "Water Sensors 6"),
         ("air_sensors_2_2", "Atmospheric Sensors 2-2"),
         ("air_sensors_3", "Atmospheric Sensors 3")]),
-     "germinator": OrderedDict([("water_sensors", "Germinator Water Sensors"),
-         ("air_sensors", "Germinator Air Sensors")]),
-     "aero_1": OrderedDict([("water_sensors", "Aero Water Sensors"),
-         ("air_sensors", "Aero Air Sensors")])
+     #"germinator": OrderedDict([("water_sensors", "Germinator Water Sensors"),
+      #   ("air_sensors", "Germinator Air Sensors")]),
+     "groBot": OrderedDict([("water_sensors", "groBot Water Sensors"),
+         ("air_sensors", "groBot Air Sensors")])
 }
+##Tray list Key:
+##0 = half tray (grobot)
+##1 = normal full tray (alt cols of 2 and 3)
+##2 = weird full tray (all cols of 3)
+
+TRAY_LIST = {
+    "main_system":[1, 
+                   2, 2, 2, 
+                   1, 1, 
+                   1, 1, 
+                   1],
+    "groBot":[0]
+}
+
 __temperature_info = ("Temperature", {
     "range": [15, 30],
     "ticks": [15, 20, 25, 30],
@@ -194,11 +208,11 @@ COLLECTION_INFO = {
         "air_sensors_2_2": _air_sensors_2_info,
         "air_sensors_3": _air_sensors_info,
     },
-    "germinator": {
-	"water_sensors": _water_sensors_info,
-        "air_sensors": _air_sensors_info
-    },
-    "aero_1": {
+    #"germinator": {
+	#"water_sensors": _water_sensors_info,
+    #    "air_sensors": _air_sensors_info
+    #},
+    "groBot": {
 	"water_sensors": _water_sensors_info,
         "air_sensors": _air_sensors_info
     }

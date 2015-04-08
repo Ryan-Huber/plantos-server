@@ -8,6 +8,14 @@
 
 {% block page %}
 <div class="row">
+    {% if tray == 0 %}
+        {% set trayTag = "groBot" %}
+    {% elif tray == 1 %}
+        {% set trayTag = "fullNormal" %}
+    {% else %}
+        {% set trayTag = "fullWeird" %}
+    {% endif %}
+
     <div class="col-xs-5" id="groBot">
     </div>
     <div class="col-xs-5 plantInfoBox">
@@ -22,10 +30,10 @@
 
           <!-- Tab panes -->
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="plants">
-                <h5>Click a plant!</h5>
+            <div role="tabpanel" class="tab-pane fade in active" id="plants">
+                <h4>Click a plant!</h4>
             </div>
-            <div role="tabpanel" class="tab-pane" id="controls">
+            <div role="tabpanel" class="tab-pane fade" id="controls">
                 <h4>LEDs</h4>
                 <b>Color</b>
                 <select id="ledColorSelector" onChange="changeLEDColor(this);">
@@ -37,13 +45,15 @@
                     <option>White</option>
                 </select>
             </div>
-            <div role="tabpanel" class="tab-pane" id="messages">...</div>
+            <div role="tabpanel" class="tab-pane fade" id="messages"><h4>Coming soon!</h4></div>
           </div>
           
 
         </div>
     </div>
 </div>
+        
+<!--
         <div class="row">
             <div class="col-md-6">
                 <div class="callout callout-green">
@@ -63,7 +73,7 @@
                 </div>
             </div>
         </div>
-
+-->
 
     
 <script>
@@ -97,7 +107,7 @@
                             "width": boxdim,
                             "height": boxdim,
                             "fill": lightColor,
-                            "opacity": .5
+                            "opacity": .4
                           });
 
     var innerBox = groBot.append("rect")

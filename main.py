@@ -4,6 +4,7 @@
 from sensors.constants import DATABASE_NAMES
 from sensors.constants import COLLECTION_NAMES
 from sensors.constants import COLLECTION_INFO
+from sensors.constants import TRAY_LIST
 # General imports
 import os
 import time
@@ -16,6 +17,7 @@ from threading import Thread
 # Flask Setup
 from flask import Flask
 from flask import render_template
+from flask import redirect, url_for
 flask_app = Flask(__name__, instance_relative_config = True)
 config_file_path = os.path.join(flask_app.instance_path, "application.cfg")
 if not os.path.isfile(config_file_path):
@@ -64,7 +66,15 @@ flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 @flask_app.route("/", defaults={"system": "main_system"})
 @flask_app.route("/<system>/")
 def index(system):
+    trayList = TRAY_LIST[system]
+    if len(trayList) == 1:
+        return redirect(url_for("trayIndex", system=system, traynum=0))
     return render_template("index.html", databases=DATABASE_NAMES, current_database=system)
+
+@flask_app.route("/<system>/<int:traynum>")
+def trayIndex(system, traynum):
+    tray = TRAY_LIST[system][traynum]
+    return render_template("index.html", databases=DATABASE_NAMES, current_database=system, tray=tray)
 
 
 @flask_app.route("/Testing")
