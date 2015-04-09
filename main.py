@@ -131,7 +131,7 @@ def parseCSV(fileString):
     csv_f = csv.DictReader(f)
     trayPlantDict = defaultdict(list)
     for plant in csv_f:
-        ip = plant["location"]
+        ip = plant["ip"]
         if ip == "" or ip == "Discarded":
             continue
         ip.split('.')
