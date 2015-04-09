@@ -1,0 +1,109 @@
+{% extends "base_html_template.html" %}
+
+
+{% set short_title = "" %}
+{% set long_title = databases[current_database] %}
+{% set waterSensorURL = "/sensors/" + current_database +"/Water" %}
+{% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
+
+{% block page %}
+	<div class="row">
+		<div class="col-xs-12 col-md-8" id="traySelectBox">
+		</div>
+	</div>
+
+	<script>
+		var trayList = {{ tray|safe }};
+		var system = "{{current_database}}";
+		var svgWidth, svgHeight;
+		var outterBox, innerBox;
+		var boxPadding;
+		var trayWidth, trayHeight, trayLocations, trayIDs;
+		
+		var greenHouse = d3.select("#traySelectBox").append("svg").attr("id", "greenHouseSvg");
+		drawSelectTray();
+
+		function drawSelectTray(){
+			boxPadding = 5;
+			svgWidth = 500+9*boxPadding;
+			svgHeight = 250+8*boxPadding;
+			trayHeight = 50;
+			trayWidth = 100;
+			trayLocations =[[0,0],[0,0],
+								  [2,5],
+								  		[3,4],[4,4],
+								  [2,3],
+							[1,1],[2,1],[3,1],[4,1],[5,1]];
+			//trayIDs = [];
+
+			greenHouse.attr({
+                "preserveAspectRatio": "xMinYMin meet",
+                "viewBox": "0 0 " + svgWidth + " " + svgHeight
+            });
+
+        	outterBox = greenHouse.append("rect")
+                              .attr({
+                                "x": 0,
+                                "y": 0,
+                                "width": svgWidth,
+                                "height": svgHeight,
+                                "fill": "gray",
+                                "opacity": .4
+                              });
+
+        	innerBox = greenHouse.append("rect")
+                             .attr({
+                                "x": boxPadding,
+                                "y": boxPadding,
+                                "width": svgWidth-2*boxPadding,
+                                "height": svgHeight-2*boxPadding,
+                                "fill": "white"
+                             });
+            
+
+            var xScaleTray = d3.scale.linear()
+                    .domain([1,5])
+                    .range([2*boxPadding, svgWidth - trayWidth - 2*boxPadding]);
+        	var yScaleTray = d3.scale.linear()
+                    .domain([5,1])
+                    .range([2*boxPadding, svgHeight - trayHeight - 2*boxPadding]);
+
+            traysInGreenhouse = greenHouse.selectAll("rect").data(trayLocations)
+                        .enter().append("rect")
+                        .attr({
+                            "x": function(d){return xScaleTray(d[0])},
+                            "y": function(d){return yScaleTray(d[1])},
+                            "rx": 3,
+                            "ry": 3,
+                            "width": trayWidth,
+                            "height": trayHeight, 
+                            "fill": "gray",
+                            "id": function(d,i){
+                                return trayList[i];
+                            },
+                            "onclick":function(d, i){
+                                return "goToTray(\""+system+"\", " + trayList[i] + ")";
+                            }
+                        });
+        }
+
+        /*
+	        var change = "goToTray(\"" + system + "\")";
+	        var selectBox = d3.select("body").select("#traySelectBox").append("select")
+	                          .attr("id","selectBox")
+	                          .attr("onChange", change);
+
+	        var options = selectBox.selectAll("option")
+	                            .data(trayList).enter()
+	                            .append("option")
+	                            .text(function(d, i) { return i+1; });
+	        
+	    }
+	    */
+	    function goToTray(system, tray){
+	        //tray = $("#selectBox").children("option:selected").text();
+	        console.log ("/" + system + "/" + tray);
+	        window.location.href = ("/" + system + "/" + tray);
+	    }
+	</script>
+{% endblock %}

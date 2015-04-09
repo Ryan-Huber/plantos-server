@@ -63,17 +63,19 @@ sys.path.append("./sensor-board")
 from web_management.server import bp as board_management_blueprint
 flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 
-@flask_app.route("/", defaults={"system": "main_system"})
+
+
+
 @flask_app.route("/<system>/")
 def index(system):
     trayList = TRAY_LIST[system]
     if len(trayList) == 1:
-        return redirect(url_for("trayIndex", system=system, traynum=0))
-    return render_template("index.html", databases=DATABASE_NAMES, current_database=system)
+        return redirect(url_for("trayIndex", system=system, traynum=1))
+    return render_template("traySelect.html", databases=DATABASE_NAMES, current_database=system, tray=trayList)
 
 @flask_app.route("/<system>/<int:traynum>")
 def trayIndex(system, traynum):
-    tray = TRAY_LIST[system][traynum]
+    tray = TRAY_LIST[system][max(traynum-1, 0)]
     return render_template("index.html", databases=DATABASE_NAMES, current_database=system, tray=tray)
 
 
@@ -112,7 +114,7 @@ def run_server(*args):
             thread = Thread(target=background_thread, args=(system, collection))
             thread.daemon = True
             print "Starting thread {} : {}".format(system, collection)
-            thread.start()
+            #thread.start()
             print "Started thread {} : {}".format(system, collection)
             # Make a socketio connect callback for the data namespace
             namespace = "/{}/{}/data".format(system, collection)
@@ -122,10 +124,32 @@ def run_server(*args):
     else:
         socketio.run(flask_app, host='0.0.0.0', port=80)
 
+import csv
+from collections import defaultdict
+def parseCSV(fileString):
+    f = open(fileString, 'rU')
+    csv_f = csv.DictReader(f)
+    trayPlantDict = defaultdict(list)
+    for plant in csv_f:
+        ip = plant["location"]
+        if ip == "" or ip == "Discarded":
+            continue
+        ip.split('.')
+        #for i in range(len(ip)):
+         #   ip[i] = valueOf(ip[i])
+
+        if ip[0] == 1:
+            pass #go to a main sys tray
+        elif ip[0] == 2:
+            pass #go to groBot1Tray
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the CityFARM web server")
     parser.add_argument("-d", "--debug", action="store_true", help="enable\
             flask debug mode")
     args = parser.parse_args()
     flask_app.debug = args.debug
+    parseCSV("static/PlantData.csv")
     run_server()
