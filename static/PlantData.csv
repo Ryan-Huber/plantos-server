@@ -1,1 +1,277 @@
-plantName,plantID,ip,commonName,dateSown,transferReadiness,dateOfDisposal,dateOfTransfer,dateOfHarvest,notes,yieldLettuce (Salad Bowl),273,1.1.1.1.1.1,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),274,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),275,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),276,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),277,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),278,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),279,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),280,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),281,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),282,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),283,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),284,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),285,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),286,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),287,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),288,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),289,,Lettuce,3/1/15,,,,,,Lettuce (Salad Bowl),290,,Lettuce,3/1/15,,,,,,Radish (French Breakfast),291,,Radish,3/8/15,,,,,,Radish (French Breakfast),292,,Radish,3/8/15,,,,,,Radish (French Breakfast),293,,Radish,3/8/15,,,,,,Radish (French Breakfast),294,,Radish,3/8/15,,,,,,Radish (French Breakfast),295,,Radish,3/8/15,,,,,,Radish (French Breakfast),296,,Radish,3/8/15,,,,,,Radish (French Breakfast),297,,Radish,3/8/15,,,,,,Radish (French Breakfast),298,,Radish,3/8/15,,,,,,Radish (French Breakfast),299,,Radish,3/8/15,,,,,,Radish (French Breakfast),300,,Radish,3/8/15,,,,,,Radish (French Breakfast),301,,Radish,3/8/15,,,,,,Radish (French Breakfast),302,,Radish,3/8/15,,,,,,Radish (French Breakfast),303,,Radish,3/8/15,,,,,,Radish (French Breakfast),304,,Radish,3/8/15,,,,,,Radish (French Breakfast),305,,Radish,3/8/15,,,,,,Radish (French Breakfast),306,,Radish,3/8/15,,,,,,Radish (French Breakfast),307,,Radish,3/8/15,,,,,,Radish (French Breakfast),308,,Radish,3/8/15,,,,,,Arugula,309,,Arugula,3/10/15,,,,,,Arugula,310,,Arugula,3/10/15,,,,,,Arugula,311,,Arugula,3/10/15,,,,,,Arugula,312,,Arugula,3/10/15,,,,,,Arugula,313,,Arugula,3/10/15,,,,,,Arugula,314,,Arugula,3/10/15,,,,,,Arugula,315,,Arugula,3/10/15,,,,,,Arugula,316,,Arugula,3/10/15,,,,,,Arugula,317,,Arugula,3/10/15,,,,,,Arugula,318,,Arugula,3/10/15,,,,,,Arugula,319,,Arugula,3/10/15,,,,,,Arugula,320,,Arugula,3/10/15,,,,,,Arugula,321,,Arugula,3/10/15,,,,,,Arugula,322,,Arugula,3/10/15,,,,,,Arugula,323,,Arugula,3/10/15,,,,,,Arugula,324,,Arugula,3/10/15,,,,,,Arugula,325,,Arugula,3/10/15,,,,,,Arugula,326,,Arugula,3/10/15,,,,,,Kale (Dwarf Blue Curled),327,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),328,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),329,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),330,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),331,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),332,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),333,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),334,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),335,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),336,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),337,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),338,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),339,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),340,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),341,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),342,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),343,,Kale,3/10/15,,,,,,Kale (Dwarf Blue Curled),344,,Kale,3/10/15,,,,,,Brussel Sprout (Long Island),345,1.3.1.0.0.0,Brussel Sprouts,3/17/15,4/7/15,,,,,Brussel Sprout (Long Island),346,1.3.1.0.0.1,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),347,1.3.1.0.0.2,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),348,1.3.1.0.0.3,Brussel Sprouts,3/17/15,4/7/15,,,,,Brussel Sprout (Long Island),349,1.3.1.0.0.4,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),350,1.3.1.0.0.5,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),351,1.3.1.0.1.0,Brussel Sprouts,3/17/15,4/7/15,,,,,Brussel Sprout (Long Island),352,1.3.1.0.1.1,Brussel Sprouts,3/17/15,4/7/15,,,,,Brussel Sprout (Long Island),353,1.3.1.0.1.2,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),354,1.3.1.0.1.3,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),355,1.3.1.0.1.4,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),356,1.3.1.0.1.5,Brussel Sprouts,3/17/15,4/7/15,,,,,Brussel Sprout (Long Island),357,1.3.1.0.2.0,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),358,1.3.1.0.2.1,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),359,1.3.1.0.2.2,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),360,1.3.1.0.2.3,Brussel Sprouts,3/17/15,,,,,,Brussel Sprout (Long Island),361,1.3.1.0.2.4,Brussel Sprouts,3/17/15,4/7/15,,,,,Brussel Sprout (Long Island),362,1.3.1.0.2.5,Brussel Sprouts,3/17/15,,,,,,Lettuce (Red Velvet),363,1.0.2.0.0.0,Lettuce,3/17/15,4/7/15,,,,,Lettuce (Red Velvet),364,1.0.2.0.0.1,Lettuce,3/17/15,4/7/15,,,,,Lettuce (Red Velvet),365,0.1.0.6.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),366,0.1.0.6.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),367,Discarded ,Lettuce,3/17/15,,4/7/15,,,,Lettuce (Red Velvet),368,0.1.0.6.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),369,0.1.1.6.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),370,Discarded ,Lettuce,3/17/15,,4/7/15,,,,Lettuce (Red Velvet),371,0.1.1.6.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),372,0.1.1.6.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),373,0.1.2.6.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),374,Discarded ,Lettuce,3/17/15,,4/7/15,,,,Lettuce (Red Velvet),375,1.0.2.0.2.0,Lettuce,3/17/15,4/7/15,,,,,Lettuce (Red Velvet),376,0.1.2.6.1,Lettuce,3/17/15,,,3/28/15,,Seed floated away. High water in tray.,Lettuce (Red Velvet),377,Discarded ,Lettuce,3/17/15,,4/7/15,,,,Lettuce (Red Velvet),378,0.1.2.6.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Red Velvet),379,Discarded ,Lettuce,3/17/15,,4/7/15,,,,Lettuce (Red Velvet),380,Discarded ,Lettuce,3/17/15,,4/7/15,,,,Strawberry (Purple),381,1.1.1.0.0.0,Strawberry,3/17/15,,,,,,Strawberry (Purple),382,1.1.1.0.0.1,Strawberry,3/17/15,,,,,,Strawberry (Purple),383,1.1.1.0.0.2,Strawberry,3/17/15,,,,,,Strawberry (Purple),384,1.1.1.0.0.3,Strawberry,3/17/15,,,,,,Strawberry (Purple),385,1.1.1.0.0.4,Strawberry,3/17/15,,,,,Seed floated away. High water in tray.,Strawberry (Purple),386,1.1.1.0.0.5,Strawberry,3/17/15,,,,,,Strawberry (Purple),387,1.1.1.0.1.0,Strawberry,3/17/15,,,,,,Strawberry (Purple),388,1.1.1.0.1.1,Strawberry,3/17/15,,,,,,Strawberry (Purple),389,1.1.1.0.1.2,Strawberry,3/17/15,,,,,,Strawberry (Purple),390,1.1.1.0.1.3,Strawberry,3/17/15,,,,,,Strawberry (Purple),391,1.1.1.0.1.4,Strawberry,3/17/15,,,,,,Strawberry (Purple),392,1.1.1.0.1.5,Strawberry,3/17/15,,,,,,Strawberry (Purple),393,1.1.1.0.2.0,Strawberry,3/17/15,,,,,,Strawberry (Purple),394,1.1.1.0.2.1,Strawberry,3/17/15,,,,,,Strawberry (Purple),395,1.1.1.0.2.2,Strawberry,3/17/15,,,,,,Strawberry (Purple),396,1.1.1.0.2.3,Strawberry,3/17/15,,,,,,Strawberry (Purple),397,1.1.1.0.2.4,Strawberry,3/17/15,,,,,,Strawberry (Purple),398,1.1.1.0.2.5,Strawberry,3/17/15,,,,,,Chives (Purly),399,Discarded ,Chives,3/17/15,,4/7/15,,,Seed floated away. High water in tray.,Chives (Purly),400,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),401,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),402,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),403,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),404,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),405,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),406,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),407,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),408,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),409,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),410,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),411,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),412,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),413,Discarded ,Chives,3/17/15,,4/7/15,,,Seed floated away. High water in tray.,Chives (Purly),414,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),415,Discarded ,Chives,3/17/15,,4/7/15,,,,Chives (Purly),416,Discarded ,Chives,3/17/15,,4/7/15,,,,Mustard,417,Discarded ,Mustard,3/17/15,,4/7/15,,,Seed floated away. High water in tray.,Mustard,418,0.1.0.4.0,Mustard,3/17/15,,,3/28/15,,,Mustard,419,0.1.0.4.1,Mustard,3/17/15,,,3/28/15,,,Mustard,420,0.1.0.4.2,Mustard,3/17/15,,,3/28/15,,,Mustard,421,1.0.1.1.0.4,Mustard,3/17/15,4/7/15,,,,,Mustard,422,Discarded ,Mustard,3/17/15,,4/7/15,,,,Mustard,423,0.1.1.4.0,Mustard,3/17/15,,,3/28/15,,,Mustard,424,1.0.1.1.1.1,Mustard,3/17/15,4/7/15,,,,,Mustard,425,0.1.1.4.1,Mustard,3/17/15,,,3/28/15,,,Mustard,426,1.0.1.1.1.3,Mustard,3/17/15,3/31/15,,,,,Mustard,427,0.1.1.4.2,Mustard,3/17/15,,,3/28/15,,,Mustard,428,0.1.2.4.0,Mustard,3/17/15,,,3/28/15,,,Mustard,429,Discarded ,Mustard,3/17/15,,4/7/15,,,,Mustard,430,1.0.1.1.2.1,Mustard,3/17/15,4/17/15,,,,,Mustard,431,1.0.1.1.2.2,Mustard,3/17/15,4/17/15,,,,,Mustard,432,0.1.2.4.1,Mustard,3/17/15,,,3/28/15,,,Mustard,433,1.0.1.1.2.4,Mustard,3/17/15,4/17/15,,,,,Mustard,434,0.1.2.4.2,Mustard,3/17/15,,,3/28/15,,,Arugula,435,Discarded ,Arugula,3/17/15,,4/7/15,,,,Arugula,436,1.0.1.2.0.1,Arugula,3/17/15,4/7/15,,,,,Arugula,437,0.1.0.8.0,Arugula,3/17/15,,,3/28/15,,,Arugula,438,0.1.0.8.1,Arugula,3/17/15,,,3/28/15,,,Arugula,439,0.1.0.8.2,Arugula,3/17/15,,,3/28/15,,,Arugula,440,0.1.1.8.0,Arugula,3/17/15,,,3/28/15,,,Arugula,441,1.0.1.2.1.0,Arugula,3/17/15,4/7/15,,,,,Arugula,442,0.1.1.8.1,Arugula,3/17/15,,,3/28/15,,,Arugula,443,Discarded ,Arugula,3/17/15,,4/7/15,,,,Arugula,444,0.1.1.8.2,Arugula,3/17/15,,,3/28/15,,,Arugula,445,Discarded ,Arugula,3/17/15,,4/7/15,,,,Arugula,446,1.0.1.2.1.5,Arugula,3/17/15,4/7/15,,,,,Arugula,447,Discarded ,Arugula,3/17/15,,4/7/15,,,,Arugula,448,0.1.2.8.0,Arugula,3/17/15,,,3/28/15,,,Arugula,449,1.0.1.2.2.2,Arugula,3/17/15,4/7/15,,,,,Arugula,450,0.1.2.8.1,Arugula,3/17/15,,,3/28/15,,,Arugula,451,0.1.2.8.2,Arugula,3/17/15,,,3/28/15,,,Arugula,452,Discarded ,Arugula,3/17/15,,4/7/15,,,,Lettuce (Buttercrunch),453,0.1.0.0.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),454,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),455,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),456,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),457,0.1.0.0.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),458,0.1.0.0.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),459,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),460,0.1.1.0.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),461,0.1.1.0.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),462,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),463,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),464,0.1.1.0.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),465,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),466,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),467,0.1.2.0.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),468,0.1.2.0.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),469,0.1.2.0.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Buttercrunch),470,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Sage,471,1.1.1.1.0.0,Sage,3/17/15,,,,,,Sage,472,1.1.1.1.0.1,Sage,3/17/15,,,,,,Sage,473,1.1.1.1.0.2,Sage,3/17/15,,,,,,Sage,474,1.1.1.1.0.3,Sage,3/17/15,,,,,,Sage,475,1.1.1.1.0.4,Sage,3/17/15,,,,,,Sage,476,1.1.1.1.0.5,Sage,3/17/15,,,,,,Sage,477,1.1.1.1.1.0,Sage,3/17/15,,,,,,Sage,478,1.1.1.1.1.1,Sage,3/17/15,4/7/15,,,,,Sage,479,1.1.1.1.1.2,Sage,3/17/15,,,,,,Sage,480,1.1.1.1.1.3,Sage,3/17/15,,,,,,Sage,481,1.1.1.1.1.4,Sage,3/17/15,4/7/15,,,,,Sage,482,1.1.1.1.1.5,Sage,3/17/15,,,,,,Sage,483,1.1.1.1.2.0,Sage,3/17/15,,,,,,Sage,484,1.1.1.1.2.1,Sage,3/17/15,,,,,,Sage,485,1.1.1.1.2.2,Sage,3/17/15,,,,,,Sage,486,1.1.1.1.2.3,Sage,3/17/15,,,,,,Sage,487,1.1.1.1.2.4,Sage,3/17/15,,,,,,Sage,488,1.1.1.1.2.5,Sage,3/17/15,,,,,,Quinoa (Brilliant Rainbow),489,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),490,0.2.0.9.0,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),491,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),492,0.2.0.9.1,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),493,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),494,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),495,0.2.0.10.0,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),496,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),497,0.2.0.10.1,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),498,0.2.0.10.2,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),499,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),500,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),501,0.2.1.9.0,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),502,0.2.1.9.1,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),503,0.2.1.10.0,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),504,0.2.1.10.1,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),505,0.2.1.10.2,Quinoa,3/17/15,,,3/28/15,,,Quinoa (Brilliant Rainbow),506,Discarded ,Quinoa,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),507,0.1.0.2.0,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),508,0.1.0.2.1,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),509,Discarded ,Kale,3/17/15,,4/7/15,,,,Kale (Dwarf Blue Curled),510,0.1.0.2.2,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),511,0.1.1.2.0,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),512,1.0.0.2.0.5,Kale,3/17/15,4/7/15,,,,,Kale (Dwarf Blue Curled),513,1.0.0.2.1.0,Kale,3/17/15,4/7/15,,,,,Kale (Dwarf Blue Curled),514,Discarded ,Kale,3/17/15,,4/7/15,,,,Kale (Dwarf Blue Curled),515,Discarded ,Kale,3/17/15,,4/7/15,,,,Kale (Dwarf Blue Curled),516,1.0.0.2.1.3,Kale,3/17/15,4/7/15,,,,,Kale (Dwarf Blue Curled),517,1.0.0.2.1.4,Kale,3/17/15,4/7/15,,,,,Kale (Dwarf Blue Curled),518,1.0.0.2.1.5,Kale,3/17/15,4/7/15,,,,,Kale (Dwarf Blue Curled),519,0.1.1.2.1,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),520,1.0.0.2.2.1,Kale,3/17/15,4/7/15,,,,,Kale (Dwarf Blue Curled),521,0.1.1.2.2,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),522,0.1.2.2.0,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),523,0.1.2.2.1,Kale,3/17/15,,,3/28/15,,,Kale (Dwarf Blue Curled),524,0.1.2.2.2,Kale,3/17/15,,,3/28/15,,,Swiss Chard ,525,1.0.0.1.0.0,Swiss Chard,3/17/15,,,,,,Swiss Chard ,526,1.0.0.1.0.1,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,527,1.0.0.1.0.2,Swiss Chard,3/17/15,,,,,,Swiss Chard ,528,1.0.0.1.0.3,Swiss Chard,3/17/15,,,,,,Swiss Chard ,529,1.0.0.1.0.4,Swiss Chard,3/17/15,,,,,,Swiss Chard ,530,1.0.0.1.0.5,Swiss Chard,3/17/15,,,,,,Swiss Chard ,531,1.0.0.1.1.0,Swiss Chard,3/17/15,,,,,,Swiss Chard ,532,1.0.0.1.1.1,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,533,1.0.0.1.1.2,Swiss Chard,3/17/15,,,,,,Swiss Chard ,534,1.0.0.1.1.3,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,535,1.0.0.1.1.4,Swiss Chard,3/17/15,,,,,,Swiss Chard ,536,1.0.0.1.1.5,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,537,1.0.0.1.2.0,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,538,1.0.0.1.2.1,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,539,1.0.0.1.2.2,Swiss Chard,3/17/15,,,,,,Swiss Chard ,540,1.0.0.1.2.3,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,541,1.0.0.1.2.4,Swiss Chard,3/17/15,4/7/15,,,,,Swiss Chard ,542,1.0.0.1.2.5,Swiss Chard,3/17/15,4/7/15,,,,,Lettuce (Salad bowl blend),543,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),544,Discarded ,Lettuce,3/17/15,4/2/15,,3/28/15,,,Lettuce (Salad bowl blend),545,0.1.0.10.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),546,Discarded ,Lettuce,3/17/15,4/5/15,,3/28/15,,,Lettuce (Salad bowl blend),547,0.1.0.10.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),548,0.1.0.10.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),549,0.1.1.10.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),550,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),551,Discarded ,Lettuce,3/17/15,4/5/15,,3/28/15,,,Lettuce (Salad bowl blend),552,0.1.1.10.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),553,0.1.1.10.2,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),554,0.1.2.10.0,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),555,Discarded ,Lettuce,3/17/15,3/31/15,,3/28/15,,,Lettuce (Salad bowl blend),556,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),557,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),558,Discarded ,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),559,0.1.2.10.1,Lettuce,3/17/15,,,3/28/15,,,Lettuce (Salad bowl blend),560,0.1.2.10.2,Lettuce,3/17/15,,,3/28/15,,,Cilantro,561,1.1.1.2.0.0,Cilantro,3/17/15,,,,,,Cilantro,562,1.1.1.2.0.1,Cilantro,3/17/15,,,,,,Cilantro,563,1.1.1.2.0.2,Cilantro,3/17/15,,,,,,Cilantro,564,1.1.1.2.0.3,Cilantro,3/17/15,,,,,,Cilantro,565,1.1.1.2.0.4,Cilantro,3/17/15,,,,,,Cilantro,566,1.1.1.2.0.5,Cilantro,3/17/15,,,,,,Cilantro,567,1.1.1.2.1.0,Cilantro,3/17/15,,,,,,Cilantro,568,1.1.1.2.1.1,Cilantro,3/17/15,,,,,,Cilantro,569,1.1.1.2.1.2,Cilantro,3/17/15,,,,,,Cilantro,570,1.1.1.2.1.3,Cilantro,3/17/15,,,,,,Cilantro,571,1.1.1.2.1.4,Cilantro,3/17/15,,,,,,Cilantro,572,1.1.1.2.1.5,Cilantro,3/17/15,4/7/15,,,,,Cilantro,573,1.1.1.2.2.0,Cilantro,3/17/15,4/7/15,,,,,Cilantro,574,1.1.1.2.2.1,Cilantro,3/17/15,4/7/15,,,,,Cilantro,575,1.1.1.2.2.2,Cilantro,3/17/15,,,,,,Cilantro,576,1.1.1.2.2.3,Cilantro,3/17/15,4/7/15,,,,,Cilantro,577,1.1.1.2.2.4,Cilantro,3/17/15,,,,,,Cilantro,578,1.1.1.2.2.5,Cilantro,3/17/15,,,,,,Spinach (bloomsdale),579,1.0.1.0.0.0,Spinach,3/17/15,,,,,,Spinach (bloomsdale),580,1.0.1.0.0.1,Spinach,3/17/15,,,,,,Spinach (bloomsdale),581,1.0.1.0.0.2,Spinach,3/17/15,,,,,,Spinach (bloomsdale),582,1.0.1.0.0.3,Spinach,3/17/15,4/2/15,,,,,Spinach (bloomsdale),583,1.0.1.0.0.4,Spinach,3/17/15,,,,,,Spinach (bloomsdale),584,1.0.1.0.0.5,Spinach,3/17/15,,,,,,Spinach (bloomsdale),585,1.0.1.0.1.0,Spinach,3/17/15,,,,,,Spinach (bloomsdale),586,1.0.1.0.1.1,Spinach,3/17/15,,,,,,Spinach (bloomsdale),587,1.0.1.0.1.2,Spinach,3/17/15,,,,,,Spinach (bloomsdale),588,1.0.1.0.1.3,Spinach,3/17/15,,,,,,Spinach (bloomsdale),589,1.0.1.0.1.4,Spinach,3/17/15,4/7/15,,,,,Spinach (bloomsdale),590,1.0.1.0.1.5,Spinach,3/17/15,,,,,,Spinach (bloomsdale),591,1.0.1.0.2.0,Spinach,3/17/15,,,,,,Spinach (bloomsdale),592,1.0.1.0.2.1,Spinach,3/17/15,,,,,,Spinach (bloomsdale),593,1.0.1.0.2.2,Spinach,3/17/15,,,,,,Spinach (bloomsdale),594,1.0.1.0.2.3,Spinach,3/17/15,,,,,,Spinach (bloomsdale),595,1.0.1.0.2.4,Spinach,3/17/15,,,,,,Spinach (bloomsdale),596,1.0.1.0.2.5,Spinach,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),597,1.3.1.1.0.0,Pepper,3/17/15,,,,,,Hot Pepper (Hungarian wax),598,1.3.1.1.0.1,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),599,1.3.1.1.0.2,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),600,1.3.1.1.0.3,Pepper,3/17/15,,,,,,Hot Pepper (Hungarian wax),601,1.3.1.1.0.4,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),602,1.3.1.1.0.5,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),603,1.3.1.1.1.0,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),604,1.3.1.1.1.1,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),605,1.3.1.1.1.2,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),606,1.3.1.1.1.3,Pepper,3/17/15,,,,,,Hot Pepper (Hungarian wax),607,1.3.1.1.1.4,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),608,1.3.1.1.1.5,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),609,1.3.1.1.2.0,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),610,1.3.1.1.2.1,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),611,1.3.1.1.2.2,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),612,1.3.1.1.2.3,Pepper,3/17/15,,,,,,Hot Pepper (Hungarian wax),613,1.3.1.1.2.4,Pepper,3/17/15,4/7/15,,,,,Hot Pepper (Hungarian wax),614,1.3.1.1.2.5,Pepper,3/17/15,4/7/15,,,,,Onion (Pearl Drop),615,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),616,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),617,Discarded ,Onion,3/17/15,,,,,Seed floated away. High water in tray.,Onion (Pearl Drop),618,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),619,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),620,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),621,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),622,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),623,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),624,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),625,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),626,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),627,Discarded ,Onion,3/17/15,,,,,Seed floated away. High water in tray.,Onion (Pearl Drop),628,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),629,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),630,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),631,Discarded ,Onion,3/17/15,3/31/15,,,,,Onion (Pearl Drop),632,Discarded ,Onion,3/17/15,,,,,Seed floated away. High water in tray.,Broccoli,633,1.1.2.1.0.0,Broccoli,3/17/15,4/7/15,,,,,Broccoli,634,1.1.2.1.0.1,Broccoli,3/17/15,4/7/15,,,,,Broccoli,635,1.1.2.1.0.2,Broccoli,3/17/15,,,,,,Broccoli,636,1.1.2.1.0.3,Broccoli,3/17/15,4/7/15,,,,,Broccoli,637,1.1.2.1.0.4,Broccoli,3/17/15,4/7/15,,,,,Broccoli,638,1.1.2.1.0.5,Broccoli,3/17/15,,,,,Seed missing. May have floated but no unusually high water in tray,Broccoli,639,1.1.2.1.1.0,Broccoli,3/17/15,,,,,,Broccoli,640,1.1.2.1.1.1,Broccoli,3/17/15,4/7/15,,,,,Broccoli,641,1.1.2.1.1.2,Broccoli,3/17/15,4/7/15,,,,,Broccoli,642,1.1.2.1.1.3,Broccoli,3/17/15,4/7/15,,,,,Broccoli,643,1.1.2.1.1.4,Broccoli,3/17/15,4/7/15,,,,,Broccoli,644,1.1.2.1.1.5,Broccoli,3/17/15,,,,,,Broccoli,645,1.1.2.1.2.0,Broccoli,3/17/15,4/7/15,,,,,Broccoli,646,1.1.2.1.2.1,Broccoli,3/17/15,4/7/15,,,,,Broccoli,647,1.1.2.1.2.2,Broccoli,3/17/15,4/7/15,,,,,Broccoli,648,1.1.2.1.2.3,Broccoli,3/17/15,,,,,,Broccoli,649,1.1.2.1.2.4,Broccoli,3/17/15,4/7/15,,,,,Broccoli,650,1.1.2.1.2.5,Broccoli,3/17/15,,,,,,Eggplant (Black Beauty),651,Discarded ,Eggplant,3/17/15,,,,,,Eggplant (Black Beauty),652,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),653,0.2.0.2.0,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),654,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),655,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),656,0.2.0.2.2,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),657,0.2.1.2.0,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),658,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),659,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),660,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),661,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),662,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),663,0.2.1.2.1,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),664,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),665,0.2.1.2.2,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),666,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),667,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Eggplant (Black Beauty),668,Discarded ,Eggplant,3/17/15,,,3/28/15,,,Bean (Royal Burgandy),669,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),670,0.2.0.6.0,Bean,3/17/15,,,3/28/15,,,Bean (Royal Burgandy),671,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),672,0.2.0.6.2,Bean,3/17/15,,,3/28/15,,,Bean (Royal Burgandy),673,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),674,0.2.1.6.0,Bean,3/17/15,,,3/28/15,,,Bean (Royal Burgandy),675,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),676,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),677,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),678,0.2.1.6.1,Bean,3/17/15,,,3/28/15,,,Bean (Royal Burgandy),679,0.2.1.6.2,Bean,3/17/15,,,3/28/15,,,Bean (Royal Burgandy),680,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),681,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),682,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),683,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),684,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),685,Discarded ,Bean,3/17/15,,4/7/15,,,,Bean (Royal Burgandy),686,Discarded ,Bean,3/17/15,,4/7/15,,,,Tomato (Red Siberian),687,1.3.0.2.0.0,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),688,1.3.0.2.0.1,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),689,1.3.0.2.0.2,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),690,1.3.0.2.0.3,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),691,1.3.0.2.0.4,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),692,1.3.0.2.0.5,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),693,1.3.0.2.1.0,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),694,1.3.0.2.1.1,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),695,1.3.0.2.1.2,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),696,1.3.0.2.1.3,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),697,1.3.0.2.1.4,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),698,1.3.0.2.1.5,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),699,1.3.0.2.2.0,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),700,1.3.0.2.2.1,Tomato,3/29/15,,,,,,Tomato (Red Siberian),701,1.3.0.2.2.2,Tomato,3/29/15,,,,,,Tomato (Red Siberian),702,1.3.0.2.2.3,Tomato,3/29/15,4/7/15,,,,,Tomato (Red Siberian),703,1.3.0.2.2.4,Tomato,3/29/15,,,,,,Tomato (Red Siberian),704,1.3.0.2.2.5,Tomato,3/29/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),705,1.2.0.2.0.0,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),706,1.2.0.2.0.1,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),707,1.2.0.2.0.2,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),708,1.2.0.2.0.3,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),709,1.2.0.2.0.4,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),710,1.2.0.2.0.5,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),711,1.2.0.2.1.0,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),712,1.2.0.2.1.1,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),713,1.2.0.2.1.2,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),714,1.2.0.2.1.3,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),715,1.2.0.2.1.4,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),716,1.2.0.2.1.5,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),717,1.2.0.2.2.0,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),718,1.2.0.2.2.1,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),719,1.2.0.2.2.2,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),720,1.2.0.2.2.3,Tomato,3/31/15,4/7/15,,,,,Tomato  (F1 Hybrid HTL1205261),721,1.2.0.2.2.4,Tomato,3/31/15,,,,,,Tomato  (F1 Hybrid HTL1205261),722,1.2.0.2.2.5,Tomato,3/31/15,,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),723,1.2.1.0.0.0,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),724,1.2.1.0.0.1,Tomato,3/31/15,,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),725,1.2.1.0.0.2,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),726,1.2.1.0.0.3,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),727,1.2.1.0.0.4,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),728,1.2.1.0.0.5,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),729,1.2.1.0.1.0,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),730,1.2.1.0.1.1,Tomato,3/31/15,,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),731,1.2.1.0.1.2,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),732,1.2.1.0.1.3,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),733,1.2.1.0.1.4,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),734,1.2.1.0.1.5,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),735,1.2.1.0.2.0,Tomato,3/31/15,,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),736,1.2.1.0.2.1,Tomato,3/31/15,,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),737,1.2.1.0.2.2,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),738,1.2.1.0.2.3,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),739,1.2.1.0.2.4,Tomato,3/31/15,4/7/15,,,,,Tomato (F1 Hybrid (AXIANY(HTL1206175))),740,1.2.1.0.2.5,Tomato,3/31/15,4/7/15,,,,,Broccoli (F1 Hybrid (AVENGER)),741,1.2.0.0.0.0,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),742,1.2.0.0.0.1,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),743,1.2.0.0.0.2,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),744,1.2.0.0.0.3,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),745,1.2.0.0.0.4,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),746,1.2.0.0.0.5,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),747,1.2.0.0.1.0,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),748,1.2.0.0.1.1,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),749,1.2.0.0.1.2,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),750,1.2.0.0.1.3,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),751,1.2.0.0.1.4,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),752,1.2.0.0.1.5,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),753,1.2.0.0.2.0,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),754,1.2.0.0.2.1,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),755,1.2.0.0.2.2,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),756,1.2.0.0.2.3,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),757,1.2.0.0.2.4,Broccoli,3/31/15,,,,,,Broccoli (F1 Hybrid (AVENGER)),758,1.2.0.0.2.5,Broccoli,3/31/15,,,,,,Broccoli (Monaco),759,1.2.0.1.0.0,Broccoli,3/31/15,,,,,,Broccoli (Monaco),760,1.2.0.1.0.1,Broccoli,3/31/15,,,,,,Broccoli (Monaco),761,1.2.0.1.0.2,Broccoli,3/31/15,,,,,,Broccoli (Monaco),762,1.2.0.1.0.3,Broccoli,3/31/15,,,,,,Broccoli (Monaco),763,1.2.0.1.0.4,Broccoli,3/31/15,,,,,,Broccoli (Monaco),764,1.2.0.1.0.5,Broccoli,3/31/15,,,,,,Broccoli (Monaco),765,1.2.0.1.1.0,Broccoli,3/31/15,,,,,,Broccoli (Monaco),766,1.2.0.1.1.1,Broccoli,3/31/15,,,,,,Broccoli (Monaco),767,1.2.0.1.1.2,Broccoli,3/31/15,,,,,,Broccoli (Monaco),768,1.2.0.1.1.3,Broccoli,3/31/15,,,,,,Broccoli (Monaco),769,1.2.0.1.1.4,Broccoli,3/31/15,,,,,,Broccoli (Monaco),770,1.2.0.1.1.5,Broccoli,3/31/15,,,,,,Broccoli (Monaco),771,1.2.0.1.2.0,Broccoli,3/31/15,,,,,,Broccoli (Monaco),772,1.2.0.1.2.1,Broccoli,3/31/15,,,,,,Broccoli (Monaco),773,1.2.0.1.2.2,Broccoli,3/31/15,,,,,,Broccoli (Monaco),774,1.2.0.1.2.3,Broccoli,3/31/15,,,,,,Broccoli (Monaco),775,1.2.0.1.2.4,Broccoli,3/31/15,,,,,,Broccoli (Monaco),776,1.2.0.1.2.5,Broccoli,3/31/15,,,,,,Chives (Purly),777,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),778,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),779,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),780,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),781,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),782,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),783,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),784,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),785,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),786,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),787,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),788,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),789,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),790,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),791,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),792,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),793,,Chives,3/31/15,,4/7/15,,,,Chives (Purly),794,,Chives,3/31/15,,4/7/15,,,,Strawberry (Purple),795,1.3.2.0.0.0,Strawberry,3/31/15,,,,,,Strawberry (Purple),796,1.3.2.0.0.1,Strawberry,3/31/15,,,,,,Strawberry (Purple),797,1.3.2.0.0.2,Strawberry,3/31/15,,,,,,Strawberry (Purple),798,1.3.2.0.0.3,Strawberry,3/31/15,,,,,,Strawberry (Purple),799,1.3.2.0.0.4,Strawberry,3/31/15,,,,,,Strawberry (Purple),800,1.3.2.0.0.5,Strawberry,3/31/15,,,,,,Strawberry (Purple),801,1.3.2.0.1.0,Strawberry,3/31/15,,,,,,Strawberry (Purple),802,1.3.2.0.1.1,Strawberry,3/31/15,,,,,,Strawberry (Purple),803,1.3.2.0.1.2,Strawberry,3/31/15,,,,,,Strawberry (Purple),804,1.3.2.0.1.3,Strawberry,3/31/15,,,,,,Strawberry (Purple),805,1.3.2.0.1.4,Strawberry,3/31/15,,,,,,Strawberry (Purple),806,1.3.2.0.1.5,Strawberry,3/31/15,,,,,,Strawberry (Purple),807,1.3.2.0.2.0,Strawberry,3/31/15,,,,,,Strawberry (Purple),808,1.3.2.0.2.1,Strawberry,3/31/15,,,,,,Strawberry (Purple),809,1.3.2.0.2.2,Strawberry,3/31/15,,,,,,Strawberry (Purple),810,1.3.2.0.2.3,Strawberry,3/31/15,,,,,,Strawberry (Purple),811,1.3.2.0.2.4,Strawberry,3/31/15,,,,,,Strawberry (Purple),812,1.3.2.0.2.5,Strawberry,3/31/15,,,,,,Peas (Laxington's progress),813,, ,4/7/15,,,,,,Peas (Laxington's progress),814,, ,4/7/15,,,,,,Peas (Laxington's progress),815,, ,4/7/15,,,,,,Peas (Laxington's progress),816,, ,4/7/15,,,,,,Peas (Laxington's progress),817,, ,4/7/15,,,,,,Peas (Laxington's progress),818,, ,4/7/15,,,,,,Peas (Laxington's progress),819,, ,4/7/15,,,,,,Peas (Laxington's progress),820,, ,4/7/15,,,,,,Peas (Laxington's progress),821,, ,4/7/15,,,,,,Peas (Laxington's progress),822,, ,4/7/15,,,,,,Peas (Laxington's progress),823,, ,4/7/15,,,,,,Peas (Laxington's progress),824,, ,4/7/15,,,,,,Peas (Laxington's progress),825,, ,4/7/15,,,,,,Peas (Laxington's progress),826,, ,4/7/15,,,,,,Peas (Laxington's progress),827,, ,4/7/15,,,,,,Peas (Laxington's progress),828,, ,4/7/15,,,,,,Peas (Laxington's progress),829,, ,4/7/15,,,,,,Peas (Laxington's progress),830,, ,4/7/15,,,,,,Lemon Basil,831,,Basil,4/7/15,,,,,,Lemon Basil,832,,Basil,4/7/15,,,,,,Lemon Basil,833,,Basil,4/7/15,,,,,,Lemon Basil,834,,Basil,4/7/15,,,,,,Lemon Basil,835,,Basil,4/7/15,,,,,,Lemon Basil,836,,Basil,4/7/15,,,,,,Lemon Basil,837,,Basil,4/7/15,,,,,,Lemon Basil,838,,Basil,4/7/15,,,,,,Lemon Basil,839,,Basil,4/7/15,,,,,,Lemon Basil,840,,Basil,4/7/15,,,,,,Lemon Basil,841,,Basil,4/7/15,,,,,,Lemon Basil,842,,Basil,4/7/15,,,,,,Lemon Basil,843,,Basil,4/7/15,,,,,,Lemon Basil,844,,Basil,4/7/15,,,,,,Lemon Basil,845,,Basil,4/7/15,,,,,,Lemon Basil,846,,Basil,4/7/15,,,,,,Lemon Basil,847,,Basil,4/7/15,,,,,,Lemon Basil,848,,Basil,4/7/15,,,,,,Endive,849,, ,4/7/15,,,,,,Endive,850,, ,4/7/15,,,,,,Endive,851,, ,4/7/15,,,,,,Endive,852,, ,4/7/15,,,,,,Endive,853,, ,4/7/15,,,,,,Endive,854,, ,4/7/15,,,,,,Endive,855,, ,4/7/15,,,,,,Endive,856,, ,4/7/15,,,,,,Endive,857,, ,4/7/15,,,,,,Endive,858,, ,4/7/15,,,,,,Endive,859,, ,4/7/15,,,,,,Endive,860,, ,4/7/15,,,,,,Endive,861,, ,4/7/15,,,,,,Endive,862,, ,4/7/15,,,,,,Endive,863,, ,4/7/15,,,,,,Endive,864,, ,4/7/15,,,,,,Endive,865,, ,4/7/15,,,,,,Endive,866,, ,4/7/15,,,,,,Sweet Basil,867,,Basil,4/7/15,,,,,,Sweet Basil,868,,Basil,4/7/15,,,,,,Sweet Basil,869,,Basil,4/7/15,,,,,,Sweet Basil,870,,Basil,4/7/15,,,,,,Sweet Basil,871,,Basil,4/7/15,,,,,,Sweet Basil,872,,Basil,4/7/15,,,,,,Sweet Basil,873,,Basil,4/7/15,,,,,,Sweet Basil,874,,Basil,4/7/15,,,,,,Sweet Basil,875,,Basil,4/7/15,,,,,,Sweet Basil,876,,Basil,4/7/15,,,,,,Sweet Basil,877,,Basil,4/7/15,,,,,,Sweet Basil,878,,Basil,4/7/15,,,,,,Sweet Basil,879,,Basil,4/7/15,,,,,,Sweet Basil,880,,Basil,4/7/15,,,,,,Sweet Basil,881,,Basil,4/7/15,,,,,,Sweet Basil,882,,Basil,4/7/15,,,,,,Sweet Basil,883,,Basil,4/7/15,,,,,,Sweet Basil,884,,Basil,4/7/15,,,,,,Beans (French Horticulture),885,,Bean,4/7/15,,,,,,Beans (French Horticulture),886,,Bean,4/7/15,,,,,,Beans (French Horticulture),887,,Bean,4/7/15,,,,,,Beans (French Horticulture),888,,Bean,4/7/15,,,,,,Beans (French Horticulture),889,,Bean,4/7/15,,,,,,Beans (French Horticulture),890,,Bean,4/7/15,,,,,,Beans (French Horticulture),891,,Bean,4/7/15,,,,,,Beans (French Horticulture),892,,Bean,4/7/15,,,,,,Beans (French Horticulture),893,,Bean,4/7/15,,,,,,Beans (French Horticulture),894,,Bean,4/7/15,,,,,,Beans (French Horticulture),895,,Bean,4/7/15,,,,,,Beans (French Horticulture),896,,Bean,4/7/15,,,,,,Beans (French Horticulture),897,,Bean,4/7/15,,,,,,Beans (French Horticulture),898,,Bean,4/7/15,,,,,,Beans (French Horticulture),899,,Bean,4/7/15,,,,,,Beans (French Horticulture),900,,Bean,4/7/15,,,,,,Beans (French Horticulture),901,,Bean,4/7/15,,,,,,Beans (French Horticulture),902,,Bean,4/7/15,,,,,,Broccoli (Green Sprout),903,,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Green Sprout),904,0.3.1.0.1,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Green Sprout),905,0.3.1.0.2,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Green Sprout),906,0.3.1.2.0,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Green Sprout),907,0.3.1.2.2,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),908,0.3.1.4.1,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),909,0.3.1.4.2,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),910,0.3.1.6.0,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),911,0.3.1.6.2,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),912,0.3.1.7.0,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),913,0.3.1.8.2,Broccoli,1/6/15,,,2/17/15,,,Broccoli (Purple Sprout),914,0.3.1.9.0,Broccoli,1/6/15,,,2/17/15,,,Tomato (Siberian),915,0.3.0.2.1,Tomato,2/22/15,,,2/19/15,,,Tomato (Siberian),916,0.3.0.5.0,Tomato,2/22/15,,,2/19/15,,,Tomato (Siberian),917,0.3.0.7.1,Tomato,2/22/15,,,2/19/15,,,Tomato (Siberian),918,0.3.0.9.0,Tomato,2/22/15,,,2/19/15,,,Tomato (Red Siberian),919,0.3.0.0.0,Tomato,1/6/15,,,,,,Tomato (Red Siberian),920,0.3.0.0.1,Tomato,1/6/15,,,,,,Tomato (Red Siberian),921,0.3.0.0.2,Tomato,1/6/15,,,,,,Tomato (Red Siberian),922,0.3.0.4.0,Tomato,1/6/15,,,,,,Tomato (Red Siberian),923,0.3.0.4.2,Tomato,1/6/15,,,,,,Tomato (Red Siberian),924,0.3.0.7.0,Tomato,1/6/15,,,,,,Tomato (Red Siberian),925,0.3.0.10.0,Tomato,1/6/15,,,,,,Tomato (Red Siberian),926,0.3.0.10.1,Tomato,1/6/15,,,,,,Tomato (Red Siberian),927,0.3.0.10.2,Tomato,1/6/15,,,,,,,928,, ,,,,,,,,929,, ,,,,,,,,930,, ,,,,,,,,931,, ,,,,,,,,932,, ,,,,,,,,933,, ,,,,,,,,934,, ,,,,,,,,935,, ,,,,,,,,936,, ,,,,,,,,937,, ,,,,,,,,938,, ,,,,,,,,939,, ,,,,,,,,940,, ,,,,,,,,941,, ,,,,,,,,942,, ,,,,,,,,943,, ,,,,,,,,944,, ,,,,,,,,945,,,,,,,,,,946,,,,,,,,,,947,,,,,,,,,,948,,,,,,,,,,949,,,,,,,,,,950,,,,,,,,,,951,,,,,,,,,,952,,,,,,,,,,953,,,,,,,,,,954,,,,,,,,,,955,,,,,,,,,,956,,,,,,,,,,957,,,,,,,,,,958,,,,,,,,,,959,,,,,,,,,,960,,,,,,,,,,961,,,,,,,,,,962,,,,,,,,,,963,,,,,,,,,,964,,,,,,,,,,965,,,,,,,,,,966,,,,,,,,,,967,,,,,,,,,,968,,,,,,,,,,969,,,,,,,,,,970,,,,,,,,,,971,,,,,,,,,,972,,,,,,,,,,973,,,,,,,,,,974,,,,,,,,,,975,,,,,,,,,,976,,,,,,,,,,977,,,,,,,,,,978,,,,,,,,,,979,,,,,,,,,,980,,,,,,,,,,981,,,,,,,,,,982,,,,,,,,,,983,,,,,,,,,,984,,,,,,,,,,985,,,,,,,,,,986,,,,,,,,,,987,,,,,,,,,,988,,,,,,,,,,989,,,,,,,,,,990,,,,,,,,,,991,,,,,,,,,,992,,,,,,,,,,993,,,,,,,,,,994,,,,,,,,,,995,,,,,,,,,,996,,,,,,,,,,997,,,,,,,,,,998,,,,,,,,,,999,,,,,,,,,,1000,,,,,,,,,,1001,,,,,,,,,,1002,,,,,,,,,,1003,,,,,,,,,,1004,,,,,,,,,,1005,,,,,,,,,,1006,,,,,,,,,,1007,,,,,,,,,,1008,,,,,,,,,,1009,,,,,,,,,,1010,,,,,,,,,,1011,,,,,,,,,,1012,,,,,,,,,,1013,,,,,,,,,,1014,,,,,,,,,,1015,,,,,,,,,,1016,,,,,,,,,,1017,,,,,,,,,,1018,,,,,,,,,,1019,,,,,,,,,,1020,,,,,,,,,,1021,,,,,,,,,,1022,,,,,,,,,,1023,,,,,,,,,,1024,,,,,,,,,,1025,,,,,,,,,,1026,,,,,,,,,,1027,,,,,,,,,,1028,,,,,,,,,,1029,,,,,,,,,,1030,,,,,,,,,,1031,,,,,,,,,,1032,,,,,,,,,,1033,,,,,,,,,,1034,,,,,,,,,,1035,,,,,,,,,,1036,,,,,,,,,,1037,,,,,,,,,,1038,,,,,,,,,,1039,,,,,,,,,,1040,,,,,,,,,,1041,,,,,,,,,,1042,,,,,,,,,,1043,,,,,,,,,,1044,,,,,,,,,,1045,,,,,,,,,,1046,,,,,,,,,,1047,,,,,,,,,,1048,,,,,,,,,,1049,,,,,,,,,,1050,,,,,,,,,,1051,,,,,,,,,,1052,,,,,,,,,,1053,,,,,,,,,,1054,,,,,,,,,,1055,,,,,,,,,,1056,,,,,,,,,,1057,,,,,,,,,
+ip,name,image,uniqueId
+1.0.0.0.0,Cotton,,0
+1.0.0.0.2,Not Planted,,1
+1.0.0.0.4,Coton,,2
+1.0.0.1.1,Not Planted,,3
+1.0.0.1.3,Not Planted,,4
+1.0.0.2.0,Not Planted,,5
+1.0.0.2.2,Cotton,,6
+1.0.0.2.4,Cotton,,7
+1.0.0.3.1,Cotton,,8
+1.0.0.3.3,Not Planted,,9
+1.0.0.4.0,Not Planted,,10
+1.0.0.4.2,Not Planted,,11
+1.0.0.4.4,Cotton,,12
+1.0.0.5.1,Not Planted,,13
+1.0.0.5.3,Not Planted,,14
+1.0.0.6.0,Not Planted,,15
+1.0.0.6.2,Not Planted,,16
+1.0.0.6.4,Cotton,,17
+1.0.0.7.1,Cotton,,18
+1.0.0.7.3,Not Planted,,19
+1.0.0.8.0,Cotton,,20
+1.0.0.8.2,Cotton,,21
+1.0.0.8.4,Not Planted,,22
+1.0.0.9.1,Not Planted,,23
+1.0.0.9.3,Not Planted,,24
+1.0.0.10.0,Cotton,,25
+1.0.0.10.2,Not Planted,,26
+1.0.0.10.4,Cotton,,27
+1.1.0.0.1,Lettuce,,28
+1.1.0.0.3,Lettuce,,29
+1.1.0.0.5,Lettuce,,30
+1.1.0.1.0,Not Planted,,31
+1.1.0.1.2,Not Planted,,32
+1.1.0.1.4,Not Planted,,33
+1.1.0.2.1,Mustard,,34
+1.1.0.2.3,Mustard,,35
+1.1.0.2.5,Mustard,,36
+1.1.0.3.0,Not Planted,,37
+1.1.0.3.2,Not Planted,,38
+1.1.0.3.4,Not Planted,,39
+1.1.0.4.1,Mustard,,40
+1.1.0.4.3,Mustard,,41
+1.1.0.4.5,Mustard,,42
+1.1.0.5.0,Not Planted,,43
+1.1.0.5.2,Not Planted,,44
+1.1.0.5.4,Not Planted,,45
+1.1.0.6.1,Lettuce,,46
+1.1.0.6.3,Lettuce,,47
+1.1.0.6.5,Lettuce,,48
+1.1.0.7.0,Not Planted,,49
+1.1.0.7.2,Not Planted,,50
+1.1.0.7.4,Not Planted,,51
+1.1.0.8.1,Arugula,,52
+1.1.0.8.3,Arugula,,53
+1.1.0.8.5,Arugula,,54
+1.1.0.9.0,Not Planted,,55
+1.1.0.9.2,Not Planted,,56
+1.1.0.9.4,Not Planted,,57
+1.1.0.10.1,Lettuce,,58
+1.1.0.10.3,Lettuce,,59
+1.1.0.10.5,Lettuce,,60
+1.1.0.11.0,Not Planted,,61
+1.1.0.11.2,Not Planted,,62
+1.1.0.11.4,Not Planted,,63
+1.1.1.0.1,Lettuce,,64
+1.1.1.0.3,Lettuce,,65
+1.1.1.0.5,Lettuce,,66
+1.1.1.1.0,Not Planted,,67
+1.1.1.1.2,Not Planted,,68
+1.1.1.1.4,Not Planted,,69
+1.1.1.2.1,Mustard,,70
+1.1.1.2.3,Mustard,,71
+1.1.1.2.5,Mustard,,72
+1.1.1.3.0,Not Planted,,73
+1.1.1.3.2,Not Planted,,74
+1.1.1.3.4,Not Planted,,75
+1.1.1.4.1,Mustard,,76
+1.1.1.4.3,Mustard,,77
+1.1.1.4.5,Mustard,,78
+1.1.1.5.0,Not Planted,,79
+1.1.1.5.2,Not Planted,,80
+1.1.1.5.4,Not Planted,,81
+1.1.1.6.1,Lettuce,,82
+1.1.1.6.3,Lettuce,,83
+1.1.1.6.5,Lettuce,,84
+1.1.1.7.0,Not Planted,,85
+1.1.1.7.2,Not Planted,,86
+1.1.1.7.4,Not Planted,,87
+1.1.1.8.1,Arugula,,88
+1.1.1.8.3,Arugula,,89
+1.1.1.8.5,Arugula,,90
+1.1.1.9.0,Not Planted,,91
+1.1.1.9.2,Not Planted,,92
+1.1.1.9.4,Not Planted,,93
+1.1.1.10.1,Lettuce,,94
+1.1.1.10.3,Lettuce,,95
+1.1.1.10.5,Lettuce,,96
+1.1.1.11.0,Not Planted,,97
+1.1.1.11.2,Not Planted,,98
+1.1.1.11.4,Not Planted,,99
+1.1.2.0.1,Lettuce,,100
+1.1.2.0.3,Lettuce,,101
+1.1.2.0.5,Lettuce,,102
+1.1.2.1.0,Not Planted,,103
+1.1.2.1.2,Not Planted,,104
+1.1.2.1.4,Not Planted,,105
+1.1.2.2.1,Mustard,,106
+1.1.2.2.3,Mustard,,107
+1.1.2.2.5,Mustard,,108
+1.1.2.3.0,Not Planted,,109
+1.1.2.3.2,Not Planted,,110
+1.1.2.3.4,Not Planted,,111
+1.1.2.4.1,Mustard,,112
+1.1.2.4.3,Mustard,,113
+1.1.2.4.5,Mustard,,114
+1.1.2.5.0,Not Planted,,115
+1.1.2.5.2,Not Planted,,116
+1.1.2.5.4,Not Planted,,117
+1.1.2.6.1,Lettuce,,118
+1.1.2.6.3,Lettuce,,119
+1.1.2.6.5,Lettuce,,120
+1.1.2.7.0,Not Planted,,121
+1.1.2.7.2,Not Planted,,122
+1.1.2.7.4,Not Planted,,123
+1.1.2.8.1,Arugula,,124
+1.1.2.8.3,Arugula,,125
+1.1.2.8.5,Arugula,,126
+1.1.2.9.0,Not Planted,,127
+1.1.2.9.2,Not Planted,,128
+1.1.2.9.4,Not Planted,,129
+1.1.2.10.1,Lettuce,,130
+1.1.2.10.3,Lettuce,,131
+1.1.2.10.5,Lettuce,,132
+1.1.2.11.0,Not Planted,,133
+1.1.2.11.2,Not Planted,,134
+1.1.2.11.4,Not Planted,,135
+1.2.0.0.0,,,136
+1.2.0.0.2,,,137
+1.2.0.0.4,,,138
+1.2.0.1.1,,,139
+1.2.0.1.3,,,140
+1.2.0.2.0,,,141
+1.2.0.2.2,,,142
+1.2.0.2.4,,,143
+1.2.0.3.1,,,144
+1.2.0.3.3,,,145
+1.2.0.4.0,,,146
+1.2.0.4.2,,,147
+1.2.0.4.4,,,148
+1.2.0.5.1,,,149
+1.2.0.5.3,,,150
+1.2.0.6.0,,,151
+1.2.0.6.2,,,152
+1.2.0.6.4,,,153
+1.2.0.7.1,,,154
+1.2.0.7.3,,,155
+1.2.0.8.0,,,156
+1.2.0.8.2,,,157
+1.2.0.8.4,,,158
+1.2.0.9.1,,,159
+1.2.0.9.3,,,160
+1.2.0.10.0,,,161
+1.2.0.10.2,,,162
+1.2.0.10.4,,,163
+1.2.1.0.0,,,164
+1.2.1.0.2,,,165
+1.2.1.0.4,,,166
+1.2.1.1.1,,,167
+1.2.1.1.3,,,168
+1.2.1.2.0,,,169
+1.2.1.2.2,,,170
+1.2.1.2.4,,,171
+1.2.1.3.1,,,172
+1.2.1.3.3,,,173
+1.2.1.4.0,,,174
+1.2.1.4.2,,,175
+1.2.1.4.4,,,176
+1.2.1.5.1,,,177
+1.2.1.5.3,,,178
+1.2.1.6.0,,,179
+1.2.1.6.2,,,180
+1.2.1.6.4,,,181
+1.2.1.7.1,,,182
+1.2.1.7.3,,,183
+1.2.1.8.0,,,184
+1.2.1.8.2,,,185
+1.2.1.8.4,,,186
+1.2.1.9.1,,,187
+1.2.1.9.3,,,188
+1.2.1.10.0,,,189
+1.2.1.10.2,,,190
+1.2.1.10.4,,,191
+1.3.0.0.0,,,191
+1.3.0.0.2,,,191
+1.3.0.0.4,,,191
+1.3.0.1.1,,,191
+1.3.0.1.3,,,191
+1.3.0.2.0,,,191
+1.3.0.2.2,,,191
+1.3.0.2.4,,,191
+1.3.0.3.1,,,191
+1.3.0.3.3,,,191
+1.3.0.4.0,,,191
+1.3.0.4.2,,,191
+1.3.0.4.4,,,191
+1.3.0.5.1,,,191
+1.3.0.5.3,,,191
+1.3.0.6.0,,,191
+1.3.0.6.2,,,191
+1.3.0.6.4,,,191
+1.3.0.7.1,,,191
+1.3.0.7.3,,,191
+1.3.0.8.0,,,191
+1.3.0.8.2,,,191
+1.3.0.8.4,,,191
+1.3.0.9.1,,,191
+1.3.0.9.3,,,191
+1.3.0.10.0,,,191
+1.3.0.10.2,,,191
+1.3.0.10.4,,,191
+1.3.1.0.0,,,191
+1.3.1.0.2,,,191
+1.3.1.0.4,,,191
+1.3.1.1.1,,,191
+1.3.1.1.3,,,191
+1.3.1.2.0,,,191
+1.3.1.2.2,,,191
+1.3.1.2.4,,,191
+1.3.1.3.1,,,191
+1.3.1.3.3,,,191
+1.3.1.4.0,,,191
+1.3.1.4.2,,,191
+1.3.1.4.4,,,191
+1.3.1.5.1,,,191
+1.3.1.5.3,,,191
+1.3.1.6.0,,,191
+1.3.1.6.2,,,191
+1.3.1.6.4,,,191
+1.3.1.7.1,,,191
+1.3.1.7.3,,,191
+1.3.1.8.0,,,191
+1.3.1.8.2,,,191
+1.3.1.8.4,,,191
+1.3.1.9.1,,,191
+1.3.1.9.3,,,191
+1.3.1.10.0,,,191
+1.3.1.10.2,,,191
+1.3.1.10.4,,,191
+1.4.0.0.0,,,191
+1.4.0.0.2,,,191
+1.4.0.0.4,,,191
+1.4.0.1.1,,,191
+1.4.0.1.3,,,191
+1.4.0.2.0,,,191
+1.4.0.2.2,,,191
+1.4.0.2.4,,,191
+1.4.0.3.1,,,191
+1.4.0.3.3,,,191
+1.4.0.4.0,,,191
+1.4.0.4.2,,,191
+1.4.0.4.4,,,191
+1.4.0.5.1,,,191
+1.4.0.5.3,,,191
+1.4.0.6.0,,,191
+1.4.0.6.2,,,191
+1.4.0.6.4,,,191
+1.4.0.7.1,,,191
+1.4.0.7.3,,,191
+1.4.0.8.0,,,191
+1.4.0.8.2,,,191
+1.4.0.8.4,,,191
+1.4.0.9.1,,,191
+1.4.0.9.3,,,191
+1.4.0.10.0,,,191
+1.4.0.10.2,,,191
+1.4.0.10.4,,,191
