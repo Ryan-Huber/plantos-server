@@ -6638,5 +6638,13 @@ background-color: #fff;
     border-radius: 6px 0 6px 6px;
 }
 
+.hoverBox:hover {
+  stroke:yellow;
+  stroke-width:4px;
+}
+.hoverImg:hover {
+  opacity: 0.8;
+}
+
 
 /* sourceMappingURL=bootstrap.css.map */
