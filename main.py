@@ -67,18 +67,18 @@ from collections import defaultdict
 trayPlantDict = defaultdict(list)
 
 @flask_app.route("/")
-def rootPage():
-    return render_template("rootPage.html", databases=DATABASE_NAMES)
+def index():
+    return render_template("index.html", databases=DATABASE_NAMES)
 
 @flask_app.route("/<system>/")
-def index(system):
+def traySelect(system):
     trayList = TRAY_LIST[system]
     if len(trayList) == 1:
-        return redirect(url_for("trayIndex", system=system, traynum=1))
+        return redirect(url_for("trayView", system=system, traynum=1))
     return render_template("traySelect.html", databases=DATABASE_NAMES, current_database=system, tray=trayList)
 
 @flask_app.route("/<system>/<int:traynum>")
-def trayIndex(system, traynum):
+def trayView(system, traynum):
     tray = TRAY_LIST[system][max(traynum-1, 0)]
     trayString = str(system) + "_" + str((traynum-1))
     plants = trayPlantDict[trayString]
@@ -88,14 +88,8 @@ def trayIndex(system, traynum):
         x = int(ip[3])+1
         y = int(ip[4])+1
         locs.append([x,y])
-    return render_template("index.html", databases=DATABASE_NAMES, current_database=system, tray=tray, plants=plants, plantLocations=locs)
+    return render_template("trayView.html", databases=DATABASE_NAMES, current_database=system, tray=tray, plants=plants, plantLocations=locs)
 
-
-@flask_app.route("/Testing")
-def testing():
-    return render_template("Testing.html", databases=DATABASE_NAMES)
-#@flask_app.route("/<system>/")
-#def
 
 # A background thread that emits new data points to clients from the specified
 # collection as they arrive

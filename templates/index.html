@@ -2,253 +2,27 @@
 
 
 {% set short_title = "" %}
-{% set long_title = databases[current_database] %}
-{% set waterSensorURL = "/sensors/" + current_database +"/Water" %}
-{% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
+{% set long_title = "" %}
+
+
 
 {% block page %}
-<div class="row">
-
-    <div id="plantTray">
-        
-    </div>
-    <div class="col-xs-8 col-md-5 plantInfoBox">
-       <div role="tabpanel" class="well">
-
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist" id="infoBoxTabs">
-            <li role="presentation" class="active"><a href="#plants" aria-controls="plants" role="tab" data-toggle="tab">Plants</a></li>
-            <li role="presentation"><a href="#controls" aria-controls="controls" role="tab" data-toggle="tab">Controls</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-          </ul>
-
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="plants">
-                <h4>Click a plant!</h4>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="controls">
-                <h4>LEDs</h4>
-                <b>Color</b>
-                <select id="ledColorSelector" onChange="changeLEDColor();">
-                    <option>Red</option>
-                    <option>Green</option>
-                    <option>Blue</option>
-                    <option>Purple</option>
-                    <option>Yellow</option>
-                    <option>White</option>
-                </select>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="messages"><h4>Coming soon!</h4></div>
-          </div>
-          
-
-        </div>
-    </div>
+<div class="jumbotron">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<div id="welcome-text" style="padding:6px">
+					<h1>Welcome to CityFARM!</h1>
+					<p>As a part of the City Science Initiative at MIT Media Lab, we explore the technological, environmental, social, and economic design of scalable systems capable of producing affordable andhigh quality food in the heart of our future cities.</p>
+					<p>To get see what we are growing now, choose a farm from above!</p>
+					<p><small>Check out our <a href="http://mitcityfarm.media.mit.edu/"> website</a> too!</small></p>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<img src="/static/img/CityFARM-teampic.jpg" style="width:100%">
+			</div>
+		</div>
+	</div>
 </div>
-        
-<!--
-        <div class="row">
-            <div class="col-md-6">
-                <div class="callout callout-green">
-                        <h3><a href="#">{{ long_title }} Plant 1</a></h3>
-                        <div class="alert alert-info" role="alert">Growth to be completed in 4 days</div>
-                        <div class="alert alert-danger" role="alert">pH has dropped to 6.2!</div>
-
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="callout callout-yellow">
-                    <h1>Updates</h1>
-                    
-                    <div class="alert alert-info" role="alert">Growth to be completed in 4 days</div>
-                    <div class="alert alert-danger" role="alert">pH has dropped to 6.2!</div>
-                    
-                </div>
-            </div>
-        </div>
--->
-
-    
-<script>
-    //Draw System
-    var system = "{{ current_database }}"
-    var trayType = {{ tray|safe }};
-    var plantLocations = {{ plantLocations|safe }};
-    var plantInfo = {{ plants|safe }}
-    var lightColor = "Red";  //to come from system data
-    var svgWidth, svgHeight; 
-    var boxdim, plantSize, imgSize;
-    var padding, lightPadding, xplantPadding, yplantPadding, xScalar, yScalar;
-    var plantIDs, plantsInBot;
-    var outterBox, innerBox;
-    var plantTray = d3.select("body").select("#plantTray")
-                      .append("svg")
-                      .attr("id", "#plantTraySvg");
-
-    if (trayType == 0){
-        d3.select("#plantTray").attr("class", "col-xs-12 col-md-5");
-        drawGroBot();
-    }
-    else if (trayType == 1){
-        d3.select("#plantTray").attr("class", "col-xs-12 col-md-7");
-        drawFullNormalTray();
-    }
-    else if (trayType == 2){
-        d3.select("#plantTray").attr("class", "col-xs-12 col-md-7");
-        drawFullWeirdTray();
-    }
-    else if (trayType == 3){
-        d3.select("#plantTray").attr("class", "col-xs-3");
-        drawSelectTray(system, trayList);
-    }
-
-    function drawGroBot(){
-        svgWidth = 430;
-        svgHeight = 430;
-        boxdim = 430;
-        padding = 5;
-        lightPadding = 15;
-        plantSize = 30;
-        xplantPadding = (boxdim-2*lightPadding)/5 - plantSize/2;
-        yplantPadding = (boxdim-2*lightPadding)/4 - plantSize/2;
-        xScalar = 4;
-        yScalar = 5;
-        drawTray();
-        
-
-    }
-    function drawFullNormalTray(){
-        svgWidth = 930;
-        svgHeight = 530;
-        padding = 3;
-        lightPadding = 15;
-        plantSize = 40;
-        imgSize = 40;
-        xplantPadding = (svgWidth-2*lightPadding)/11 - plantSize/2;
-        yplantPadding = (svgHeight-2*lightPadding)/5 - plantSize/2;
-        xScalar = 11;
-        yScalar = 5;
-        drawTray();
-        
-    }
-
-    function drawFullWeirdTray(){
-        svgWidth = 930;
-        svgHeight = 530;
-        padding = 3;
-        lightPadding = 15;
-        plantSize = 26;
-        xplantPadding = (svgWidth-2*lightPadding)/12 - plantSize/2;
-        yplantPadding = (svgHeight-2*lightPadding)/6 - plantSize/2;
-        xScalar = 12;
-        yScalar = 6;
-        drawTray();
-    }
-    function drawSelectTray(system, trayList){
-        var change = "goToTray(\"" + system + "\")";
-        var selectBox = d3.select("body").select("#plantTray").append("select")
-                          .attr("id","selectBox")
-                          .attr("onChange", change);
-
-        var options = selectBox.selectAll("option")
-                            .data(trayList).enter()
-                            .append("option")
-                            .text(function(d, i) { return i+1; });   
-    }
-    function goToTray(system){
-        tray = $("#selectBox").children("option:selected").text();
-        
-        window.location.replace ("/" + system + "/" + tray);
-    }
-    function drawTray(){
-        plantTray.attr({
-                "preserveAspectRatio": "xMinYMin meet",
-                "viewBox": "0 0 " + svgWidth + " " + svgHeight
-            });
-
-        outterBox = plantTray.append("rect")
-                          .attr({
-                            "x": 0,
-                            "y": 0,
-                            "width": svgWidth,
-                            "height": svgHeight,
-                            "fill": lightColor,
-                            "opacity": .4
-                          });
-
-        innerBox = plantTray.append("rect")
-                         .attr({
-                            "x": lightPadding,
-                            "y": lightPadding,
-                            "width": svgWidth-2*lightPadding,
-                            "height": svgHeight-2*lightPadding,
-                            "fill": "white"
-                         });
-        
-        var xScalePlant = d3.scale.linear()
-                    .domain([1,xScalar])
-                    .range([xplantPadding, svgWidth-lightPadding-plantSize- xplantPadding]);
-        var yScalePlant = d3.scale.linear()
-                    .domain([yScalar,1])
-                    .range([xplantPadding, svgHeight-lightPadding-xplantPadding]);
-
-
-        for(i=0;i<plantLocations.length;i++){
-            if (plantInfo[i]["image"] == ""){
-                noImagePlant(plantLocations[i], i)
-            }
-            else{
-                plantWithPic(plantLocations[i], i)
-            }
-        }
-
-        function noImagePlant(loc, i){
-            plantTray.append("rect")
-                    .attr({
-                        "x": xScalePlant(loc[0]),
-                        "y": yScalePlant(loc[1]),
-                        "rx": 12,
-                        "ry": 12,
-                        "width": plantSize,
-                        "height": plantSize, 
-                        "fill": "green",
-                        "id": "plant" + i,
-                        "onclick":"plantClick(" + i + ")"
-                    });
-        }
-
-        
-        function plantWithPic(loc, i){
-        plantTray.append("image")
-                .attr({
-                    "x": xScalePlant(loc[0]),
-                    "y": yScalePlant(loc[1]),
-                    "width": plantSize,
-                    "height": plantSize,
-                    "xlink:href":"/static/img/plantImg/" + plantInfo[i]["image"],
-                    "onclick":"plantClick(" + i + ")"
-                });
-        }
-    }
-    //Other Functions
-    $('#infoBoxTabs a:first').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    });
-
-    function changeLEDColor(){
-        lightColor = $('#ledColorSelector').children("option:selected").text();
-        outterBox.attr({"fill":lightColor});
-    }
-
-    function plantClick(plantID){
-        $('#infoBoxTabs a:first').tab('show')
-        var newTabContent = plantID;
-        var plantName = plantInfo[plantID]["plantName"]
-        $('#plants').text(plantName + " " + newTabContent);
-    }
-    
-</script>
 
 {% endblock %}

@@ -7,10 +7,15 @@
 {% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
 
 {% block page %}
+<div class="platos-page container-fluid">
+    <div >
+        <h2>{{ long_title }}<h2>
+    </div>
 	<div class="row">
-		<div class="col-xs-12 col-md-8" id="traySelectBox">
+		<div class="col-xs-12 col-md-9" id="traySelectBox">
 		</div>
 	</div>
+</div>
 
 	<script>
 		var trayList = {{ tray|safe }};
@@ -18,23 +23,25 @@
 		var svgWidth, svgHeight;
 		var outterBox, innerBox;
 		var boxPadding;
-		var trayWidth, trayHeight, trayLocations, trayIDs;
-		
+		var trayWidth, trayHeight, trayLocations, trayIDs, trayLabel;
+		var columns = [2,3,4,5];
 		var greenHouse = d3.select("#traySelectBox").append("svg").attr("id", "greenHouseSvg");
+        var xScaleTray, yScaleTray;
 		drawSelectTray();
 
 		function drawSelectTray(){
 			boxPadding = 5;
 			svgWidth = 500+9*boxPadding;
 			svgHeight = 250+8*boxPadding;
-			trayHeight = 50;
+			trayHeight = [50, 80, 100];
 			trayWidth = 100;
 			trayLocations =[[0,0,0],[0,0,0],
-								  [2,5,4],
-								  		[3,4,6],[4,4,8],
-								  [2,3,3],
+								    [2,5,4],
+								  		    [3,4,6],[4,4,8],
+								    [2,3,3],
 							[1,1,1],[2,1,2],[3,1,5],[4,1,7],[5,1,9]];
-							
+
+			trayLabel = ["3A","3B","2","1","4B","4A","5B","5A","6"];
 			trayIDs = [0,0,0,1,2,3,4,5,6,7,8];
 
 			greenHouse.attr({
@@ -62,12 +69,25 @@
                              });
             
 
-            var xScaleTray = d3.scale.linear()
+            xScaleTray = d3.scale.linear()
                     .domain([1,5])
                     .range([2*boxPadding, svgWidth - trayWidth - 2*boxPadding]);
-        	var yScaleTray = d3.scale.linear()
+        	yScaleTray = d3.scale.linear()
                     .domain([5,1])
-                    .range([2*boxPadding, svgHeight - trayHeight - 2*boxPadding]);
+                    .range([2*boxPadding, svgHeight - trayHeight[0] - 2*boxPadding]);
+            
+            function trayHeightSelector(trayID){
+                if(trayID<7){
+                    return trayHeight[0];
+                }
+                else if(trayID<9){
+                    return trayHeight[1];
+                }
+                else if(trayID==9){
+                    return trayHeight[2];
+                }
+                return trayHeight[0]
+            }
 
             traysInGreenhouse = greenHouse.selectAll("rect").data(trayLocations)
                         .enter().append("rect")
@@ -77,7 +97,7 @@
                             "rx": 3,
                             "ry": 3,
                             "width": trayWidth,
-                            "height": trayHeight, 
+                            "height": trayHeight[0],//function(d){return trayHeightSelector(d[2])}, 
                             "fill": "gray",
                             "id": function(d,i){
                                 return trayList[i];
@@ -86,6 +106,29 @@
                                 return "goToTray(\""+system+"\", " + d[2] + ")";
                             }
                         });
+            trayLabels = greenHouse.selectAll("text").data(trayLocations.slice(2))
+                                .enter().append("text")
+                                .text(function(d){return trayLabel[d[2]-1]})
+                                .attr({
+                                    "x":function(d){return xScaleTray(d[0])+trayWidth/2-5},
+                                    "y":function(d){return yScaleTray(d[1])+trayHeight[0]/2+5}
+                                });
+        }
+
+        drawGrid();
+        function drawGrid(){
+            var colWidth = 4;
+            var cols = columns;
+            for(col in cols){
+                greenHouse.append("rect")
+                        .attr({
+                            "x": xScaleTray(cols[col])-5,
+                            "y": boxPadding+1,
+                            "width": colWidth,
+                            "height": svgHeight-2*boxPadding-2, 
+                            "fill": "green" 
+                        });
+            }
         }
 
 	    function goToTray(system, tray){
