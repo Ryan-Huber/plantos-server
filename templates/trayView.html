@@ -107,7 +107,7 @@
         padding = 3;
         lightPadding = 15;
         plantSize = 34;
-        imgSize = 60;
+        imgSize = 75;
         xplantPadding = (svgWidth-2*lightPadding)/11 - plantSize/2;
         yplantPadding = (svgHeight-2*lightPadding)/5 - plantSize/2;
         xScalar = 11;
@@ -201,7 +201,7 @@
                     "y": yScalePlant(loc[1])-xyFix,
                     "width": imgSize,
                     "height": imgSize,
-                    "xlink:href":"/static/img/plantimg/" + plantInfo[i]["image"],
+                    "xlink:href":"/static/img/plantImg/" + plantInfo[i]["image"],
                     "onclick":"plantClick(" + i + ")",
                     "class":className,
                     "box-shadow":"none"
