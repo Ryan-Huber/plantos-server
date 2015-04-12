@@ -66,6 +66,10 @@ flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 from collections import defaultdict
 trayPlantDict = defaultdict(list)
 
+@flask_app.route("/")
+def rootPage():
+    return render_template("rootPage.html", databases=DATABASE_NAMES)
+
 @flask_app.route("/<system>/")
 def index(system):
     trayList = TRAY_LIST[system]
