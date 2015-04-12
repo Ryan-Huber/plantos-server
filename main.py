@@ -78,7 +78,7 @@ def trayIndex(system, traynum):
     tray = TRAY_LIST[system][max(traynum-1, 0)]
     trayString = str(system) + "_" + str((traynum-1))
     plants = trayPlantDict[trayString]
-    locs = [[0,0],[0,0]]
+    locs = []
     for plant in plants:
         ip = plant["ip"].split('.')
         x = int(ip[3])+1
@@ -171,12 +171,11 @@ def parseCSV(fileString):
             elif ip[1]=="4":#Bay4
                 if ip[2]=="0":
                     trayPlantDict["main_system_8"].append(plant)
-                else:
-                    print ip
+                
 
             #pass #go to a main sys tray
         elif ip[0] == "2":
-            pass #go to groBot1Trayy
+            trayPlantDict["groBot_0"].append(plant) #go to groBot1Trayy
 
 
 
