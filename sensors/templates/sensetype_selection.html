@@ -1,0 +1,18 @@
+{% extends "base_html_template.html" %}
+{% set short_title = "Sensor Types" %}
+{% set long_title = "Select a Sensor Type" %}
+{% set back_link = "/sensors" %}
+
+{% block page %}
+    <h1>Pick a Sensor Type</h1>
+
+    <br />
+
+    <ul class="nav nav-pills nav-justified">
+      <li class="divider-horizontal"></li>
+      <li><a href="{{current_database}}/water" class="bg-info"><h2>Water Sensors</h2></a></li>
+      <li class="divider-horizontal"></li>
+      <li><a href="{{current_database}}/atmospheric" class="bg-info"><h2>Atmospheric Sensors</h2></a></li>
+      <li class="divider-horizontal"></li>
+    </ul>
+{% endblock %}

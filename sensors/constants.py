@@ -24,11 +24,24 @@ COLLECTION_NAMES = {
 ##1 = normal full tray (alt cols of 2 and 3)
 ##2 = weird full tray (all cols of 3)
 
+WATER_SENSOR_BOARDS = {
+    "water_sensors_1": "552967f774645ab103a47247",
+    "water_sensors_2": "552967f774645ab103a47248",
+    "water_sensors_3": "552967f774645ab103a47249",
+    "water_sensors_4": "552967f774645ab103a4724a",
+    "water_sensors_5": "552967f774645ab103a4724b",
+    "water_sensors_6": "552967f774645ab103a4724c"
+}
+
+TRAY_SENSORS = ["water_sensors_3", "water_sensors_3", "water_sensors_2",
+"water_sensors_1", "water_sensors_4", "water_sensors_4", "water_sensors_5",
+"water_sensors_5", "water_sensors_6"]
+
 TRAY_LIST = {
-    "main_system":[1, 
-                   2, 2, 2, 
-                   1, 1, 
-                   1, 1, 
+    "main_system":[1,
+                   2, 2, 2,
+                   1, 1,
+                   1, 1,
                    1],
     "groBot":[0]
 }
@@ -40,7 +53,7 @@ __temperature_info = ("Temperature", {
     "yellow": [18, 27]
 })
 __water_temperature_info = ("Water_Temperature", __temperature_info[1])
-__ph_info = ("PH", {
+__ph_info = ("pH", {
     "range": [5, 7],
     "ticks": [5, 5.5, 6, 6.5, 7],
     "green": [5.7, 6.3],
@@ -83,7 +96,7 @@ __sg_info = ("SG", {
     "yellow": [0.7, 1.3]
 })
 _water_sensors_info = OrderedDict([
-    __temperature_info,
+    #__temperature_info,
     __ph_info,
     __do_info,
     __orp_info,

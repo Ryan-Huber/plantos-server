@@ -16,11 +16,13 @@
     "underscore": "~1.6.0",
     "eonasdan-bootstrap-datetimepicker": "~4.0.0",
     "jquery-ui": "~1.11.3",
-    "SensorClient": "https://github.com/MIT-CityFARM/SensorClient.js",
     "SensorClient.js": "https://github.com/MIT-CityFARM/SensorClient.js.git"
   },
   "homepage": "https://github.com/MIT-CityFARM/plantos-server",
   "moduleType": [
     "globals"
-  ]
+  ],
+  "resolutions": {
+    "backbone": "~1.1.2"
+  }
 }

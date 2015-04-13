@@ -6,6 +6,88 @@
 {% set waterSensorURL = "/sensors/" + current_database +"/Water" %}
 {% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
 
+{% block scripts %}
+    {{ super() }}
+    {{ macros.jquery_ui() }}
+    {{ macros.google_jsapi() }}
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["gauge"]});
+        google.setOnLoadCallback(setup_gauges);
+
+        // Constants and globals
+        var sensor_globals = {};
+        {% for sensor in sensor_info.keys() %}
+            var {{sensor}}_globals = {
+              data: null,
+              gauge: null,
+              options: {
+                width: 235, height: 235,
+                min: {{sensor_info[sensor]["range"][0]}},
+                max: {{sensor_info[sensor]["range"][1]}},
+                greenFrom: {{sensor_info[sensor]["range"][0]}},
+                greenTo: {{sensor_info[sensor]["range"][1]}},
+                greenColor: '#DC3912',
+                yellowFrom: {{sensor_info[sensor]["yellow"][0]}},
+                yellowTo: {{sensor_info[sensor]["yellow"][1]}},
+                redFrom: {{sensor_info[sensor]["green"][0]}},
+                redTo: {{sensor_info[sensor]["green"][1]}},
+                redColor: '#109618',
+                majorTicks: {{sensor_info[sensor]["ticks"] | safe}}
+              }
+            }
+            sensor_globals["{{sensor}}"] = {{sensor}}_globals;
+        {% endfor %}
+        var sensor_api = SensorAPI("http://cityfarm.media.mit.edu:8383");
+        sensor_api.boards.fetch({async: false});
+        sensor_api.sensors.fetch({async: false});
+        sensor_api.measurements.fetch({async: false});
+        var board = sensor_api.boards.get("{{board_id}}");
+
+        function setup_gauges() {
+            {% for sensor in sensor_info.keys() %}
+              sensor_globals["{{sensor}}"].data = new google.visualization.DataTable();
+              sensor_globals["{{sensor}}"].data.addColumn('string','Label');
+              sensor_globals["{{sensor}}"].data.addColumn('number','Value');
+              sensor_globals["{{sensor}}"].data.addRow(["{{sensor}}", 0]);
+              var {{sensor}}_div = $("#{{sensor}}_gauge")[0];
+              sensor_globals["{{sensor}}"].gauge = new google.visualization.Gauge({{sensor}}_div);
+              sensor_globals["{{sensor}}"].gauge.draw(sensor_globals["{{sensor}}"].data, sensor_globals["{{sensor}}"].options);
+            {% endfor %}
+            update_sensors();
+        }
+
+        function update_sensors() {
+          _.each(board.get("sensors"), function(sensor_id) {
+            var sensor = sensor_api.sensors.get(sensor_id);
+            sensor.get_value(function(value) {
+              var measurement = sensor_api.measurements.get(sensor.get("measurement"));
+              var name = measurement.get("name");
+              sensor_globals[name].data.setCell(0, 1, value);
+              sensor_globals[name].gauge.draw(sensor_globals[name].data, sensor_globals[name].options)
+            });
+          });
+        }
+
+        $(function() {
+            setInterval(update_sensors, 10*1000);
+        });
+      </script>
+    <style>
+        #gauge-row {
+            margin: 0;
+        }
+        #gauge-row div {
+            padding: 0;
+        }
+        #gauge-row div table {
+            margin: 0 auto !important;
+        }
+        .hasDatepicker {
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
 {% block page %}
 <div class="platos-page container-fluid">
     <div >
@@ -15,7 +97,7 @@
     <div class="row">
 
         <div id="plantTray">
-            
+
         </div>
         <div class="col-xs-8 col-md-5 plantInfoBox">
            <div role="tabpanel" class="well">
@@ -47,15 +129,21 @@
                     </select>
                 -->
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="sensorTab"><h4>Coming soon!</h4></div>
+                <div role="tabpanel" class="tab-pane fade" id="sensorTab">
+                  <div class="row">
+                    {% for sensor in sensor_info.keys() %}
+                    <div id="{{sensor}}_gauge" class="col-md-6 col-sm-12"></div>
+                    {% endfor %}
+                  </div>
+                </div>
               </div>
-              
+
 
             </div>
         </div>
     </div>
 </div>
-    
+
 <script>
     //Draw System
     var system = "{{ current_database }}"
@@ -63,7 +151,7 @@
     var plantLocations = {{ plantLocations|safe }};
     var plantInfo = {{ plants|safe }}
     var lightColor = "Red";  //to come from system data
-    var svgWidth, svgHeight; 
+    var svgWidth, svgHeight;
     var boxdim, plantSize, imgSize;
     var padding, lightPadding, xplantPadding, yplantPadding, xScalar, yScalar;
     var plantIDs, plantsInBot;
@@ -99,7 +187,7 @@
         yplantPadding = (boxdim-2*lightPadding)/4 - plantSize/2;
         xScalar = 4;
         yScalar = 5;
-        drawTray(); 
+        drawTray();
     }
     function drawFullNormalTray(){
         svgWidth = 930;
@@ -149,7 +237,7 @@
                             "height": svgHeight-2*lightPadding,
                             "fill": "white"
                          });
-        
+
         var xScalePlant = d3.scale.linear()
                     .domain([1,xScalar])
                     .range([xplantPadding, svgWidth-lightPadding-plantSize- xplantPadding]);
@@ -181,7 +269,7 @@
                         "rx": 10,
                         "ry": 10,
                         "width": plantSize,
-                        "height": plantSize, 
+                        "height": plantSize,
                         "fill": "green",
                         "opacity":op,
                         "id": "plant" + i,
@@ -191,7 +279,7 @@
                         "stroke-width":0
                     });
         }
-        
+
         function plantWithPic(loc, i){
             var xyFix = (imgSize-plantSize)/2;
             var className = "hoverImg";
@@ -226,8 +314,8 @@
         box.append("h4").text("Name: " + plantName);
         box.append("h4").text("Date Sown: " + dateSown)
     }
-    
-    
+
+
 </script>
 
 {% endblock %}

@@ -6,18 +6,18 @@
 {% block scripts %}
     {{ super() }}
     {{ macros.jquery_ui() }}
-    {{ macros.socket_io() }}
     {{ macros.google_jsapi() }}
     <script type="text/javascript">
         google.load("visualization", "1", {packages:["gauge"]});
         google.setOnLoadCallback(setup_gauges);
 
         // Constants and globals
-        var read_timeout;
-        var READ_TIMEOUT = 60000;
+        var sensor_globals = {};
         {% for sensor in info.keys() %}
-            var {{sensor}}_data, {{sensor}}_gague;
-            var {{sensor}}_options = {
+            var {{sensor}}_globals = {
+              data: null,
+              gauge: null,
+              options: {
                 width: 235, height: 235,
                 min: {{info[sensor]["range"][0]}},
                 max: {{info[sensor]["range"][1]}},
@@ -30,51 +30,44 @@
                 redTo: {{info[sensor]["green"][1]}},
                 redColor: '#109618',
                 majorTicks: {{info[sensor]["ticks"] | safe}}
+              }
             }
+            sensor_globals["{{sensor}}"] = {{sensor}}_globals;
         {% endfor %}
+        var sensor_api = SensorAPI("http://cityfarm.media.mit.edu:8383");
+        sensor_api.boards.fetch({async: false});
+        sensor_api.sensors.fetch({async: false});
+        sensor_api.measurements.fetch({async: false});
+        var board = sensor_api.boards.get("{{board_id}}");
 
         function setup_gauges() {
-            read_timeout = setTimeout(onStopReading, READ_TIMEOUT);
             {% for sensor in info.keys() %}
-                {{sensor}}_data = new google.visualization.DataTable();
-                {{sensor}}_data.addColumn('string','Label');
-                {{sensor}}_data.addColumn('number','Value');
-                {{sensor}}_data.addRow(["{{sensor}}",
-                    {% if initial_data %}{{initial_data[sensor]}}{% else %}0{% endif %}
-                ]);
-                var {{sensor}}_div = $("#{{sensor}}_gauge")[0];
-                {{sensor}}_gauge = new google.visualization.Gauge({{sensor}}_div);
-                {{sensor}}_gauge.draw({{sensor}}_data, {{sensor}}_options);
+              sensor_globals["{{sensor}}"].data = new google.visualization.DataTable();
+              sensor_globals["{{sensor}}"].data.addColumn('string','Label');
+              sensor_globals["{{sensor}}"].data.addColumn('number','Value');
+              sensor_globals["{{sensor}}"].data.addRow(["{{sensor}}", 0]);
+              var {{sensor}}_div = $("#{{sensor}}_gauge")[0];
+              sensor_globals["{{sensor}}"].gauge = new google.visualization.Gauge({{sensor}}_div);
+              sensor_globals["{{sensor}}"].gauge.draw(sensor_globals["{{sensor}}"].data, sensor_globals["{{sensor}}"].options);
             {% endfor %}
+            update_sensors();
+        }
+
+        function update_sensors() {
+          _.each(board.get("sensors"), function(sensor_id) {
+            var sensor = sensor_api.sensors.get(sensor_id);
+            sensor.get_value(function(value) {
+              var measurement = sensor_api.measurements.get(sensor.get("measurement"));
+              var name = measurement.get("name");
+              sensor_globals[name].data.setCell(0, 1, value);
+              sensor_globals[name].gauge.draw(sensor_globals[name].data, sensor_globals[name].options)
+            });
+          });
         }
 
         $(function() {
-            {% if not initial_data %}
-                onStopReading();
-            {% else %}
-                onStartReading();
-            {% endif %}
-            var sockAddr = "http://"+document.domain+":"+location.port+
-                           "/{{database}}/{{collection}}/data";
-            var socket = io.connect(sockAddr);
-            socket.on('data', function(data) {
-                data = JSON.parse(data);
-                {% for sensor in info.keys() %}
-                    {{sensor}}_data.setCell(0,1,data.{{sensor}});
-                    {{sensor}}_gauge.draw({{sensor}}_data,{{sensor}}_options);
-                {% endfor %}
-                clearTimeout(read_timeout);
-                read_timeout = setTimeout(onStopReading, READ_TIMEOUT);
-            });
+            setInterval(update_sensors, 10*1000);
         });
-
-        function onStopReading() {
-            $("#not-reading-alert").show();
-        }
-
-        function onStartReading() {
-            $("#not-reading-alert").hide();
-        }
     </script>
     <style>
         #gauge-row {
@@ -93,9 +86,6 @@
 {% endblock %}
 
 {% block page %}
-    <div id="not-reading-alert" class="alert alert-warning" role="alert" hidden>
-        These sensors are not currently reporting data.
-    </div>
     <div class="row">
         <div class="col-lg-10 col-md-12">
             <div id="gauge-row" class="row">

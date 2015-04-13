@@ -12,7 +12,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			{% for link, name in collections.iteritems() %}
-			{% if sensor_type in name %}
+			{% if sensor_type in name.lower() %}
 			<div class="col-md-4">
 				<div class="callout callout-green" >
 					<h3><a href={{sensor_type}}/{{link}}>{{name}}</a></h3>
@@ -21,14 +21,14 @@
 			{% endif %}
 			{% endfor %}
 		</div>
-		<hr>
+		<!--<hr>
 		<ul class="nav nav-pills nav-justified">
 	        {% for link, title in databases.iteritems() %}
 	        <li class="btn">
 	        	<a href="/{{ link }}" class="bg-info"><h2>{{title}}</h2></a>
 	        </li>
 	        {% endfor %}
-		</ul>
+      </ul>-->
 	</div>
 </div>
 {% endblock %}

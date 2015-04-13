@@ -8,7 +8,7 @@
     {% block scripts %}
       {{ macros.bootstrap() }}
     {% endblock %}
-    <title>{{ short_title }}MIT CityFARM</title>
+    <title>{{ short_title }} | MIT CityFARM</title>
   </head>
   <body class="body-color-home">
     <nav class="navbar navbar-default">
@@ -19,7 +19,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        
+
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
             <img alt="CityFARM" src="/static/img/cityfarm-logo2.gif" style="height:100%">
@@ -37,19 +37,25 @@
                 {% endfor %}
               </ul>
             </li>
-            <li><a href={{sensor_url}} class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sensors<span class="caret"></span></a>
+            <li><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sensors<span class="caret"></span></a>
               <ul class="dropdown-menu multi-level" role="menu">
+                {% for link, name in databases.iteritems() %}
                 <li class="dropdown-submenu">
+                  <a href="/sensors/{{link}}">{{name}}</a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/sensors/{{link}}/water">Water Sensors</a></li>
+                    <li><a href="/sensors/{{link}}/atmospheric">Atmospheric Sensors</a></li>
+                  </ul>
+                </li>
+                {% endfor %}
+                <!--<li class="dropdown-submenu">
                   <a href={{waterSensorURL}}>Water Sensors</a>
                 </li>
                 <li class="dropdown-submenu">
                   <a href={{airSensorURL}}>Air Sensors</a>
-                </li>
+                  </li>-->
               </ul>
             </li>
-            <li><a href="/plants/">Plant Library</a></li>
-            <li><a href="/manage/">Settings</a></li>
-            
           </ul>
         </div>
 

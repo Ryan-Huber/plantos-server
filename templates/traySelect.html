@@ -67,7 +67,7 @@
                                 "height": svgHeight-2*boxPadding,
                                 "fill": "#FFF9F9"
                              });
-            
+
 
             xScaleTray = d3.scale.linear()
                     .domain([1,5])
@@ -75,7 +75,7 @@
         	yScaleTray = d3.scale.linear()
                     .domain([5,1])
                     .range([2*boxPadding, svgHeight - trayHeight[0] - 2*boxPadding]);
-            
+
             function trayHeightSelector(trayID){
                 if(trayID<7){
                     return trayHeight[0];
@@ -97,7 +97,7 @@
                             "rx": 3,
                             "ry": 3,
                             "width": trayWidth,
-                            "height": trayHeight[0],//function(d){return trayHeightSelector(d[2])}, 
+                            "height": trayHeight[0],//function(d){return trayHeightSelector(d[2])},
                             "fill": "gray",
                             "id": function(d,i){
                                 return trayList[i];
@@ -125,8 +125,8 @@
                             "x": xScaleTray(cols[col])-5,
                             "y": boxPadding+1,
                             "width": colWidth,
-                            "height": svgHeight-2*boxPadding-2, 
-                            "fill": "green" 
+                            "height": svgHeight-2*boxPadding-2,
+                            "fill": "green"
                         });
             }
         }
