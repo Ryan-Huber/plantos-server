@@ -12,12 +12,14 @@ COLLECTION_NAMES = {
         ("water_sensors_4", "Water Sensors 4"),
         ("water_sensors_5", "Water Sensors 5"),
         ("water_sensors_6", "Water Sensors 6"),
-        ("air_sensors_2_2", "Atmospheric Sensors 2-2"),
-        ("air_sensors_3", "Atmospheric Sensors 3")]),
+        #("air_sensors_2_2", "Atmospheric Sensors 2-2"),
+        #("air_sensors_3", "Atmospheric Sensors 3")
+    ]),
      #"germinator": OrderedDict([("water_sensors", "Germinator Water Sensors"),
       #   ("air_sensors", "Germinator Air Sensors")]),
-     "groBot": OrderedDict([("water_sensors", "groBot Water Sensors"),
-         ("air_sensors", "groBot Air Sensors")])
+     "groBot": OrderedDict([#[("water_sensors", "groBot Water Sensors"),
+         #("air_sensors", "groBot Air Sensors")])
+     ])
 }
 ##Tray list Key:
 ##0 = half tray (grobot)

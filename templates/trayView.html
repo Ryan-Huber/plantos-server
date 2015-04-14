@@ -1,10 +1,7 @@
-{% extends "base_html_template.html" %}
+{% extends "base.html" %}
 
-
-{% set short_title = "" %}
+{% set short_title = databases[current_database] %}
 {% set long_title = databases[current_database] %}
-{% set waterSensorURL = "/sensors/" + current_database +"/Water" %}
-{% set airSensorURL = "/sensors/" + current_database + "/Atmospheric" %}
 
 {% block scripts %}
     {{ super() }}

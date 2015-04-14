@@ -33,34 +33,11 @@ if not os.path.isfile(config_file_path):
         os.makedirs(flask_app.instance_path)
     shutil.copyfile(example_cfg, config_file_path)
 flask_app.config.from_pyfile("application.cfg")
-# # PyMongo setup
-# from pymongo import MongoClient
-# flask_app.mongo_client = MongoClient(flask_app.config["HOST_IP"])
-# username = flask_app.config["MONGO_USERNAME"]
-# password = flask_app.config["MONGO_PASSWORD"]
-# try:
-#     flask_app.mongo_client.admin.authenticate(username, password)
-# except:
-#     print """Failed to authenticate to database. Either the database does not
-#     require authentication or the login information in instance application.cfg
-#     is incorrect"""
-# # Mongoengine setup
-# from flask.ext.mongoengine import MongoEngine
-# flask_app.mongoengine = MongoEngine(flask_app)
-# Register Blueprints
-# from plants import bp as plants_bp
-# flask_app.register_blueprint(plants_bp)
 from sensors.main import sensors
 flask_app.register_blueprint(sensors)
 # Authentication
 from flask.ext.basicauth import BasicAuth
 basic_auth = BasicAuth(flask_app)
-
-# Register sensor board web management blueprint
-# import sys
-# sys.path.append("./sensor-board")
-# from web_management.server import bp as board_management_blueprint
-# flask_app.register_blueprint(board_management_blueprint, url_prefix="/manage")
 
 from collections import defaultdict
 trayPlantDict = defaultdict(list)
