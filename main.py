@@ -64,6 +64,7 @@ basic_auth = BasicAuth(flask_app)
 
 from collections import defaultdict
 trayPlantDict = defaultdict(list)
+plantImages = []
 
 @flask_app.route("/")
 def index():
@@ -99,10 +100,16 @@ def trayView(system, traynum):
         sensor_info = {}
     board_id = WATER_SENSOR_BOARDS[TRAY_SENSORS[traynum-1]]
     return render_template("trayView.html", databases=DATABASE_NAMES,
-            current_database=system, tray=tray, plants=plants,
+            current_database=system, tray=tray, plants=plants, plantImages=plantImages,
             plantLocations=locs, sensor_info=sensor_info, board_id=board_id)
 
 import csv
+def plantImgsFromCSV(fileString):
+    f = open(fileString, 'rU')
+    csv_f = csv.DictReader(f)
+    for plant in csv_f:
+        plantImages.append(plant)
+
 
 def parseCSV(fileString):
     f = open(fileString, 'rU')
@@ -153,4 +160,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     flask_app.debug = args.debug
     parseCSV("static/PlantData.csv")
+    plantImgsFromCSV("static/plantImgCSV.csv")
     flask_app.run()
