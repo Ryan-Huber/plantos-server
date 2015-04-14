@@ -96,7 +96,7 @@
         <div id="plantTray">
 
         </div>
-        <div class="col-xs-8 col-md-5 plantInfoBox">
+        <div class="col-xs-12 col-md-5 plantInfoBox">
            <div role="tabpanel" class="well">
 
               <!-- Nav tabs -->
@@ -104,6 +104,7 @@
                 <li role="presentation" class="active"><a href="#plants" aria-controls="plants" role="tab" data-toggle="tab">Plants</a></li>
                 <li role="presentation"><a href="#controls" aria-controls="controls" role="tab" data-toggle="tab">Controls</a></li>
                 <li role="presentation"><a href="#sensorTab" aria-controls="messages" role="tab" data-toggle="tab">Sensors</a></li>
+                <li role="presentation"><a href="#newPlant" aria-controls="messages" role="tab" data-toggle="tab">New Plant</a></li>
               </ul>
 
               <!-- Tab panes -->
@@ -117,11 +118,11 @@
                     <h4>LEDs</h4>
                     <b>Color</b>
                     <select id="ledColorSelector" onChange="changeLEDColor();">
+                    
                         <option>Red</option>
-                        <option>Green</option>
+                        <option>Pink</option>
                         <option>Blue</option>
                         <option>Purple</option>
-                        <option>Yellow</option>
                         <option>White</option>
                     </select>
                 -->
@@ -132,6 +133,12 @@
                     <div id="{{sensor}}_gauge" class="col-md-6 col-sm-12"></div>
                     {% endfor %}
                   </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="newPlant">
+                    <h5 class="visible-xs visible-sm">Tap any plant below, then tap an empty location to plant it!</h5>
+                    <h5 class="visible-md visible-lg">Drag any plant below to an empty location to plant it!</h5>
+                    <div class="row" id="newPlant1"></div>
+                    
                 </div>
               </div>
 
@@ -146,16 +153,33 @@
     var system = "{{ current_database }}"
     var trayType = {{ tray|safe }};
     var plantLocations = {{ plantLocations|safe }};
-    var plantInfo = {{ plants|safe }}
+    var plantInfo = {{ plants|safe }};
+    var plantImgs = {{ plantImages|safe }}
     var lightColor = "Red";  //to come from system data
     var svgWidth, svgHeight;
     var boxdim, plantSize, imgSize;
-    var padding, lightPadding, xplantPadding, yplantPadding, xScalar, yScalar;
+    var padding, lightPadding, xplantPadding, yplantPadding, xScalar=1, yScalar=1;
     var plantIDs, plantsInBot;
     var outterBox, innerBox;
+    var xScalePlant, yScalePlant;
+
+    for(x in plantLocations){
+        if (plantLocations[x][0]>xScalar){
+            xScalar = plantLocations[x][0]
+        }
+        if (plantLocations[x][1]>yScalar){
+            yScalar = plantLocations[x][1]
+        }
+    }
     var plantTray = d3.select("body").select("#plantTray")
                       .append("svg")
                       .attr("id", "#plantTraySvg");
+    d3.selectAll(".tab-pane")
+            .attr({
+                "max-height":svgHeight,
+                "width":"100%",
+                "overflow-y":"scroll"
+            })
     if (trayType == 0){
         d3.select("#plantTray").attr("class", "col-xs-12 col-md-5");
         drawGroBot();
@@ -182,8 +206,8 @@
         imgSize = 50;
         xplantPadding = (boxdim-2*lightPadding)/5 - plantSize/2;
         yplantPadding = (boxdim-2*lightPadding)/4 - plantSize/2;
-        xScalar = 4;
-        yScalar = 5;
+        //xScalar = 4;
+        //yScalar = 5;
         drawTray();
     }
     function drawFullNormalTray(){
@@ -195,8 +219,8 @@
         imgSize = 75;
         xplantPadding = (svgWidth-2*lightPadding)/11 - plantSize/2;
         yplantPadding = (svgHeight-2*lightPadding)/5 - plantSize/2;
-        xScalar = 11;
-        yScalar = 5;
+        //xScalar = 11;
+        //yScalar = 5;
         drawTray();
     }
     function drawFullWeirdTray(){
@@ -208,8 +232,8 @@
         imgSize = 54;
         xplantPadding = (svgWidth-2*lightPadding)/12 - plantSize/2;
         yplantPadding = (svgHeight-2*lightPadding)/6 - plantSize/2;
-        xScalar = 12;
-        yScalar = 6;
+        //xScalar = 12;
+        //yScalar = 6;
         drawTray();
     }
     function drawTray(){
@@ -235,10 +259,10 @@
                             "fill": "white"
                          });
 
-        var xScalePlant = d3.scale.linear()
+        xScalePlant = d3.scale.linear()
                     .domain([1,xScalar])
                     .range([xplantPadding, svgWidth-lightPadding-plantSize- xplantPadding]);
-        var yScalePlant = d3.scale.linear()
+        yScalePlant = d3.scale.linear()
                     .domain([yScalar,1])
                     .range([xplantPadding, svgHeight-lightPadding-xplantPadding]);
         for(i=0;i<plantLocations.length;i++){
@@ -249,50 +273,85 @@
                 plantWithPic(plantLocations[i], i)
             }
         }
-        function noImagePlant(loc, i){
-            var op = .9;
-            var onclick = "plantClick(" + i + ")";
-            var className = "hoverBox";
-            if (plantInfo[i]["plantName"]=="Not Planted"){
-                op = .3;
-                onclick = "";
-                className = "noHover";
-            }
-
-            plantTray.append("rect")
-                    .attr({
-                        "x": xScalePlant(loc[0]),
-                        "y": yScalePlant(loc[1]),
-                        "rx": 10,
-                        "ry": 10,
-                        "width": plantSize,
-                        "height": plantSize,
-                        "fill": "green",
-                        "opacity":op,
-                        "id": "plant" + i,
-                        "onclick":onclick,
-                        "class":className,
-                        "stroke":"green",
-                        "stroke-width":0
-                    });
+    }
+    function noImagePlant(loc, i){
+        var op = .9;
+        var onclick = "plantClick(" + i + ")";
+        var className = "hoverBox";
+        var idName = "plant" + i;
+        if (plantInfo[i]["plantName"]=="Not Planted"){
+            op = .3;
+            onclick = "";
+            className = "noHover emptyPlant";
+            idName = "emptyPlant"+i;
         }
 
-        function plantWithPic(loc, i){
-            var xyFix = (imgSize-plantSize)/2;
-            var className = "hoverImg";
-            plantTray.append("image")
+        plantTray.append("rect")
                 .attr({
-                    "x": xScalePlant(loc[0])-xyFix,
-                    "y": yScalePlant(loc[1])-xyFix,
-                    "width": imgSize,
-                    "height": imgSize,
-                    "xlink:href":"/static/img/plantImg/" + plantInfo[i]["image"],
-                    "onclick":"plantClick(" + i + ")",
+                    "x": xScalePlant(loc[0]),
+                    "y": yScalePlant(loc[1]),
+                    "rx": 10,
+                    "ry": 10,
+                    "width": plantSize,
+                    "height": plantSize,
+                    "fill": "green",
+                    "opacity":op,
+                    "id": idName,
+                    "data-num":i,
+                    "onclick":onclick,
                     "class":className,
-                    "box-shadow":"none"
+                    "stroke":"green",
+                    "stroke-width":0,
+                    "draggable":"true",
+                    "ondrop":"drop(event," + i + ")",
+                    "ondragover":"allowDrop(event)"
                 });
+    }
+    function plantWithPic(loc, i){
+        var xyFix = (imgSize-plantSize)/2;
+        var className = "hoverImg";
+        plantTray.append("image")
+            .attr({
+                "x": xScalePlant(loc[0])-xyFix,
+                "y": yScalePlant(loc[1])-xyFix,
+                "width": imgSize,
+                "height": imgSize,
+                "xlink:href":"/static/img/plantImg/" + plantInfo[i]["image"],
+                "onclick":"plantClick(" + i + ")",
+                "class":className,
+                "box-shadow":"none"
+            });
+    }
+    
+    newPlantTab();
+    function newPlantTab(){
+        var tabPanels = d3.selectAll(".tab-pane")
+        tabPanels.style("max-height", "375px");
+        tabPanels.style("overflow-y", "scroll");
+        tabPanels.style("width", "100%");
+        var rowSize = "100px";
+        for(i=0;i<plantImgs.length;i++){
+
+            //row = d3.select("#newPlant").append("div").attr("class", "row").style("height", rowSize);
+            newPlantSpace = d3.select("#newPlant1").append("div").attr("class","col-xs-3").style("height", rowSize);
+
+            newPlantSpace.append("img")
+                .attr({
+                    "src":"/static/img/plantImg/" + plantImgs[i]["image"],
+                    "height":"45%",
+                    "draggable":"true",
+                    "ondragstart":"drag(event, " + i + ")",
+                    "ontouchstart":"tStart(event, " + i + ")",
+                    "class":"hoverImg draggable",
+                    "id":i,
+                });
+            newPlantSpace.append("h5")
+                .text(plantImgs[i]["name"]);
+
         }
     }
+
+    
     //Other Functions
     $('#infoBoxTabs a:first').click(function (e) {
         e.preventDefault()
@@ -301,9 +360,10 @@
     function changeLEDColor(){
         lightColor = $('#ledColorSelector').children("option:selected").text();
         outterBox.attr({"fill":lightColor});
+
     }
     function plantClick(plantID){
-        $('#infoBoxTabs a:first').tab('show')
+        $('#infoBoxTabs a:first').tab('show');
         var plantName = plantInfo[plantID]["plantName"];
         var dateSown = plantInfo[plantID]["dateSown"];
         box = d3.select("#plants")
@@ -311,8 +371,83 @@
         box.append("h4").text("Name: " + plantName);
         box.append("h4").text("Date Sown: " + dateSown)
     }
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+    function drag(ev, i) {
+        ev.dataTransfer.setData("data", i);
+    }
+    function drop(ev, i) {
+        ev.preventDefault();
+        var plantData = ev.dataTransfer.getData("data");
+        var emptyPlantID = ev.target.id;
+        d3.select("#"+emptyPlantID).attr("opacity",0).attr("id", "plant"+i).attr("class","oldEmptyPlant");
 
+        if (plantInfo[i]["plantName"] == "Not Planted"){
+            var sownNow = todayIs();
+            var name = plantImgs[plantData]["name"];
+            var newImg = plantImgs[plantData]["image"];
+            var newPlantInfo = {"ip":plantInfo[i]["ip"], "plantName":name, "dateSown":sownNow, "image":newImg};
+            plantInfo[i] = newPlantInfo;
+            plantWithPic(plantLocations[i], i);
+        }
+    }
+    function todayIs(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
 
+        var yyyy = today.getFullYear();
+         
+        var today = mm+'/'+dd+'/'+yyyy;
+        return today;
+    }
+    var touchDragBool = false;
+    var touchDragId = -1;
+    function tStart(ev, i){
+        ev.preventDefault();
+        var touch = event.targetTouches[0];
+        if(!touchDragBool || touchDragId !=i ){
+            touchDragBool = true;
+            touchDragId = i;
+            var emptyPlants = d3.selectAll(".emptyPlant");
+            emptyPlants.attr({
+                "opacity":"1",
+                "ontouchstart":"tDrag(event)"
+            });
+        }
+        else{
+            touchDragBool = false;
+            touchDragId = (-1);
+            var emptyPlants = d3.selectAll(".emptyPlant");
+            emptyPlants.attr({
+                "opacity":".3",
+                "ontouchstart":""
+            });
+        }
+    }
+    function tDrag(ev){
+        plantData = touchDragId;
+        emptyPlantID = ev.target.id;
+        touchDragBool = false;
+        touchDragId = (-1);
+        var emptyPlants = d3.selectAll(".emptyPlant");
+        emptyPlants.attr({
+            "opacity":".3",
+            "ontouchstart":""
+        });
+        i = ev.target.getAttribute("data-num");
+        d3.select("#"+emptyPlantID).attr("opacity",0).attr("id", "plant"+i).attr("class","oldEmptyPlant");
+        if (plantInfo[i]["plantName"] == "Not Planted"){
+            var sownNow = todayIs();
+            var name = plantImgs[plantData]["name"];
+            var newImg = plantImgs[plantData]["image"];
+            var newPlantInfo = {"ip":plantInfo[i]["ip"], "plantName":name, "dateSown":sownNow, "image":newImg};
+            plantInfo[i] = newPlantInfo;
+            plantWithPic(plantLocations[i], i);
+        }
+    }
+    
 </script>
 
 {% endblock %}
