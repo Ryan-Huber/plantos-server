@@ -99,7 +99,7 @@
         <div id="plantTray">
 
         </div>
-        <div class="col-xs-8 col-md-5 plantInfoBox">
+        <div class="col-xs-12 col-md-5 plantInfoBox">
            <div role="tabpanel" class="well">
 
               <!-- Nav tabs -->
@@ -138,7 +138,8 @@
                   </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="newPlant">
-                    <h5>Here will be a list of plants</h5>
+                    <h5 class="visible-xs visible-sm">Tap any plant below, then tap an empty location to plant it!</h5>
+                    <h5 class="visible-md visible-lg">Drag any plant below to an empty location to plant it!</h5>
                     <div class="row" id="newPlant1"></div>
                     
                 </div>
@@ -160,10 +161,19 @@
     var lightColor = "Red";  //to come from system data
     var svgWidth, svgHeight;
     var boxdim, plantSize, imgSize;
-    var padding, lightPadding, xplantPadding, yplantPadding, xScalar, yScalar;
+    var padding, lightPadding, xplantPadding, yplantPadding, xScalar=1, yScalar=1;
     var plantIDs, plantsInBot;
     var outterBox, innerBox;
     var xScalePlant, yScalePlant;
+
+    for(x in plantLocations){
+        if (plantLocations[x][0]>xScalar){
+            xScalar = plantLocations[x][0]
+        }
+        if (plantLocations[x][1]>yScalar){
+            yScalar = plantLocations[x][1]
+        }
+    }
     var plantTray = d3.select("body").select("#plantTray")
                       .append("svg")
                       .attr("id", "#plantTraySvg");
@@ -199,8 +209,8 @@
         imgSize = 50;
         xplantPadding = (boxdim-2*lightPadding)/5 - plantSize/2;
         yplantPadding = (boxdim-2*lightPadding)/4 - plantSize/2;
-        xScalar = 4;
-        yScalar = 5;
+        //xScalar = 4;
+        //yScalar = 5;
         drawTray();
     }
     function drawFullNormalTray(){
@@ -212,8 +222,8 @@
         imgSize = 75;
         xplantPadding = (svgWidth-2*lightPadding)/11 - plantSize/2;
         yplantPadding = (svgHeight-2*lightPadding)/5 - plantSize/2;
-        xScalar = 11;
-        yScalar = 5;
+        //xScalar = 11;
+        //yScalar = 5;
         drawTray();
     }
     function drawFullWeirdTray(){
@@ -225,8 +235,8 @@
         imgSize = 54;
         xplantPadding = (svgWidth-2*lightPadding)/12 - plantSize/2;
         yplantPadding = (svgHeight-2*lightPadding)/6 - plantSize/2;
-        xScalar = 12;
-        yScalar = 6;
+        //xScalar = 12;
+        //yScalar = 6;
         drawTray();
     }
     function drawTray(){
@@ -275,7 +285,7 @@
         if (plantInfo[i]["plantName"]=="Not Planted"){
             op = .3;
             onclick = "";
-            className = "noHover";
+            className = "noHover emptyPlant";
             idName = "emptyPlant"+i;
         }
 
@@ -290,6 +300,7 @@
                     "fill": "green",
                     "opacity":op,
                     "id": idName,
+                    "data-num":i,
                     "onclick":onclick,
                     "class":className,
                     "stroke":"green",
@@ -333,7 +344,9 @@
                     "height":"45%",
                     "draggable":"true",
                     "ondragstart":"drag(event, " + i + ")",
-                    "class":"hoverImg"
+                    "ontouchstart":"tStart(event, " + i + ")",
+                    "class":"hoverImg draggable",
+                    "id":i,
                 });
             newPlantSpace.append("h5")
                 .text(plantImgs[i]["name"]);
@@ -353,7 +366,7 @@
 
     }
     function plantClick(plantID){
-        $('#infoBoxTabs a:first').tab('show')
+        $('#infoBoxTabs a:first').tab('show');
         var plantName = plantInfo[plantID]["plantName"];
         var dateSown = plantInfo[plantID]["dateSown"];
         box = d3.select("#plants")
@@ -371,7 +384,7 @@
         ev.preventDefault();
         var plantData = ev.dataTransfer.getData("data");
         var emptyPlantID = ev.target.id;
-        d3.select("#"+emptyPlantID).attr("opacity",0);
+        d3.select("#"+emptyPlantID).attr("opacity",0).attr("id", "plant"+i).attr("class","oldEmptyPlant");
 
         if (plantInfo[i]["plantName"] == "Not Planted"){
             var sownNow = todayIs();
@@ -392,6 +405,52 @@
         var today = mm+'/'+dd+'/'+yyyy;
         return today;
     }
+    var touchDragBool = false;
+    var touchDragId = -1;
+    function tStart(ev, i){
+        ev.preventDefault();
+        var touch = event.targetTouches[0];
+        if(!touchDragBool || touchDragId !=i ){
+            touchDragBool = true;
+            touchDragId = i;
+            var emptyPlants = d3.selectAll(".emptyPlant");
+            emptyPlants.attr({
+                "opacity":"1",
+                "ontouchstart":"tDrag(event)"
+            });
+        }
+        else{
+            touchDragBool = false;
+            touchDragId = (-1);
+            var emptyPlants = d3.selectAll(".emptyPlant");
+            emptyPlants.attr({
+                "opacity":".3",
+                "ontouchstart":""
+            });
+        }
+    }
+    function tDrag(ev){
+        plantData = touchDragId;
+        emptyPlantID = ev.target.id;
+        touchDragBool = false;
+        touchDragId = (-1);
+        var emptyPlants = d3.selectAll(".emptyPlant");
+        emptyPlants.attr({
+            "opacity":".3",
+            "ontouchstart":""
+        });
+        i = ev.target.getAttribute("data-num");
+        d3.select("#"+emptyPlantID).attr("opacity",0).attr("id", "plant"+i).attr("class","oldEmptyPlant");
+        if (plantInfo[i]["plantName"] == "Not Planted"){
+            var sownNow = todayIs();
+            var name = plantImgs[plantData]["name"];
+            var newImg = plantImgs[plantData]["image"];
+            var newPlantInfo = {"ip":plantInfo[i]["ip"], "plantName":name, "dateSown":sownNow, "image":newImg};
+            plantInfo[i] = newPlantInfo;
+            plantWithPic(plantLocations[i], i);
+        }
+    }
+    
 </script>
 
 {% endblock %}

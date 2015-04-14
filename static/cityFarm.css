@@ -6645,6 +6645,9 @@ background-color: #fff;
 .hoverImg:hover {
   opacity: 0.8;
 }
-
+#newPlant {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 /* sourceMappingURL=bootstrap.css.map */
