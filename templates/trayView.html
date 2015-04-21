@@ -86,6 +86,9 @@
 {% endblock %}
 
 {% block page %}
+{% if tray == 0 %}
+    {{ macros.videoFeed() }}
+{% endif %}
 <div class="platos-page container-fluid">
     <div >
         <h2>{{ long_title }}<h2>
@@ -103,51 +106,50 @@
               <ul class="nav nav-tabs" role="tablist" id="infoBoxTabs">
                 <li role="presentation" class="active"><a href="#plants" aria-controls="plants" role="tab" data-toggle="tab">Plants</a></li>
                 <li role="presentation"><a href="#controls" aria-controls="controls" role="tab" data-toggle="tab">Controls</a></li>
-                <li role="presentation"><a href="#sensorTab" aria-controls="messages" role="tab" data-toggle="tab">Sensors</a></li>
-                <li role="presentation"><a href="#newPlant" aria-controls="messages" role="tab" data-toggle="tab">New Plant</a></li>
+                <li role="presentation"><a href="#sensorTab" aria-controls="sensorTab" role="tab" data-toggle="tab">Sensors</a></li>
+                <li role="presentation"><a href="#newPlant" aria-controls="newPlant" role="tab" data-toggle="tab">New Plant</a></li>
+            <!--
+                 <li role="presentation" style"visibility:hidden"><a href="#videoTab" aria-controls="videoTab" role="tab" data-toggle="tab">Video Feed</a></li>
+            -->
               </ul>
-
               <!-- Tab panes -->
               <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="plants">
-                    <h4>Click a plant!</h4>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="controls">
-                    <h4>Coming soon!</h4>
-                <!--
-                    <h4>LEDs</h4>
-                    <b>Color</b>
-                    <select id="ledColorSelector" onChange="changeLEDColor();">
+                    <div role="tabpanel" class="tab-pane fade in active" id="plants">
+                        <h4>Click a plant!</h4>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="controls">
+                        <h4>Coming soon!</h4>
+                    <!--
+                        <h4>LEDs</h4>
+                        <b>Color</b>
+                        <select id="ledColorSelector" onChange="changeLEDColor();">
+                        
+                            <option>Red</option>
+                            <option>Pink</option>
+                            <option>Blue</option>
+                            <option>Purple</option>
+                            <option>White</option>
+                        </select>
+                    -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="sensorTab">
+                      <div class="row">
+                        {% for sensor in sensor_info.keys() %}
+                        <div id="{{sensor}}_gauge" class="col-md-6 col-sm-12"></div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="newPlant">
+                        <h5 class="visible-xs visible-sm">Tap any plant below, then tap an empty location to plant it!</h5>
+                        <h5 class="visible-md visible-lg">Drag any plant below to an empty location to plant it!</h5>
+                        <div class="row" id="newPlant1"></div>
+                    </div>
                     
-                        <option>Red</option>
-                        <option>Pink</option>
-                        <option>Blue</option>
-                        <option>Purple</option>
-                        <option>White</option>
-                    </select>
-                -->
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="sensorTab">
-                  <div class="row">
-                    {% for sensor in sensor_info.keys() %}
-                    <div id="{{sensor}}_gauge" class="col-md-6 col-sm-12"></div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="newPlant">
-                    <h5 class="visible-xs visible-sm">Tap any plant below, then tap an empty location to plant it!</h5>
-                    <h5 class="visible-md visible-lg">Drag any plant below to an empty location to plant it!</h5>
-                    <div class="row" id="newPlant1"></div>
-                    
-                </div>
               </div>
-
-
             </div>
         </div>
     </div>
 </div>
-
 <script>
     //Draw System
     var system = "{{ current_database }}"
@@ -162,7 +164,8 @@
     var plantIDs, plantsInBot;
     var outterBox, innerBox;
     var xScalePlant, yScalePlant;
-
+</script>
+<script>
     for(x in plantLocations){
         if (plantLocations[x][0]>xScalar){
             xScalar = plantLocations[x][0]
@@ -209,6 +212,7 @@
         //xScalar = 4;
         //yScalar = 5;
         drawTray();
+        drawVideo();
     }
     function drawFullNormalTray(){
         svgWidth = 930;
@@ -322,7 +326,39 @@
                 "box-shadow":"none"
             });
     }
-    
+    function drawVideo(){
+        makeTab();
+        var videoTabContent;
+        addVideo();
+        function makeTab(){
+            videoTab = d3.select("#infoBoxTabs").append("li")
+                    .attr({
+                        "role":"presentation",
+                    });
+            videoTab.append("a")
+                    .attr({
+                        "href":"#videoTab",
+                        "data-toggle":"tab",
+                        "aria-controls":"videoTab",
+                        "role":"tab",
+                    })
+                    .text("Video Feed");       
+            videoTabContent = d3.select(".tab-content").append("div")
+                    .attr({
+                        "class":"tab-pane fade",
+                        "role":"tabpanel",
+                        "id":"videoTab",
+                    });
+        }
+        function addVideo(){
+            videoTabContent.append("video")
+                .attr({
+                    "id":"video",
+                    "muted":"muted",
+                    "autoplay":"autoplay"
+                });
+        }
+    }
     newPlantTab();
     function newPlantTab(){
         var tabPanels = d3.selectAll(".tab-pane")

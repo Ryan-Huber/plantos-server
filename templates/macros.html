@@ -15,7 +15,11 @@
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/SensorClient.js/sensor_client.js') }}"></script>
 {% endmacro %}
-
+{% macro videoFeed() %}
+  <script src="http://cdn.peerjs.com/0.3/peer.js" type="text/javascript"> </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/camera/viewer.js') }}"></script>
+{% endmacro %}
 {% macro datetimepicker() %}
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/moment/min/moment.min.js') }}"></script>
