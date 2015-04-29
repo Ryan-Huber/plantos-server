@@ -7,6 +7,9 @@ from sensors.constants import COLLECTION_INFO
 from sensors.constants import TRAY_LIST
 from sensors.constants import TRAY_SENSORS
 from sensors.constants import WATER_SENSOR_BOARDS
+# dummyData file
+from dummyData import traySelectQuery
+from dummyData import trayListQuery
 # General imports
 import os
 import time
@@ -22,6 +25,7 @@ from flask import render_template
 from flask import redirect, url_for, abort
 flask_app = Flask(__name__, instance_relative_config = True)
 config_file_path = os.path.join(flask_app.instance_path, "application.cfg")
+
 if not os.path.isfile(config_file_path):
     print """Copying example configuration file. These settings will probably
     not work. Please edit the configuration file in instance/application.cfg
@@ -32,9 +36,12 @@ if not os.path.isfile(config_file_path):
     if not os.path.isdir(flask_app.instance_path):
         os.makedirs(flask_app.instance_path)
     shutil.copyfile(example_cfg, config_file_path)
+
 flask_app.config.from_pyfile("application.cfg")
+
 from sensors.main import sensors
 flask_app.register_blueprint(sensors)
+
 # Authentication
 from flask.ext.basicauth import BasicAuth
 basic_auth = BasicAuth(flask_app)
@@ -79,6 +86,16 @@ def trayView(system, traynum):
     return render_template("trayView.html", databases=DATABASE_NAMES,
             current_database=system, tray=tray, plants=plants, plantImages=plantImages,
             plantLocations=locs, sensor_info=sensor_info, board_id=board_id)
+
+##### Testing for New Backend APIs #####
+# Currently Using Dummy Data instead of query
+
+@flask_app.route("/Testing/test1")
+def traySelectTest():
+    queryData = traySelectQuery
+    return render_template("TestingTraySelect.html", databases=DATABASE_NAMES, queryData=queryData)
+
+
 
 import csv
 def plantImgsFromCSV(fileString):
@@ -138,4 +155,4 @@ if __name__ == "__main__":
     flask_app.debug = args.debug
     parseCSV("static/PlantData.csv")
     plantImgsFromCSV("static/plantImgCSV.csv")
-    flask_app.run()
+    flask_app.run(use_debugger=False, use_reloader=False)

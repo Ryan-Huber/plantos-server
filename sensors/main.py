@@ -53,12 +53,9 @@ def show_dashboard(database, sensetype, collection):
 
 @sensors.route("/<database>/<sensetype>/<collection>/hour_graphs.html")
 def show_hour_graphs(database, sensetype, collection):
-    values = values_collection(database, collection)
-    if not values:
-        abort(404)
     info = COLLECTION_INFO[database][collection]
     return render_template("hour_graphs.html", info=info, database=database,
-                            collection=collection)
+                            collection=collection, databases=DATABASE_NAMES)
 
 @sensors.route("/<database>/<sensetype>/<collection>/day_graphs.html")
 def show_day_graphs(database, sensetype, collection):
@@ -72,7 +69,7 @@ def show_day_graphs(database, sensetype, collection):
     else:
         date = time.strftime("%m/%d/%Y")
     return render_template("day_graphs.html", info=info, database=database,
-                            collection=collection, date=date)
+                            collection=collection, date=date, databases=DATABASE_NAMES)
 
 @sensors.route("/<database>/<sensetype>/<collection>/date_range_graphs.html")
 def show_range_graphs(database, sensetype, collection):

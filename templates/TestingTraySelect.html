@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block page %}
+{{ macros.UIJavascript() }}
+<div class="container-fluid" id="contFl">
+	<div class="row">
+		<div class="col-md-8">
+			<div id="container">
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+var enclosure = {{ queryData|safe }};
+var url = enclosure["url"];
+var aisle = enclosure["children"][0];
+var bay1 = aisle.children[1];
+
+testdiv = d3.select("#contFl");
+
+//Three.js Testing
+var $cont = $("#container");
+var containerWidth = $cont.width();
+var containerRatio = 16.0/9.0;
+var containerHeight = containerWidth*1.0/containerRatio; //$('#container').height();
+
+
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 45, containerWidth/containerHeight, 0.1, 1000 );
+
+var renderer = new THREE.WebGLRenderer({ alpha:true });
+renderer.setSize( containerWidth, containerHeight );
+renderer.setClearColor(0x005500, 0.25);
+
+$cont.append( renderer.domElement );
+
+var geometry = new THREE.BoxGeometry( bay1.length, bay1.width, bay1.height );
+var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+var cube = new THREE.Mesh( geometry, material );
+//scene.add( cube );
+
+camera.position.z = 10;
+camera.position.y = 2;
+for(var b in aisle.children){
+	var bay = aisle.children[b];
+	var bayPos = [bay.x, bay.y, bay.z];
+	var geoy = new THREE.BoxGeometry( bay.length, bay.height, bay.width );
+	var maty = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe:true} );
+	var cubey = new THREE.Mesh( geoy, maty ); 
+	cubey.position.set(bay.x + bay.length/2, bay.z+bay.height/2, bay.y + bay.width/2);
+	scene.add(cubey);
+	for(var t in bay.children){
+		var trayx = bay.children[t];
+		var geox = new THREE.BoxGeometry( trayx.length, trayx.height, trayx.width );
+		var matx = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
+		var cubex = new THREE.Mesh( geox, matx );
+		cubex.position.set( trayx.x + bayPos[0] + trayx.length/2, trayx.z + bayPos[2] + trayx.height/2, trayx.y + bayPos[1] + trayx.width/2 );
+		scene.add( cubex );
+	}
+}
+
+
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.85 );
+directionalLight.position.set( 10, 10, 30 );
+scene.add( directionalLight );
+
+var render = function () {
+	requestAnimationFrame( render );
+
+	renderer.render(scene, camera);
+};
+
+render();
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+
+    //camera.aspect = $cont.width()/;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( $cont.width(), $cont.width()*1.0/containerRatio );
+
+}
+</script>
+<script>//Move the camera/light
+	
+	//Detect Arrow key press
+	document.onkeydown = function(e){
+		if(e.keyCode == 37){
+			leftKeyDown();
+		}
+		else if(e.keyCode == 38){
+			upKeyDown();
+		}
+		else if(e.keyCode == 39){
+			rightKeyDown();
+		}
+		else if(e.keyCode == 40){
+			downKeyDown();
+		}
+	}
+	//actually move it
+	var camMoveAmount = 0.5;
+	var lightMoveAmt = 3;
+	function upKeyDown(){
+		camera.position.y -=camMoveAmount;
+		directionalLight.position.y -=lightMoveAmt;
+	}
+	function downKeyDown(){
+		camera.position.y +=camMoveAmount;
+		directionalLight.position.y +=lightMoveAmt;
+	}
+	function rightKeyDown(){
+		camera.position.x -=camMoveAmount;
+		directionalLight.position.x -=lightMoveAmt;
+	}
+	function leftKeyDown(){
+		camera.position.x +=camMoveAmount;
+		directionalLight.position.x +=lightMoveAmt;
+	}
+</script>
+{% endblock %}

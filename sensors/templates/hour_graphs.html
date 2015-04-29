@@ -9,7 +9,7 @@
 
 {% block constants %}
     {{ super() }}
-    var dataURL = "hour_data.json";
+    //var dataURL = "hour_data.json";
     var xMin = new Date();
     xMin.setHours(xMin.getHours()-1);
     {% for sensor in info.keys() %}
@@ -70,7 +70,7 @@
     {% endfor %}
 {% endblock %}
 
-{% block content %}
+{% block page %}
     {% for sensor in info.keys() %}
         <div class="panel panel-default">
             <div class="panel-heading">
