@@ -10,6 +10,9 @@ enclosure = {
 			"length":12.0,
 			"width":2.0,
 	   		"height":4.0,
+	   		"x":0,
+			"y":0,
+			"z":0,
 			"children":[]
 			}
 #AISLE
@@ -18,7 +21,7 @@ main_system = {"url":"/main_system",
 			 "width":0.5,
 			"height":4.0,
 			"x":0,
-			"y":1.5,
+			"y":0,
 			"z":0,
 			  "children":[]
 			   }
@@ -104,7 +107,8 @@ tray2 = {"url":"/tray/2",
       "length":1.8,
        "width":0.5,
       "height":0.15,
-	   "sites":[]
+	   "sites":[],
+	   "model3d":"/static/img/Tray2Test.dae"
 		}
 #TRAY 2 of Bay 2
 tray3 = {"url":"/tray/3",

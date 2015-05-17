@@ -155,4 +155,4 @@ if __name__ == "__main__":
     flask_app.debug = args.debug
     parseCSV("static/PlantData.csv")
     plantImgsFromCSV("static/plantImgCSV.csv")
-    flask_app.run(use_debugger=False, use_reloader=False)
+    flask_app.run(use_debugger=True, use_reloader=False)

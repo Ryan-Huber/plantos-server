@@ -6,8 +6,6 @@
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/bootstrap/dist/js/bootstrap.js') }}">
   </script>
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8">
-  </script>
   <link rel="stylesheet" href="{{ url_for('static',
   filename='cityFarm.css') }}">
   <link rel="stylesheet" href="{{ url_for('static',
@@ -21,6 +19,9 @@
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/SensorClient.js/sensor_client.js') }}">
   </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/d3/d3.js') }}">
+  </script>
 {% endmacro %}
 {% macro UIJavascript() %}
   <script type="text/javascript" src="{{ url_for('static',
@@ -28,6 +29,18 @@
   </script>
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/threejs/build/three.min.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/threejs/examples/js/renderers/Projector.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/threejs/examples/js/loaders/ColladaLoader.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/DAT.GUI.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/plantosJS/Plantos.js') }}">
   </script>
 {% endmacro %}
 {% macro videoFeed() %}
