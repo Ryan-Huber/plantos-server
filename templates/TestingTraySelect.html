@@ -21,6 +21,7 @@
 </div>
 
 <script>//Recursive draw structure (tree) function
+	var recCount = 0;
 	/**
 	 * Recursively draws the structure tree using three.js and some jQuery
 	 * @param tree A system tree from the CityFarm plantos API
@@ -28,11 +29,11 @@
 	 * @param parentPos *optional* a 3-element list of ints for the position of the parent. 
 	 * 		Default value is [0,0,0]
 	 */
-	function drawTree(tree, items, parentPos, parent){
+	function drawTree(node, items, parentPos, parent){
 		//draw top node
 		parentPos = parentPos || [0,0,0];
 		
-		var childBool = ("children" in tree);
+		var childBool = ("children" in node);
 		/*
 		//var geo, mat;
 		//TODO: Find way to draw tray with 3d object
@@ -48,19 +49,123 @@
 		
 		currentNode.position.set(tree.x + tree.length/2 + parentPos[0], tree.z+tree.height/2 + parentPos[2], tree.y + tree.width/2 + parentPos[1]);
 		*/
-		makeObject(tree, parentPos, items, parent);
+		
+
+		//makeObject(tree, parentPos, items, parent);
+		
+
 		//currentNode.originalColor = nodeMaterial.color;
 		//tree.obj = currentNode;
 		//tree.parent = parent;
 		//items.add(currentNode);
-		
-		//Draw children if any
-		if (childBool){
-			var myPos = [tree.x, tree.y, tree.z]
-			for (var child in tree.children){
-				drawTree(tree.children[child], items, myPos, tree );
+
+
+		var obj, mat;
+		if(node.hasOwnProperty('model3d')){ //Use 3d model (must be in THREE.js format)
+			//return;
+			
+			var loader = new THREE.ColladaLoader();
+			loader.options.convertUpAxis = true;
+			modelString = node.model3d;
+			
+			loader.load(modelString, loadObj);
+			function loadObj(coll){
+				var matColor = 0xdd0000;
+				mat = new THREE.MeshLambertMaterial({color:matColor});
+				//console.log(coll);
+				obj = coll.scene;
+				
+
+				//Set position
+				obj.position.set(
+					parentPos[0]+node.x,
+					parentPos[2]+node.z,
+					parentPos[1]-node.y+node.width
+				);
+
+				//Scale to correct size
+				obj.scale.x = obj.scale.x*(node.length/node.objectDims[0]);
+				obj.scale.y = obj.scale.y*(node.height/node.objectDims[1]);
+				obj.scale.z = obj.scale.z*(node.width/node.objectDims[2]);
+
+				//Set porperties for easy access
+				obj.children[0].children.forEach(function (box){
+					box.material = mat;
+				});
+				obj.originalColor = matColor;
+				obj.node = node
+				obj.children[0].children.forEach(function(mesh){
+					mesh.originalColor = mat.color;
+					mesh.node = node;
+				} )
+				//console.log(obj);
+				node.obj = obj;
+				node.parent = parent;
+				items.add(obj);
+
+				if (childBool){
+					var myPos = [node.x, node.y, node.z]
+					for (var child in node.children){
+						recCount+=1;
+						drawTree(node.children[child], items, myPos, node );
+					}
+				}
+				recCount--;
+				if(recCount == 0){
+					console.log("Start");
+					start();
+				}
+			}
+			//TODO: Scaling
+			/*
+			var objdims = [model3d.length, model3d.height, model3d.width];
+			var scales = [node.length/objdims[0], node.height/objdims[1], node.width/objdims[2]];
+			obj.scale.x = scales[0];
+			obj.scale.y = scales[1];
+			obj.scale.z = scales[2];
+			*/
+			
+		}
+		else{ //If no 3d model is provided - Uses boxes and wireframes
+			var geo, wf;
+			var matColor = 0x00bb00;
+			geo = new THREE.BoxGeometry(node.length, node.height, node.width);
+			if('children' in node){
+				matColor = 0x007700;
+				mat = new THREE.MeshBasicMaterial({color:matColor, wireframe:true});
+			}
+			else{
+				mat = new THREE.MeshLambertMaterial({color:matColor});
+			}
+
+			//mat = new THREE.MeshLambertMaterial({color:matColor, wireframe:wf});
+			obj = new THREE.Mesh(geo, mat);
+
+			obj.position.set(
+				node.x + node.length/2 + parentPos[0],
+				node.z + node.height/2 + parentPos[2],
+				node.y + node.width /2 + parentPos[1]
+			);
+			obj.originalColor = mat.color;
+			obj.node = node
+			node.obj = obj;
+			node.parent = parent;
+			items.add(obj);
+			if (childBool){
+				var myPos = [node.x, node.y, node.z]
+				for (var child in node.children){
+					recCount+=1;
+					drawTree(node.children[child], items, myPos, node );
+				}
+			}
+			recCount--;
+			if(recCount == 0){
+				console.log("Start");
+				start();
 			}
 		}
+		
+		
 
 	}
 
@@ -81,13 +186,13 @@
 			//console.log("No Children");
 			return;
 		}
-		console.log(intersects_now);
-		console.log(intersected);
 		if(intersects_now.length>0){
 			//Gets clicked object
 			clickedObject = intersects_now[0];
 			//console.log(clickedObject);
 			//Loops to find and set new currentRoot
+			
+			/*
 			for( var j in PlantosRoot.node.children){
 				child = PlantosRoot.node.children[j];
 				if(child.obj == clickedObject.object){
@@ -98,6 +203,9 @@
 					break;
 				}
 			}
+			*/
+			Plantos.updateRootNode(PlantosRoot, clickedObject.object.node, clickable, structureList);
+			moveCameraToObject(camera, PlantosRoot.node);
 			if(!("children" in PlantosRoot.node)){
 				console.log("Would actually call new query here, so no camera move");
 			}
@@ -119,11 +227,15 @@
 		var zRelMax = Math.max(zRelx, zRely);
 		var zOff = zRelMax*1.15+node.width;
 		
-		var xOff = zRelMax*Math.sin(-camera.rotation.y);
+		var xOff = 0; //= zRelMax*Math.sin(-camera.rotation.y);
 		var yOff = zOff*Math.tan(-camera.rotation.x);
 		cameraMove = true;
-		
-		cameraTarget.x = node.obj.position.x;
+		if(node.hasOwnProperty('model3d')){
+			xOff += node.length/2;
+			yOff += node.height/2;
+			zOff -= node.width/2;
+		}
+		cameraTarget.x = node.obj.position.x + xOff;
 		cameraTarget.y = node.obj.position.y + yOff;
 		cameraTarget.z = node.obj.position.z + zOff;
 	}
@@ -180,15 +292,21 @@
 		}
 	}
 	function setColor(obj, color){
-		
 		if(obj instanceof THREE.Group){ //collada object
 			obj.children[0].children.forEach( function(box){
 				box.material.color = color;
-
 			} );
 		}
 		else if(obj instanceof THREE.Mesh){
-			obj.material.color = color;// = color;
+			obj.material.color = color;
+		}
+	}
+	function updateColors(inter, hC){
+		clickable.children.forEach(function (item){
+			setColor(item, item.originalColor)
+		});
+		if(inter.length>0){
+			setColor(inter[0].object, hC);
 		}
 	}
 	function makeObject(node, parentPos, items, parent){
@@ -212,10 +330,17 @@
 					parentPos[2]+node.z,
 					parentPos[1]-node.y+node.width
 				);
+
+				//Set porperties for easy access
 				obj.children[0].children.forEach(function (box){
 					box.material = mat;
 				});
 				obj.originalColor = matColor;
+				obj.node = node
+				obj.children[0].children.forEach(function(mesh){
+					mesh.originalColor = mat.color;
+					mesh.node = node;
+				} )
 				//console.log(obj);
 				node.obj = obj;
 				node.parent = parent;
@@ -251,6 +376,7 @@
 				node.y + node.width /2 + parentPos[1]
 			);
 			obj.originalColor = mat.color;
+			obj.node = node
 			node.obj = obj;
 			node.parent = parent;
 			items.add(obj);
@@ -266,65 +392,6 @@
 	window.addEventListener( 'click', onClick, false);
 </script>
 
-<script> //Setup (CityFarm)
-	//Initial Query
-	var enclosure = {{ queryData|safe }};
-	//Set Current data URL
-	var url = enclosure["url"];
-
-	//Debug Setup
-	var aisle = enclosure["children"][0];
-	var bay1 = aisle.children[1];
-
-	//CityFarm Website Element and Dimension
-	var $cont = $("#canvas");
-	var containerWidth = $cont.width();
-	var containerRatio = 16.0/9.0;
-	var containerHeight = containerWidth*1.0/containerRatio;
-	//Set Initial Current root - usually Enclosure (or initially passed container)
-	var currentRoot = aisle;
-
-	//Setup PlantOS API Objects
-	var PlantosRoot = new Plantos.Node(aisle);
-	
-
-	//Three.js Setup
-	//Scene, Camera, Light
-	var scene = new THREE.Scene();
-	var camera = new THREE.PerspectiveCamera( 60, containerWidth/containerHeight, 0.1, 100 );
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-	scene.add( directionalLight );
-
-	
-	//Renderer
-	var renderer = new THREE.WebGLRenderer({ alpha:true });
-	renderer.setSize( containerWidth, containerHeight );
-	renderer.setClearColor(0x005500, 0.25);
-	$cont.append( renderer.domElement );
-
-
-	//Initial Setup
-	directionalLight.position.set( 15, 17.5, 15.5 );
-	directionalLight.rotation.x = -3.5;
-
-	camera.position.set(5,4.5,5.5);
-	camera.rotation.x = -0.35;
-	var structureList = new THREE.Object3D();
-	scene.add(structureList);
-	var cameraMove = false;
-	var cameraTarget = new THREE.Vector3(camera.position);
-	var clickable;
-
-	//Draw the structure
-	drawTree(PlantosRoot.node, structureList, [0,0,0], "No Parent");
-	moveCameraToObject(camera, PlantosRoot.node);
-	
-	//Initial Clikacable elements
-	clickable = new THREE.Object3D();
-	Plantos.addChildren(clickable, PlantosRoot.node);
-	scene.add(clickable);
-	
-</script>
 
 <script>//TestBox
 	var testMesh;
@@ -343,34 +410,6 @@
     //drawTestBox();  
 </script>
 
-<script>//DAT.GUI
-	var gui = new dat.GUI({autoPlace:false});
-	var customContainer = document.getElementById('datGui');
-	customContainer.appendChild(gui.domElement);
-	
-	var bigViewGui = function(){
-		this.backCam = function(){
-			if(PlantosRoot.node.parent != "No Parent"){
-				Plantos.updateRootNode(PlantosRoot, PlantosRoot.node.parent, clickable, structureList);
-				moveCameraToObject(camera, PlantosRoot.node)
-			}
-		};
-		this.currentSelection = PlantosRoot.node.url;
-		this.testPlant = "Tomato";
-		this.testSownDate = "5/4/2015"
-	}
-	var guiFunc = new bigViewGui();
-	gui.add(guiFunc, 'backCam').name("Zoom Out");
-	gui.add(guiFunc, 'currentSelection').listen();//.name("Current Selection");
-	
-	var f2 = gui.addFolder('Plant');
-	f2.add(guiFunc, 'testPlant').name("Type");
-	f2.add(guiFunc, 'testSownDate').name("Date Sown");
-	var f3 = gui.addFolder('Controls');
-	f2.open()
-	f3.open();
-</script>
-
 <script>//Render Loop
 	var intersects_now = {};
 	var intersected;
@@ -379,19 +418,13 @@
 		requestAnimationFrame( render );
 		renderer.render(scene, camera);
 		ray.setFromCamera(mouse, camera);
+		//ray.setSource(camera.position, mouse)
 		intersected = intersects_now;
-		intersects_now = ray.intersectObjects(clickable.children);
-		guiFunc.currentSelection = PlantosRoot.node.url;
-		structureList.children.forEach(function ( box ){
-			//box.material.color = box.originalColor;
-			//setColor(box, box.originalColor);
-		});
-		clickable.children.forEach(function ( box ){
-			//setColor(box, box.originalColor);
-		});
-		var hoverColor = 0xffffff;
-		
+		intersects_now = ray.intersectObjects(clickable.children, true);
 
+		guiFunc.currentSelection = PlantosRoot.node.url;
+		//Update colors if necessary
+		var hoverColor = new THREE.Color( 0xffffff );
 		if(intersects_now.length>0){
 			if(intersected.length>0){
 				if(intersects_now[0].object != intersected[0].object){
@@ -400,17 +433,16 @@
 				}
 			}
 			else{
-				//change colors
+				setColor(intersects_now[0].object, hoverColor);
 			}
-			//intersects_now[0].object.material.color = hoverColor;
-			//setColor(intersects_now[0].object, hoverColor);
 		}
 		else{
 			if(intersected.length>0){
-				//change colors
-				//console.log("Change in intersections");
+				setColor(intersected[0].object, intersected[0].object.originalColor);
 			}
 		}
+
+		//Move camera if necessary - FIND A BETTER WAY
 		if(cameraMove){
 			var moveSpeed = 0.5/6;
 			if (Math.abs(camera.position.x-cameraTarget.x)<2*moveSpeed &&
@@ -445,9 +477,114 @@
 			}
 		}	
 	};
-	render();
+	//render();
 </script>
 
+
+<script>
+	function start(){
+		moveCameraToObject(camera, PlantosRoot.node);
+		camera.position.x = cameraTarget.x;
+		camera.position.y = cameraTarget.y;
+		camera.position.z = cameraTarget.z;
+		//Initial Clikacable elements
+		clickable = new THREE.Object3D();
+		Plantos.addChildren(clickable, PlantosRoot.node);
+		scene.add(clickable);
+		render();
+	}
+</script>
+
+
+<script> //Setup (CityFarm)
+	//Initial Query
+	var enclosure = {{ queryData|safe }};
+	//Set Current data URL
+	var url = enclosure["url"];
+
+	//Debug Setup
+	var aisle = enclosure["children"][0];
+	var bay1 = aisle.children[1];
+
+	//CityFarm Website Element and Dimension
+	var $cont = $("#canvas");
+	var containerWidth = $cont.width();
+	var containerRatio = 16.0/9.0;
+	var containerHeight = containerWidth*1.0/containerRatio;
+	//Set Initial Current root - usually Enclosure (or initially passed container)
+	var currentRoot = aisle;
+
+	//Setup PlantOS API Objects
+	var PlantosRoot = new Plantos.Node(enclosure);
+	
+
+	//Three.js Setup
+	//Scene, Camera, Light
+	var scene = new THREE.Scene();
+	var camera = new THREE.PerspectiveCamera( 60, containerWidth/containerHeight, 0.1, 100 );
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+	scene.add( directionalLight );
+
+	
+	//Renderer
+	var renderer = new THREE.WebGLRenderer({ alpha:true });
+	renderer.setSize( containerWidth, containerHeight );
+	renderer.setClearColor(0x005500, 0.25);
+	$cont.append( renderer.domElement );
+
+
+	//Initial Setup
+	directionalLight.position.set( 15, 17.5, 15.5 );
+	directionalLight.rotation.x = -3.5;
+
+	camera.position.set(5,4.5,5.5);
+	camera.rotation.x = -0.35;
+	var structureList = new THREE.Object3D();
+	scene.add(structureList);
+	var cameraMove = false;
+	var cameraTarget = new THREE.Vector3(camera.position);
+	var clickable;
+
+	//Draw the structure
+	recCount = 1;
+	drawTree(PlantosRoot.node, structureList, [0,0,0], "No Parent");
+	//$.when(drawTree(PlantosRoot.node, structureList, [0,0,0], "No Parent")).then(start());
+	
+</script>
+
+<script>//DAT.GUI
+	var gui = new dat.GUI({autoPlace:false});
+	var customContainer = document.getElementById('datGui');
+	customContainer.appendChild(gui.domElement);
+	
+	var bigViewGui = function(){
+		this.backCam = function(){
+			if(PlantosRoot.node.parent != "No Parent"){
+				Plantos.updateRootNode(PlantosRoot, PlantosRoot.node.parent, clickable, structureList);
+				moveCameraToObject(camera, PlantosRoot.node)
+			}
+		};
+		this.go = function(){
+			start();
+		};
+		this.currentSelection = PlantosRoot.node.url;
+		this.testPlant = "Tomato";
+		this.testSownDate = "5/4/2015"
+	}
+	var guiFunc = new bigViewGui();
+	gui.add(guiFunc, 'backCam').name("Zoom Out");
+	gui.add(guiFunc, 'currentSelection').listen();//.name("Current Selection");
+	
+	var f2 = gui.addFolder('Plant');
+	f2.add(guiFunc, 'testPlant').name("Type");
+	f2.add(guiFunc, 'testSownDate').name("Date Sown");
+	var f3 = gui.addFolder('Controls');
+	
+	//f3.add(guiFunc, 'go').name("Render Farm");
+
+	f2.open();
+	f3.open();
+</script>
 
 <script>//Move the camera/light - Only for debuging
 	

@@ -6,14 +6,16 @@
 #
 #Enclosure
 enclosure = {
-			"url":"/",
+			"url":"/enclosure",
 			"length":12.0,
 			"width":2.0,
 	   		"height":4.0,
 	   		"x":0,
 			"y":0,
 			"z":0,
-			"children":[]
+			"children":[],
+			"model3d":"/static/img/Models/enclosure.dae",
+			"objectDims":[8.53, 2.49, 1.91],
 			}
 #AISLE
 main_system = {"url":"/main_system",
@@ -38,51 +40,51 @@ groBot = {"url":"/groBot",
 #BAY 1 of main system
 bay1 = {"url":"/bay/1",
    		"x":0,
-		"y":0,
+		"y":0.15,
 		"z":0,
 		"length":2.0,
 		"width":0.5,
-		"height":4.0,
+		"height":3.8,
 	  "children":[]
 		}
 #BAY 2 of main system
 bay2 = {"url":"/bay/2",
 		"x":2.0,
-		"y":0,
+		"y":0.15,
 		"z":0,
 		"length":2.0,
 		"width":0.5,
-		"height":4.0,
+		"height":3.8,
 	 	"children":[]
 		}
 #BAY 3 of main system
 bay3 = {"url":"/bay/3",
    		"x":4.0,
-		"y":0,
+		"y":0.15,
 		"z":0,
 		"length":2.0,
 		"width":0.5,
-		"height":4.0,
+		"height":3.8,
 	  	"children":[]
 		}
 #BAY 4 of main system
 bay4 = {"url":"/bay/4",
 		"x":6.0,
-		"y":0,
+		"y":0.15,
 		"z":0,
 		"length":2.0,
 		"width":0.5,
-		"height":4.0,
+		"height":3.8,
 	  	"children":[]
 		}
 #BAY 5 of main system
 bay5 = {"url":"/bay/5",
 		"x":8.0,
-		"y":0,
+		"y":0.15,
 		"z":0,
 		"length":2.0,
 		"width":0.5,
-		"height":4.0,
+		"height":3.8,
 	  	"children":[]
 		}
 #TRAY 1 of Bay 1
@@ -108,7 +110,8 @@ tray2 = {"url":"/tray/2",
        "width":0.5,
       "height":0.15,
 	   "sites":[],
-	   "model3d":"/static/img/Tray2Test.dae"
+	   "model3d":"/static/img/Models/Tray2Test.dae",
+	   "objectDims":[1.8, 0.15, 0.5],
 		}
 #TRAY 2 of Bay 2
 tray3 = {"url":"/tray/3",

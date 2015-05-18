@@ -22,18 +22,16 @@
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/d3/d3.js') }}">
   </script>
+
 {% endmacro %}
 {% macro UIJavascript() %}
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/angular/angular.js') }}">
   </script>
   <script type="text/javascript" src="{{ url_for('static',
-    filename='lib/threejs/build/three.min.js') }}">
+    filename='lib/threejs/build/three.js') }}">
   </script>
-  <script type="text/javascript" src="{{ url_for('static',
-    filename='lib/threejs/examples/js/renderers/Projector.js') }}">
-  </script>
-  <script type="text/javascript" src="{{ url_for('static',
+    <script type="text/javascript" src="{{ url_for('static',
     filename='lib/threejs/examples/js/loaders/ColladaLoader.js') }}">
   </script>
   <script type="text/javascript" src="{{ url_for('static',
@@ -41,6 +39,9 @@
   </script>
   <script type="text/javascript" src="{{ url_for('static',
     filename='lib/plantosJS/Plantos.js') }}">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static',
+    filename='lib/plantosJS/ReusableRay.js') }}">
   </script>
 {% endmacro %}
 {% macro videoFeed() %}
