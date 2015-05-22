@@ -285,21 +285,29 @@ for column in range(12):
 			sites2.append(sitex)
 			i+=1
 #PLANT TYPES
+plantModel = "/static/img/Models/Tree.dae"
+plantModelDims = [41.728, 72.661, 41.728]
 plantTypes = []
 tomato = {"url":"",
 		  "common_name":"Tomato",
-		  "latin_name":"",
-		  "estimated_time_until_harvest":""
+		  "latin_name":"Insert Latin Name",
+		  "estimated_time_until_harvest":"No estimate available",
+		  "model3d":plantModel,
+		  "modelDims":plantModelDims,
 		  }
 lettuce = {"url":"",
 		   "common_name":"Lettuce",
-		   "latin_name":"",
-		   "estimated_time_until_harvest":""
+		   "latin_name":"Insert Latin Name",
+		   "estimated_time_until_harvest":"No estimate available",
+		   "model3d":plantModel,
+		   "modelDims":plantModelDims,
 		   }
 kale = {"url":"",
 		"common_name":"Kale",
-		"latin_name":"",
-		"estimated_time_until_harvest":""
+		"latin_name":"Insert Latin Name",
+		"estimated_time_until_harvest":"No estimate available",
+		"model3d":plantModel,
+		"modelDims":plantModelDims,
 		}
 plantTypes.append(tomato)
 plantTypes.append(lettuce)
@@ -352,14 +360,15 @@ for bay in main_system["children"]:
 #PLANTS
 from random import randint
 #sites1
-i=1
+i=True
 x=1
+
 for site in main_system["children"][0]["children"][0]["sites"]:
-	if i%2==1:
+	if i:
 		typeIndex = (x+len(plantTypes)-1)%len(plantTypes)
 		plantXType = plantTypes[typeIndex]
 		url = "/plant/1"+str(x)
-		sownDate = ""
+		sownDate = "Unknown"
 		plantX = {"url":url,
 				  "plant_type":plantXType,
 				  "sown_date":sownDate}
@@ -367,14 +376,14 @@ for site in main_system["children"][0]["children"][0]["sites"]:
 		x+=1
 	i+=1
 #Sites2
-i=1
+#i=1
 x=1
 for site in main_system["children"][1]["children"][0]["sites"]:
-	if i%2==1:
+	if i:
 		typeIndex = (x+len(plantTypes)-1)%len(plantTypes)
 		plantXType = plantTypes[typeIndex]
 		url = "/plant/2"+str(x)
-		sownDate = ""
+		sownDate = "Unknown"
 		plantX = {"url":url,
 				  "plant_type":plantXType,
 				  "sown_date":sownDate}
@@ -382,7 +391,7 @@ for site in main_system["children"][1]["children"][0]["sites"]:
 		x+=1
 	i+=1
 
-trayListQuery = [tray1, tray2]
+trayQuery = deepcopy(tray1);
 
 
 #See system tree down to plant (URL only)
@@ -409,11 +418,13 @@ for bay in childrenelectQuery["children"]:
 			print "\t\t\t\t" + str(site["plant"])
 
 '''
-checkThis = tray9
+checkThis = tray1
 for x,y in checkThis.items():
 	if x != "children":
 		#print x,y
 		pass
-
+for x in sites1:
+	#print x["column"], x["row"]
+	pass
 
 

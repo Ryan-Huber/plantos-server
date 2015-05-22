@@ -48,6 +48,11 @@ TRAY_LIST = {
     "groBot":[0]
 }
 
+SYSTEM_URLS = {
+    "main_system":"http://main-system-api.media.mit.edu/enclosure/1/?depth=4",
+    
+}
+
 __temperature_info = ("Temperature", {
     "range": [15, 30],
     "ticks": [15, 20, 25, 30],

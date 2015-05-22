@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block page %}
+{{ macros.UIJavascript() }}
+<style>
+	#canvas{
+		position:static;
+	}
+</style>
+<div class="container-fluid" id="contFl">
+	<div class="row">
+		<div class="col-md-8">
+			<div id="canvas">
+			</div>
+		</div>
+		<div class="col-md-3"
+			<div id="datGui">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>//Helper Functions
+	function drawTray(tray){
+		//if(tray.model != null)
+		if(true)
+		{//load collada model
+
+			//First load object
+			var loader = new THREE.ColladaLoader();
+			loader.options.convertUpAxis = true;
+			var model = tray.model;
+
+			//var model = tray.model3d;
+			loader.load(model.file, loadObj);
+			function loadObj(coll){
+				obj=coll.scene;
+				//Set obj properties
+				obj.scale.x = obj.scale.x*(tray.length/model.length);
+				obj.scale.y = obj.scale.y*(tray.height/model.height);
+				obj.scale.z = obj.scale.z*(tray.width/model.width);
+
+				obj.position.set(0,0,tray.width);
+				obj.meshes = [];
+				findMeshes(obj, obj.meshes);
+				obj.node = tray;
+				//set Mesh properties
+				obj.meshes.forEach(function(mesh){
+					mesh.node = tray;
+					//mesh.material.color.multiply(0x00ff00);
+				})
+				tray.obj = obj;
+				scene.add(obj);
+				//Draw plants in tray
+				tray.plant_sites.forEach(function(site){
+					drawPlant(site);
+				});
+				start();
+			}
+		}
+		else{//no 3d model
+
+		}
+	}
+	function drawPlant(site){
+		//var plant = site.plant;
+		if(!(site)){
+			return;
+		}
+		//var plantType = plant.plant_type;
+		var yPos = 0.1
+		//if(plantType.model != null)
+		if(true)
+		{//load collada model
+
+			//First load object
+			var loader = new THREE.ColladaLoader();
+			loader.options.convertUpAxis = true;
+			///var model = plantType.model;
+			var model = "/static/img/Models/Tree.dae";
+			
+			modelDims = [41.728, 72.661, 41.728]
+			loader.load(model, loadObj);
+			function loadObj(coll){
+				obj=coll.scene;
+				//Set obj properties
+				var s = 1;
+				obj.scale.x = s*obj.scale.x/(modelDims[0]);
+				obj.scale.y = s*obj.scale.y/(modelDims[1]);
+				obj.scale.z = s*obj.scale.z/(modelDims[2]);
+				var xPos = colScale(site.col)+0.1*tray.length;
+				var zPos = rowScale(site.row)+0.2*tray.width;
+				
+				obj.position.set(xPos,yPos, zPos);
+				var mat = new THREE.MeshPhongMaterial();
+				obj.meshes = [];
+				findMeshes(obj, obj.meshes);
+				obj.node = site;
+				//set Mesh properties
+				obj.meshes.forEach(function(mesh){
+					mesh.node = site;
+					var geo = mesh.geometry;
+					mesh.material = mat;
+					mesh.material.opacity = 1;
+					mesh.material.transparent = true;
+
+					mesh.material.color.setHex(0x007700);
+				});
+				site.obj = obj
+				plants.add(obj);
+			}
+		}
+		else{//no 3d model
+
+		}
+	}
+	function start(){
+		//moveCameraToObject(camera, tray);
+		camera.position.set(0.55, 0.53, 0.94);
+		camera.rotation.set(-0.52,0,0)
+		render();
+	}
+	function moveCameraToObject(camera, node){
+		camFOV = (Math.PI/180.0)*camera.fov;
+		camFOVx = Math.atan(container.aspectRatio*Math.tan(camFOV/2))
+		var zRelx = (node.length/2)*container.aspectRatio/2 / Math.tan(camFOVx);
+		var zRely = (node.height/2) / Math.tan(camFOV/2);
+		var zRelMax = Math.max(zRelx, zRely);
+		var zOff = zRelMax+node.width;
+		
+		var xOff = 0;
+		var yOff = zOff*Math.tan(-camera.rotation.x);
+		cameraMove = true;
+		if(node.model != null){
+			xOff += node.length/2;
+			yOff += node.height/2;
+			zOff -= node.width/2;
+		}
+		cameraTarget.x = node.obj.position.x + xOff;
+		cameraTarget.y = node.obj.position.y + yOff;
+		cameraTarget.z = node.obj.position.z + zOff;
+		//console.log(node.obj.position);
+	}
+	var mouse = new THREE.Vector3();
+	function onClick(){
+		if(intersects_now.length>0){
+			clickedNode = intersects_now[0].object.node;
+			if(clickedNode.obj in selected.children){
+				return;
+			}
+			selected.children.forEach(function(child){
+				plants.add(child);
+				Plantos.setOpacity(child.node, Plantos.OpacityFactor);
+			});
+			selected.add(clickedNode.obj);
+			updateGui(clickedNode);
+			selected.children.forEach(function(child){
+				Plantos.setOpacity(child.node, 1/Plantos.OpacityFactor);
+			})
+		}
+	}
+</script>
+
+<script>//Event Listeners
+	window.addEventListener( 'mousemove', onMouseMove, false);
+	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener( 'click', onClick, false);
+</script>
+
+<script>//Render Loop
+	var animate;
+	var intersects_now = {};
+	var intersected;
+	var ray = new THREE.Raycaster();
+	var render = function() {
+		animate = requestAnimationFrame( render );
+		renderer.render(scene, camera);
+		//if(go){go(tray);}
+		ray.setFromCamera(mouse, camera);
+		intersected = intersects_now;
+		intersects_now = ray.intersectObjects(plants.children, true);
+		if(intersects_now.length>0){
+			if(intersected.length>0){
+				if(intersects_now[0].object != intersected[0].object){
+					Plantos.setOpacity(intersected[0].object.node, Plantos.OpacityFactor);
+					Plantos.setOpacity(intersects_now[0].object.node, 1.0/Plantos.OpacityFactor);
+				}
+			}
+			else{
+				Plantos.setOpacity(intersects_now[0].object.node, 1.0/Plantos.OpacityFactor);
+				
+			}
+		}
+		else{
+			if(intersected.length>0){
+				Plantos.setOpacity(intersected[0].object.node, Plantos.OpacityFactor);
+			}
+		}
+	}
+</script>
+
+<script>//Setup for page
+	var queryURL = localStorage.getItem("queryUrl")+"?depth=1";
+	var APIQueryData;// = {{ queryData|safe }};
+	var tray = APIQueryData;
+	var goB = false;
+	var rowScale, colScale;
+	$.ajax({
+		async: false,
+		type: 'GET',
+		url: queryURL,
+		success: function(data) {
+			APIQueryData = data;
+			tray = data;
+			rowScale = d3.scale.linear()
+				.domain([0, tray.num_rows-1])
+				.range([0.6*tray.width, 0.2*tray.width]);
+			colScale = d3.scale.linear()
+				.domain([0, tray.num_cols-1])
+				.range([0, 0.7*tray.length]);
+			drawTray(tray);
+			console.log("trayed");
+			
+		}
+	});
+
+
+	var ASPECT_RATIO = 16.0/9.0;
+	var cameraMove;
+	var cameraTarget = {};
+	
+
+	Plantos.OpacityFactor = 1.75;
+	setupVars.camRot.x = -0.8;
+	container.$canvas = $("#canvas");
+	container.aspectRatio = ASPECT_RATIO;
+	container.width = container.$canvas.width();
+	container.height = (1.0/container.aspectRatio)*container.width;
+	Plantos.setupCanvas();
+	var plants = new THREE.Object3D();
+	var selected = new THREE.Object3D();
+	scene.add(plants);
+	scene.add(selected);
+	//drawTray(APIQueryData);
+	
+
+</script>
+
+<script>//DAT.GUI
+	var gui = new dat.GUI({autoPlace:false});
+	var custCont = document.getElementById('datGui');
+	custCont.appendChild(gui.domElement);
+
+	var trayViewGui = function(){
+		this.currentPlant = "Select a plant!";
+		this.latinName = "";
+		this.sownDate = "";
+
+	}
+	var guiFunc = new trayViewGui();
+	var folder = gui.addFolder("Selected Plant");
+	var guiPlant = folder.add(guiFunc, 'currentPlant').listen().name("Common Name");
+	var guiLatin = folder.add(guiFunc, 'latinName').listen().name("Latin Name");
+	var guiSown = folder.add(guiFunc, 'sownDate').listen().name("Date Sown");
+	function updateGui(site){
+		folder.open();
+		guiFunc.currentPlant = site.common_name;
+		guiFunc.latinName = site.latin_name;
+		guiFunc.sownDate = site.sown_date;
+	}
+</script>
+
+{% endblock %}

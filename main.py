@@ -7,9 +7,10 @@ from sensors.constants import COLLECTION_INFO
 from sensors.constants import TRAY_LIST
 from sensors.constants import TRAY_SENSORS
 from sensors.constants import WATER_SENSOR_BOARDS
+from sensors.constants import SYSTEM_URLS
 # dummyData file
 from dummyData import traySelectQuery
-from dummyData import trayListQuery
+from dummyData import trayQuery
 # General imports
 import os
 import time
@@ -58,16 +59,14 @@ def index():
 def traySelect(system):
     if not system in TRAY_LIST:
         abort(404)
-    trayList = TRAY_LIST[system]
-    if len(trayList) == 1:
-        return redirect(url_for("trayView", system=system, traynum=1))
-    return render_template("traySelect.html", databases=DATABASE_NAMES, current_database=system, tray=trayList)
+    systemUrl = SYSTEM_URLS[system]
+    return render_template("trayselect3d.html", databases=DATABASE_NAMES, current_database=system, sysUrl=systemUrl)
 
-@flask_app.route("/<system>/<int:traynum>")
+@flask_app.route("/<system>/tray/<int:traynum>")
 def trayView(system, traynum):
     if not system in TRAY_LIST:
         abort(404)
-    if traynum > len(TRAY_LIST[system]):
+    '''if traynum > len(TRAY_LIST[system]):
         abort(404)
     tray = TRAY_LIST[system][max(traynum-1, 0)]
     trayString = str(system) + "_" + str((traynum-1))
@@ -83,17 +82,27 @@ def trayView(system, traynum):
     else:
         sensor_info = {}
     board_id = WATER_SENSOR_BOARDS[TRAY_SENSORS[traynum-1]]
-    return render_template("trayView.html", databases=DATABASE_NAMES,
-            current_database=system, tray=tray, plants=plants, plantImages=plantImages,
-            plantLocations=locs, sensor_info=sensor_info, board_id=board_id)
+    '''
+
+    return render_template("trayView3d.html", 
+            databases=DATABASE_NAMES,
+            current_database=system, 
+            #tray=tray, 
+            #plants=plants, 
+            #plantImages=plantImages,
+            #plantLocations=locs, 
+            #sensor_info=sensor_info, 
+            #board_id=board_id,
+            queryData = trayQuery
+            )
 
 ##### Testing for New Backend APIs #####
-# Currently Using Dummy Data instead of query
+
 
 @flask_app.route("/Testing/test1")
 def traySelectTest():
-    queryData = traySelectQuery
-    return render_template("TestingTraySelect.html", databases=DATABASE_NAMES, queryData=queryData)
+    queryData = trayQuery
+    return render_template("TestingTrayView3d.html", databases=DATABASE_NAMES, queryData=queryData)
 
 
 
