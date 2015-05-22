@@ -21,6 +21,8 @@
 </div>
 
 <script>//Helper Functions
+	var mySystem = '{{ current_database }}'
+	var trayId;
 	var mouse = new THREE.Vector3();
 	function onClick(){
 		if(!(PlantosRoot.node.hasOwnProperty("children"))){
@@ -33,7 +35,14 @@
 			moveCameraToObject(camera, PlantosRoot.node);
 			Plantos.setOpacity(PlantosRoot.node, 1.0/Plantos.OpacityFactor)
 			if(!("children" in PlantosRoot.node)){
+				//page redirect
+				var queryUrl = clickedObject.object.node.url;
+				localStorage.setItem("queryUrl", queryUrl);
+				trayId = queryUrl.split("/");
+				trayId = trayId[trayId.length-2];
+				var newUrl = "/" + mySystem + "/tray/" + trayId;
 				console.log("New Query Here!");
+				window.location.href = newUrl;
 			}
 		}
 	}
@@ -156,9 +165,9 @@
 
 <script> //Setup (CityFarm)
 	//Data Query
-	var enclosure = {{ queryData|safe }};
-	var aisle = enclosure["children"][0];
-	var queryURL = "http://main-system-api.media.mit.edu/enclosure/1/?depth=4";
+	//var enclosure = {{ queryData|safe }};
+	//var aisle = enclosure["children"][0];
+	var queryURL = '{{ sysUrl }}';
 
 	var APIQueryData;
 	var ASPECT_RATIO = 16.0/9.0;
@@ -193,8 +202,6 @@
 			drawTree(PlantosRoot.node, structureList, [0,0,0], "No Parent");
 		}
 	});
-	
-	
 </script>
 
 <script>//DAT.GUI
@@ -223,96 +230,14 @@
 	
 	gui.add(guiFunc, 'currentSelection').listen();//.name("Current Selection");
 	
-	var f2 = gui.addFolder('Plant');
-	f2.add(guiFunc, 'testPlant').name("Type");
-	f2.add(guiFunc, 'testSownDate').name("Date Sown");
+	//var f2 = gui.addFolder('Plant');
+	//f2.add(guiFunc, 'testPlant').name("Type");
+	//f2.add(guiFunc, 'testSownDate').name("Date Sown");
 	var f3 = gui.addFolder('Controls');
 	f3.add(guiFunc, 'backCam').name("Zoom Out");
-	f2.open();
+	//f2.open();
 	f3.open();
 
 </script>
 
-<script>//Move the camera/light - Only for debuging
-	
-	//Detect Arrow key press
-	document.onkeydown = function(e){
-		if(e.keyCode == 37){
-			leftKeyDown();
-		}
-		else if(e.keyCode == 38){
-			upKeyDown();
-		}
-		else if(e.keyCode == 39){
-			rightKeyDown();
-		}
-		else if(e.keyCode == 40){
-			downKeyDown();
-		}
-		else if(e.keyCode == 87){
-			wKeyDown();
-		}
-		else if(e.keyCode == 65){
-			aKeyDown();
-		}
-		else if(e.keyCode == 83){
-			sKeyDown();
-		}else if(e.keyCode == 68){
-			dKeyDown();
-		}
-		else if(e.keyCode == 80){
-			pKeyDown();
-		}
-		else if(e.keyCode == 76){
-			lKeyDown();
-		}
-		camera.updateProjectionMatrix();
-	}
-	//actually move it
-	var camMoveAmount = 0.05;
-	var camRotAmt = 2*2*Math.PI/360.0
-	var lightMoveAmt = 3;
-	//Move cameras and lights
-	function upKeyDown(){
-		camera.position.y -=camMoveAmount;
-	//	directionalLight.position.y -=lightMoveAmt;
-	}
-	function downKeyDown(){
-		camera.position.y +=camMoveAmount;
-	//	directionalLight.position.y +=lightMoveAmt;
-	}
-	function rightKeyDown(){
-		camera.position.x -=camMoveAmount;
-	//	directionalLight.position.x -=lightMoveAmt;
-	}
-	function leftKeyDown(){
-		camera.position.x +=camMoveAmount;
-	//	directionalLight.position.x +=lightMoveAmt;
-	}
-	function pKeyDown(){
-		camera.position.z +=camMoveAmount;
-	//	directionalLight.position.z +=camMoveAmount;
-	}
-	function lKeyDown(){
-		camera.position.z -=camMoveAmount;
-	//	directionalLight.position.z -=camMoveAmount;
-	}
-	//Rotate cam/light
-	function wKeyDown(){
-		camera.rotation.x +=camRotAmt;
-	//	directionalLight.rotation.x -=camMoveAmount;
-	}
-	function sKeyDown(){
-		camera.rotation.x -=camRotAmt;
-	//	directionalLight.rotation.x +=camMoveAmount;
-	}
-	function aKeyDown(){
-		camera.rotation.y +=camRotAmt;
-	//	directionalLight.rotation.x +=camMoveAmount;
-	}
-	function dKeyDown(){
-		camera.rotation.y -=camRotAmt;
-	//	directionalLight.rotation.x +=camMoveAmount;
-	}
-</script>
 {% endblock %}
