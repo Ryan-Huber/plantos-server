@@ -1,45 +1,150 @@
-{% extends "graphs.html" %}
+{% extends "base.html" %}
 {% set short_title = "Hour Graphs" %}
 {% set long_title = "The Past Hour of Sensor History" %}
+{% import "graph_macros.html" as graph_macros %}
 
 {% block scripts %}
-    {{ macros.socket_io() }}
     {{ super() }}
+    {{ macros.google_jsapi() }}
+    <script type="text/javascript" src="{{ url_for('sensors.static',
+      filename='lib/js/sensor_graphs.js') }}"></script>
+    <script type="text/javascript">
+      var sensor_info = {{info | safe}};
+      var sensor_api = SensorAPI("http://cityfarm.media.mit.edu:8383");
+      sensor_api.boards.fetch({async: false});
+      sensor_api.sensors.fetch({async: false});
+      sensor_api.measurements.fetch({async: false});
+      var board = sensor_api.boards.get("{{board_id}}");
+
+      var xMin = new Date();
+      xMin.setHours(xMin.getHours()-1);
+
+      var sensor_chart_options = {};
+      {% for sensor in info.keys() %}
+        sensor_chart_options.{{sensor}} = {
+            'hAxis': {
+                'gridlines': {'color': '#999'},
+                'minValue': xMin,
+                'maxValue': new Date()
+            },
+            'vAxis': {
+                'minValue': {{info[sensor]["range"][0]}},
+                'maxValue': {{info[sensor]["range"][1]}},
+                'viewWindowMode': 'maximized',
+                'ticks': {{info[sensor]["ticks"] | safe}},
+                'gridlines': {'color': '#999'}
+            },
+            'legend': 'none',
+            'backgroundColor': 'transparent'
+        };
+      {% endfor %}
+      var from_time = Math.floor(xMin.getTime() / 1000);
+      var to_time = Math.floor(Date.now() / 1000);
+
+      var draw_function = function(sensor_graphs, index) {
+        _.each(board.get("sensors"), function(sensor_id, index) {
+          var sensor = sensor_api.sensors.get(sensor_id);
+          var sensor_chart = sensor_graphs.constants[sensor.name].chart
+          var sensor_data = sensor_graphs.constants[sensor.name].data;
+          var sensor_chart_options = sensor_graphs.constants[sensor.name].chart_options;
+          window.setTimeout(function() {
+            sensor_chart.draw(sensor_data, sensor_chart_options);
+          }, 100*index);
+          google.visualization.events.addListener(sensor_graphs.constants[sensor.name].chart, "ready", function() {
+            var cli = sensor_graphs.constants[sensor.name].chart.getChartLayoutInterface();
+            var divArea = $("#" + sensor.name + "_chart").position();
+            var chartArea = cli.getChartAreaBoundingBox();
+            var greenRange = sensor_info[sensor.name]["green"];
+            var yellowRange = sensor_info[sensor.name]["yellow"];
+            var redRange = sensor_info[sensor.name]["red"];
+
+            var currTop = chartArea.top;
+            var currBottom = cli.getYLocation(yellowRange[1]);
+            var currHeight = currBottom-currTop;
+            var currTag = $("#" + sensor.name + "_red_overlay_top");
+            currTag.css("height",currHeight);
+            currTag.css("width",chartArea.width);
+            currTag.css("top",divArea.top+currTop);
+            currTag.css("left",divArea.left+chartArea.left);
+
+            currTop = currBottom;
+            currBottom = cli.getYLocation(greenRange[1]);
+            var currHeight = currBottom-currTop;
+            var currTag = $("#" + sensor.name + "_yellow_overlay_top");
+            currTag.css("height",currHeight);
+            currTag.css("width",chartArea.width);
+            currTag.css("top",divArea.top+currTop);
+            currTag.css("left",divArea.left+chartArea.left);
+
+            currTop = currBottom;
+            currBottom = cli.getYLocation(greenRange[0]);
+            var currHeight = currBottom-currTop;
+            var currTag = $("#" + sensor.name + "_green_overlay");
+            currTag.css("height",currHeight);
+            currTag.css("width",chartArea.width);
+            currTag.css("top",divArea.top+currTop);
+            currTag.css("left",divArea.left+chartArea.left);
+
+            currTop = currBottom;
+            currBottom = cli.getYLocation(yellowRange[0]);
+            var currHeight = currBottom-currTop;
+            var currTag = $("#" + sensor.name + "_yellow_overlay_bottom");
+            currTag.css("height",currHeight);
+            currTag.css("width",chartArea.width);
+            currTag.css("top",divArea.top+currTop);
+            currTag.css("left",divArea.left+chartArea.left);
+
+            currTop = currBottom;
+            currBottom = chartArea.top+chartArea.height;
+            var currHeight = currBottom-currTop;
+            var currTag = $("#" + sensor.name + "_red_overlay_bottom");
+            currTag.css("height",currHeight);
+            currTag.css("width",chartArea.width);
+            currTag.css("top",divArea.top+currTop);
+            currTag.css("left",divArea.left+chartArea.left);
+          });
+        });
+      };
+
+      var chart_function = function(sensor_name) {
+        var sensor_div = $('#'+sensor_name+'_chart')[0];
+        return new google.visualization.LineChart(sensor_div);
+      };
+
+      sensor_graphs = new SensorGraphs(sensor_api, board, sensor_chart_options,
+          from_time, to_time, draw_function, chart_function);
+
+      google.load("visualization", "1", {
+        packages: ["corechart"]
+      });
+      google.setOnLoadCallback(sensor_graphs.load_graphs);
+    </script>
+    <style>
+        .green_overlay {
+            position: absolute;
+            background: rgba(16,150,24,0.3);
+            z-index: 1;
+        }
+        .yellow_overlay {
+            position: absolute;
+            background: rgba(255,153,0,0.3);
+            z-index: 1;
+        }
+        .red_overlay {
+            position: absolute;
+            background: rgba(220,57,18,0.3);
+            z-index: 1;
+        }
+        .chart {
+            height: 200px;
+            text-align: center;
+            z-index: 2;
+        }
+    </style>
 {% endblock %}
 
-{% block constants %}
-    {{ super() }}
-    //var dataURL = "hour_data.json";
-    var xMin = new Date();
-    xMin.setHours(xMin.getHours()-1);
-    {% for sensor in info.keys() %}
-    var {{sensor}}_chart_options = {
-        'hAxis': {
-            'gridlines': {'color': '#999'},
-            'minValue': xMin,
-            'maxValue': new Date()
-        },
-        'vAxis': {
-            'minValue': {{info[sensor]["range"][0]}},
-            'maxValue': {{info[sensor]["range"][1]}},
-            'viewWindowMode': 'maximized',
-            'ticks': {{info[sensor]["ticks"] | safe}},
-            'gridlines': {'color': '#999'}
-        },
-        'legend': 'none',
-        'backgroundColor': 'transparent'
-    };
-    {% endfor %}
-{% endblock %}
-
+{# TODO Have the graphs update in real time
 {% block on_load %}
-    {% for sensor in info.keys() %}
-        var {{sensor}}_div = $('#{{sensor}}_chart')[0];
-        {{sensor}}_chart = new google.visualization.LineChart({{sensor}}_div);
-    {% endfor %}
-    {{ super() }}
-    var sockAddr="http://"+document.domain+":"+location.port+
-        "/{{database}}/{{collection}}/data";
     var socket = io.connect(sockAddr);
     socket.on('data', function(point) {
         point = JSON.parse(point);
@@ -58,17 +163,7 @@
         {% endfor %}
         draw_graphs();
     });
-{% endblock %}
-
-{% block draw_graphs %}
-    {% for sensor in info.keys() %}
-        window.setTimeout(function() {
-            {{sensor}}_chart.draw({{sensor}}_data, {{sensor}}_chart_options);
-        }, 100*{{loop.index0}});
-        google.visualization.events.addListener({{sensor}}_chart, "ready",
-            function() { {{ draw_overlay(sensor) }} });
-    {% endfor %}
-{% endblock %}
+{% endblock %}#}
 
 {% block page %}
     {% for sensor in info.keys() %}
@@ -81,7 +176,7 @@
                     <img src="/sensors/static/images/loading.gif"
                          alt="Loading...">
                 </div>
-                {{ overlay_divs(sensor) }}
+                {{ graph_macros.overlay_divs(sensor) }}
             </div>
         </div>
     {% endfor %}

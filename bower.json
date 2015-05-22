@@ -16,7 +16,8 @@
     "underscore": "~1.6.0",
     "eonasdan-bootstrap-datetimepicker": "~4.0.0",
     "jquery-ui": "~1.11.3",
-    "SensorClient.js": "https://github.com/MIT-CityFARM/SensorClient.js.git"
+    "SensorClient.js": "https://github.com/MIT-CityFARM/SensorClient.js.git",
+    "d3": "~3.5.5"
   },
   "homepage": "https://github.com/MIT-CityFARM/plantos-server",
   "moduleType": [

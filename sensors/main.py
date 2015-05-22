@@ -42,7 +42,7 @@ def select_collection(database, sensetype):
     return render_template("sensor_base_page.html", current_database=database,
             databases=DATABASE_NAMES, collections=colls, sensor_type=sensetype)
 
-@sensors.route("/<database>/<sensetype>/<collection>/")
+@sensors.route("/<no_static:database>/<sensetype>/<collection>/")
 def show_dashboard(database, sensetype, collection):
     info = COLLECTION_INFO[database][collection]
     title = COLLECTION_NAMES[database][collection]
@@ -53,36 +53,35 @@ def show_dashboard(database, sensetype, collection):
 
 @sensors.route("/<database>/<sensetype>/<collection>/hour_graphs.html")
 def show_hour_graphs(database, sensetype, collection):
-    info = COLLECTION_INFO[database][collection]
-    return render_template("hour_graphs.html", info=info, database=database,
-                            collection=collection, databases=DATABASE_NAMES)
+    info = dict(COLLECTION_INFO[database][collection])
+    title = COLLECTION_NAMES[database][collection]
+    board_id = WATER_SENSOR_BOARDS[collection]
+    return render_template("hour_graphs.html", info=info, title=title,
+            database=database, collection=collection, databases=DATABASE_NAMES,
+            board_id=board_id)
 
 @sensors.route("/<database>/<sensetype>/<collection>/day_graphs.html")
 def show_day_graphs(database, sensetype, collection):
-    values = values_collection(database, collection)
-    if not values:
-        abort(404)
-    info = COLLECTION_INFO[database][collection]
-    KEY = "date"
-    if KEY in request.args:
-        date = request.args[KEY]
+    info = dict(COLLECTION_INFO[database][collection])
+    title = COLLECTION_NAMES[database][collection]
+    board_id = WATER_SENSOR_BOARDS[collection]
+    if "date" in request.args:
+        date = request.args["date"]
     else:
-        date = time.strftime("%m/%d/%Y")
-    return render_template("day_graphs.html", info=info, database=database,
-                            collection=collection, date=date, databases=DATABASE_NAMES)
+        date = time.strftime("%m/%d/%y")
+    return render_template("day_graphs.html", info=info, title=title,
+            database=database, collection=collection, databases=DATABASE_NAMES,
+            board_id=board_id, date_to_graph=date)
 
 @sensors.route("/<database>/<sensetype>/<collection>/date_range_graphs.html")
 def show_range_graphs(database, sensetype, collection):
-    values = values_collection(database, collection)
-    if not values:
+    info = dict(COLLECTION_INFO[database][collection])
+    title = COLLECTION_NAMES[database][collection]
+    board_id = WATER_SENSOR_BOARDS[collection]
+    if not "start_date" in request.args or not "end_date" in request.args:
         abort(404)
-    KEY1 = "start_date"
-    KEY2 = "end_date"
-    if not KEY1 in request.args or not KEY2 in request.args:
-        abort(404)
-    info = COLLECTION_INFO[database][collection]
-    start_date = request.args[KEY1]
-    end_date = request.args[KEY2]
-    return render_template("date_range_graphs.html", database=database,
-                            collection=collection, start_date=start_date,
-                            end_date=end_date, info=info)
+    start_date = request.args["start_date"]
+    end_date = request.args["end_date"]
+    return render_template("date_range_graphs.html", info=info, title=title,
+            database=database, collection=collection, databases=DATABASE_NAMES,
+            board_id=board_id, start_date=start_date, end_date=end_date)
