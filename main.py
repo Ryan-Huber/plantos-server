@@ -38,10 +38,16 @@ if not os.path.isfile(config_file_path):
     shutil.copyfile(example_cfg, config_file_path)
 
 flask_app.config.from_pyfile("application.cfg")
-
+# Custom Werkzeug converter
+from werkzeug.routing import BaseConverter
+class NoStaticConverter(BaseConverter):
+    def __init__(self, url_map):
+        super(NoStaticConverter, self).__init__(url_map)
+        self.regex='((?!static)[^/])*'
+flask_app.url_map.converters['no_static'] = NoStaticConverter
+# Register Sensor Blueprint
 from sensors.main import sensors
 flask_app.register_blueprint(sensors)
-
 # Authentication
 from flask.ext.basicauth import BasicAuth
 basic_auth = BasicAuth(flask_app)
