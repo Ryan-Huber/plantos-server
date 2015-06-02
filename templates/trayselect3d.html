@@ -196,7 +196,7 @@
 		type: 'GET',
 		url: queryURL,
 		success: function(data) {
-			APIQueryData = data;
+			APIQueryData = jQuery.extend(true, {}, data);//data;
 			PlantosRoot = new Plantos.Node(data);
 			Plantos.recursiveCounter = 1;
 			drawTree(PlantosRoot.node, structureList, [0,0,0], "No Parent");
@@ -238,6 +238,54 @@
 	//f2.open();
 	f3.open();
 
+</script>
+
+<script>
+
+	var PLANT_SITE_STRING = "plant_sites";
+/*
+	class plantosObject{
+		var url;
+		var name;
+		var x;
+		var y;
+		var z;
+		var length;
+		var width;
+		var height;
+		var children;
+		var sites;
+		function plantosObject(node){
+			this.url = node.url;
+			this.name = node.name;
+			this.x = node.x;
+			this.y = node.y;
+			this.z = node.z;
+			this.length = node.length;
+			this.width = node.width;
+			this.height = node.height;
+			this.children = [];
+			this.sites = [];
+			if("children" in node){
+				node.children.forEach(function(child){
+					this.children.push(new plantosObject(child))
+				});
+			}
+			/* TODO: Implement sites
+			else if("plant_sites" in node){
+				node.plant_sites.forEach(function(site){
+					this.sites.push(new plantosSite(site))
+				});
+			}
+			
+
+		}
+	}
+	*/
+
+	function queryToUnity(x){
+		console.log(JSON.stringify(x));
+	}
 </script>
 
 {% endblock %}

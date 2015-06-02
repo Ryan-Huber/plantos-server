@@ -110,6 +110,10 @@ def traySelectTest():
     queryData = trayQuery
     return render_template("TestingTrayView3d.html", databases=DATABASE_NAMES, queryData=queryData)
 
+@flask_app.route("/Testing/test2")
+def unityTest():
+    
+    return render_template("UnityTest.html", databases=DATABASE_NAMES)
 
 
 import csv
