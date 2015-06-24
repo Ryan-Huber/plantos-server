@@ -7,7 +7,24 @@
 		position:static;
 	}
 </style>
-<div class="container-fluid" id="contFl">
+<link rel="stylesheet" href="/static/CFATestBuild1/TemplateData/style.css">
+<link rel="shortcut icon" href="/static/CFATestBuild1/TemplateData/favicon.ico" />
+<script src="TemplateData/UnityProgress.js"></script>
+<style>
+	body, html {
+		width: 100%;
+		height: 100%;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+	}
+</style>
+<div class="container-fluid template" id="contFl">
+	<div class="template-wrap clear">
+		<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="100%" width="100%"></canvas>
+	</div>
+
+	<!--
 	<div class="row">
 		<div class="col-md-8">
 			<div id="canvas">
@@ -18,8 +35,124 @@
 			</div>
 		</div>
 	</div>
+	-->
 </div>
+<script type='text/javascript'>//Initialize module object
+  // connect to canvas
+  var Module = {
+    filePackagePrefixURL: "/static/CFATestBuild1/Release/",
+    memoryInitializerPrefixURL: "/static/CFATestBuild1/Release/",
+    preRun: [],
+    postRun: [],
+    print: (function() {
+      return function(text) {
+        console.log (text);
+      };
+    })(),
+    printErr: function(text) {
+      console.error (text);
+    },
+    canvas: document.getElementById('canvas'),
+    progress: null,
+    setStatus: function(text) {
+      if (this.progress == null) 
+      {
+        if (typeof UnityProgress != 'function')
+          return;
+        this.progress = new UnityProgress (canvas);
+      }
+      if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+      if (text === Module.setStatus.text) return;
+      this.progress.SetMessage (text);
+      var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+      if (m)
+        this.progress.SetProgress (parseInt(m[2])/parseInt(m[4]));
+      if (text === "") 
+        this.progress.Clear()
+    },
+    totalDependencies: 0,
+    monitorRunDependencies: function(left) {
+      this.totalDependencies = Math.max(this.totalDependencies, left);
+      Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+    }
+  };
+  Module.setStatus('Downloading (0.0/1)');
+</script>
+<script src="/static/CFATestBuild1/Release/UnityConfig.js"></script>
+<script src="/static/CFATestBuild1/Release/fileloader.js"></script>
+<script>//Load App.js file
+  if (!(!Math.fround)) {
+    var script = document.createElement('script');
+    script.src = "/static/CFATestBuild1/Release/CFATestBuild1.js";
+    document.body.appendChild(script);
+  } 
+  else {
+    var codeXHR = new XMLHttpRequest();
+    codeXHR.open('GET', '/static/CFATestBuild1/Release/CFATestBuild1.js', true);
+    codeXHR.onload = function() {
+      var code = codeXHR.responseText;
+      if (!Math.fround) { 
+        try {
+          console.log('optimizing out Math.fround calls');
+          var m = /var ([^=]+)=global\.Math\.fround;/.exec(code);
+          var minified = m[1];
+          if (!minified) throw 'fail';
+          var startAsm = code.indexOf('// EMSCRIPTEN_START_FUNCS');
+          var endAsm = code.indexOf('// EMSCRIPTEN_END_FUNCS');
+          var asm = code.substring(startAsm, endAsm);
+          do {
+            var moar = false; // we need to re-do, as x(x( will not be fixed
+            asm = asm.replace(new RegExp('[^a-zA-Z0-9\\$\\_]' + minified + '\\(', 'g'), function(s) { moar = true; return s[0] + '(' });
+          } while (moar);
+          code = code.substring(0, startAsm) + asm + code.substring(endAsm);
+          code = code.replace("'use asm'", "'almost asm'");
+        } 
+        catch(e) { console.log('failed to optimize out Math.fround calls ' + e) }
+      }
 
+      var blob = new Blob([code], { type: 'text/javascript' });
+      codeXHR = null;
+      var src = URL.createObjectURL(blob);
+      var script = document.createElement('script');
+      script.src = URL.createObjectURL(blob);
+      script.onload = function() {
+      URL.revokeObjectURL(script.src);
+      };
+      document.body.appendChild(script);
+    };
+    codeXHR.send(null);
+  }
+</script>
+
+<script>
+	var sysUrl;
+	function getURL(){
+		console.log("Tried to send URL");
+		sysUrl = "http://main-system-api.media.mit.edu/enclosure/1/";//'{{ sysUrl }}';
+		SendMessage('Plantos', 'runApp', sysUrl.toString());
+	};
+
+	var aspect = 1.6;
+	var canvas = document.getElementById("canvas");
+	//window.addEventListener('resize', resizeCanvas);
+	var gl = canvas.getContext("experimental-webgl");
+	resizeCanvas();
+	gl.viewport(0,0,gl.canvas.width, gl.canvas.height);
+
+	function link_to_dashboard(sensor_index) {
+		url = 'http://cityfarm.media.mit.edu/sensors/main_system/water/water_sensors_' + sensor_index.toString() + '/';
+		window.open(url, '_blank');
+	}
+
+	function link_to_history(sensor_index, start_date, end_date) {
+		console.log("called history");
+		
+
+		url = 'http://cityfarm.media.mit.edu/sensors/main_system/water/water_sensors_' + sensor_index.toString() + '/date_range_graphs.html?start_date=' + start_date + '&end_date=' + end_date;
+		window.open(url, '_blank');
+	}
+</script>
+<!--
 <script>//Helper Functions
 	var mySystem = '{{ current_database }}'
 	var trayId;
@@ -243,7 +376,7 @@
 <script>
 
 	var PLANT_SITE_STRING = "plant_sites";
-/*
+	/*
 	class plantosObject{
 		var url;
 		var name;
@@ -287,5 +420,5 @@
 		console.log(JSON.stringify(x));
 	}
 </script>
-
+-->
 {% endblock %}
