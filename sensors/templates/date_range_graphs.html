@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% set short_title = "Hour Graphs" %}
-{% set long_title = "The Past Hour of Sensor History" %}
+{% set short_title = "Sensor Graphs" %}
+{% set long_title = "Sensor History" %}
 {% import "graph_macros.html" as graph_macros %}
 
 {% block scripts %}
@@ -119,7 +119,17 @@
       google.load("visualization", "1", {
         packages: ["corechart"]
       });
-      google.setOnLoadCallback(sensor_graphs.load_graphs);
+      function onLoadCallback() {
+        sensor_graphs.load_graphs(function (data) {
+            var recipeButton = $('#recipeButton')
+            console.log(JSON.stringify(data))
+            console.log(recipeButton);
+            recipeButton.attr('href', 'data:attachment/text,' + encodeURI(JSON.stringify(data)));
+            recipeButton.attr('target', '_blank');
+            recipeButton.attr('download', 'recipe.gro');
+        });
+      }
+      google.setOnLoadCallback(onLoadCallback);
     </script>
     <style>
         .green_overlay {
@@ -182,4 +192,7 @@
             </div>
         </div>
     {% endfor %}
+    <a id="recipeButton" type="button" class="btn btn-default">
+      Download as Recipe
+    </button>
 {% endblock %}

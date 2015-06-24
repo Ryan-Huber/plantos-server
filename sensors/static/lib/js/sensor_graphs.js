@@ -13,7 +13,7 @@ var SensorGraphs = function(sensor_api, board, sensor_chart_options, from_time, 
     obj.constants[sensor_name].chart_options = chart_options;
   });
 
-  this.load_graphs = function() {
+  this.load_graphs = function(data_callback) {
     _.each(obj.constants, function(sensor_constants, sensor_name) {
       var data_table = new google.visualization.DataTable()
       data_table.addColumn('datetime', 'Date');
@@ -21,7 +21,12 @@ var SensorGraphs = function(sensor_api, board, sensor_chart_options, from_time, 
       sensor_constants.data = data_table;
       sensor_constants.chart = chart_function(sensor_name);
     });
-    board.get_history(obj.load_data, from_time, to_time);
+    function full_callback(data) {
+      // Call the user-provided callback and then call our own callback
+      data_callback(data);
+      obj.load_data(data);
+    }
+    board.get_history(full_callback, from_time, to_time);
   };
 
   this.load_data = function(data) {
