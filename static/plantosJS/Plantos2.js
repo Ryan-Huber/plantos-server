@@ -37,8 +37,8 @@ Plantos.debug = {
 
 /* General Functions */
 function resizeCanvas() {
-	var width = window.innerWidth;
-	var height = window.innerHeight;
+	var width = 0.9*window.innerWidth;
+	var height = 0.9*window.innerHeight;
 	var canvasMargin = 5;
 	if(height*aspect < width){
 		width = height*aspect;
