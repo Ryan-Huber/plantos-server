@@ -23,7 +23,9 @@ var SensorGraphs = function(sensor_api, board, sensor_chart_options, from_time, 
     });
     function full_callback(data) {
       // Call the user-provided callback and then call our own callback
-      data_callback(data);
+      if (data_callback !== undefined) {
+        data_callback(data);
+      }
       obj.load_data(data);
     }
     board.get_history(full_callback, from_time, to_time);
