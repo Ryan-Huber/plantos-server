@@ -1,5 +1,9 @@
 PlantosServer
 =============
+
+Note: This repo is being DEPRECATED. It will be replaced by a better system
+eventually.
+
 A Web Server used to manage an instance of a CityFARM. PlantosServer provides
 tools for data collection, data visualization, and plant monitoring through an
 easy-to-use web interface
